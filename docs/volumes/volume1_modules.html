@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات جامع StructureMaster - ماژول‌های هسته</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-orange: #db6d28;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 2;
+            min-height: 100vh;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a4731 0%, #0d1b2a 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-green);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(63, 185, 80, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #000;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 2rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin: 1.25rem 0 0.5rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            padding-right: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .alert {
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .alert-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-danger {
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+            border-right: 4px solid var(--accent-red);
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        tr:hover {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        .module-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            transition: all 0.3s;
+        }
+
+        .module-card:hover {
+            border-color: var(--accent-green);
+            box-shadow: 0 8px 24px rgba(63, 185, 80, 0.1);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .module-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-code);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .module-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .module-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: var(--bg-code);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            margin-right: auto;
+        }
+
+        .module-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .module-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .feature-tag {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+        }
+
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .toc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.25rem;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent-blue);
+        }
+
+        .toc-list a::before {
+            content: '◆';
+            color: var(--accent-purple);
+            font-size: 0.5rem;
+        }
+
+        .mermaid {
+            background: var(--bg-code);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span>📘</span>
+            <span>مستندات StructureMaster</span>
+        </div>
+        <div class="nav-links">
+            <a href="../COMPREHENSIVE_DOCS_FA.html">صفحه اصلی</a>
+            <a href="volume1_intro.html">مقدمه</a>
+            <a href="volume1_architecture.html">معماری</a>
+            <a href="volume1_modules.html" class="active">ماژول‌ها</a>
+            <a href="volume1_gui.html">رابط کاربری</a>
+            <a href="volume2_code_analysis.html">تحلیل کد</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="badge">جلد اول - بخش ۳</span>
+            <h1>⚙️ ماژول‌های هسته (Core Modules)</h1>
+            <p class="subtitle">بررسی تفصیلی تمام ماژول‌های اصلی پروژه در مسیر src/modules</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <div class="toc-title">📑 فهرست ماژول‌ها</div>
+            <ul class="toc-list">
+                <li><a href="#scanner">Scanner - اسکنر</a></li>
+                <li><a href="#builder">Builder - سازنده</a></li>
+                <li><a href="#exporter">Exporter - صادرکننده</a></li>
+                <li><a href="#content-extractor">Content Extractor - استخراج‌کننده محتوا</a></li>
+                <li><a href="#parser">Parser - تفسیرکننده</a></li>
+                <li><a href="#validator">Validator - اعتبارسنج</a></li>
+                <li><a href="#security">Security - امنیت</a></li>
+                <li><a href="#logger">Logger - لاگر</a></li>
+                <li><a href="#cache-manager">Cache Manager - مدیر کش</a></li>
+                <li><a href="#diff-compare">Diff Compare - مقایسه</a></li>
+                <li><a href="#plugin-manager">Plugin Manager - مدیر افزونه</a></li>
+                <li><a href="#profile-manager">Profile Manager - مدیر پروفایل</a></li>
+                <li><a href="#project-detector">Project Detector - تشخیص‌دهنده پروژه</a></li>
+                <li><a href="#file-analyzer">File Analyzer - آنالیزگر فایل</a></li>
+            </ul>
+        </div>
+
+        <!-- Scanner Module -->
+        <section class="section" id="scanner">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h1 class="section-title">ماژول Scanner (اسکنر)</h1>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🔍</div>
+                    <span class="module-name">Scanner</span>
+                    <span class="module-path">src/modules/scanner.py</span>
+                </div>
+                <p class="module-desc">
+                    این ماژول مسئول پیمایش (Crawling) دایرکتوری پروژه و استخراج لیست کامل فایل‌ها و پوشه‌ها است. Scanner
+                    قلب فرآیند استخراج ساختار محسوب می‌شود و با استفاده از الگوریتم‌های بهینه، حتی پروژه‌های بسیار بزرگ
+                    را در کوتاه‌ترین زمان ممکن اسکن می‌کند.
+                </p>
+                <div class="module-features">
+                    <span class="feature-tag">پیمایش بازگشتی</span>
+                    <span class="feature-tag">فیلترینگ هوشمند</span>
+                    <span class="feature-tag">پشتیبانی از gitignore</span>
+                    <span class="feature-tag">محاسبه متادیتا</span>
+                    <span class="feature-tag">شمارش آماری</span>
+                </div>
+            </div>
+
+            <h2>وظایف اصلی</h2>
+            <ul>
+                <li><strong>پیمایش دایرکتوری:</strong> استفاده از <code>os.walk()</code> برای پیمایش بازگشتی</li>
+                <li><strong>اعمال فیلترها:</strong> نادیده گرفتن فایل‌های غیرضروری بر اساس الگوهای تعریف‌شده</li>
+                <li><strong>استخراج متادیتا:</strong> اندازه فایل، تاریخ تغییر، نوع فایل</li>
+                <li><strong>ساخت ساختار درختی:</strong> ایجاد نمایش سلسله‌مراتبی</li>
+            </ul>
+
+            <h2>کلاس‌های اصلی</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>کلاس</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Scanner</code></td>
+                        <td>کلاس اصلی اسکن با متدهای scan و scan_directory</td>
+                    </tr>
+                    <tr>
+                        <td><code>FileInfo</code></td>
+                        <td>کلاس داده‌ای برای ذخیره اطلاعات هر فایل</td>
+                    </tr>
+                    <tr>
+                        <td><code>ScanResult</code></td>
+                        <td>کلاس نتیجه اسکن شامل لیست فایل‌ها و آمار</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>نمونه کد استفاده</h2>
+            <pre><code class="language-python">from src.modules.scanner import Scanner
+
+# ایجاد نمونه از اسکنر
+scanner = Scanner()
+
+# اسکن یک پروژه
+result = scanner.scan(
+    path="/path/to/project",
+    include_hidden=False,
+    max_depth=None
+)
+
+# دسترسی به نتایج
+print(f"تعداد فایل‌ها: {result.stats['files']}")
+print(f"تعداد پوشه‌ها: {result.stats['directories']}")
+print(f"حجم کل: {result.stats['total_size']} بایت")</code></pre>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">نکته عملکردی</div>
+                    <p class="alert-text">
+                        Scanner از تکنیک Lazy Loading استفاده می‌کند؛ یعنی متادیتای فایل‌ها تنها در صورت نیاز محاسبه
+                        می‌شود. این باعث افزایش چشمگیر سرعت اسکن می‌شود.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Builder Module -->
+        <section class="section" id="builder">
+            <div class="section-header">
+                <div class="section-icon">🏗️</div>
+                <h1 class="section-title">ماژول Builder (سازنده)</h1>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🏗️</div>
+                    <span class="module-name">Builder</span>
+                    <span class="module-path">src/modules/builder.py</span>
+                </div>
+                <p class="module-desc">
+                    Builder عکس Scanner است! به جای خواندن ساختار از دیسک، ساختار را روی دیسک ایجاد می‌کند. این ماژول
+                    می‌تواند از روی فایل JSON، متن درختی، یا حتی clipboard، پوشه‌ها و فایل‌ها را بسازد.
+                </p>
+                <div class="module-features">
+                    <span class="feature-tag">ساخت از JSON</span>
+                    <span class="feature-tag">ساخت از Tree Text</span>
+                    <span class="feature-tag">نوشتن محتوا</span>
+                    <span class="feature-tag">بررسی تداخل</span>
+                    <span class="feature-tag">حالت خشک (Dry-run)</span>
+                </div>
+            </div>
+
+            <h2>قابلیت‌های کلیدی</h2>
+            <ul>
+                <li><strong>ساخت پوشه:</strong> ایجاد دایرکتوری‌ها با <code>os.makedirs()</code></li>
+                <li><strong>ساخت فایل:</strong> ایجاد فایل‌های خالی یا با محتوای از پیش تعریف شده</li>
+                <li><strong>حالت Dry-run:</strong> شبیه‌سازی ساخت بدون ایجاد واقعی روی دیسک</li>
+                <li><strong>مدیریت تداخل:</strong> تشخیص و مدیریت فایل‌های موجود</li>
+            </ul>
+
+            <h2>نمودار فرآیند ساخت</h2>
+            <div class="mermaid">
+                flowchart TD
+                A["📄 ورودی (JSON/Text)"] --> B["🔍 Parser"]
+                B --> C["✅ Validator"]
+                C --> D{"معتبر است؟"}
+                D -->|خیر| E["❌ خطا"]
+                D -->|بله| F["📁 ساخت پوشه‌ها"]
+                F --> G["📄 ساخت فایل‌ها"]
+                G --> H["✍️ نوشتن محتوا"]
+                H --> I["✅ گزارش نهایی"]
+            </div>
+
+            <h2>نمونه کد استفاده</h2>
+            <pre><code class="language-python">from src.modules.builder import Builder
+
+builder = Builder()
+
+# ساخت از JSON
+structure = {
+    "name": "my-project",
+    "type": "directory",
+    "children": [
+        {"name": "src", "type": "directory"},
+        {"name": "README.md", "type": "file", "content": "# My Project"}
+    ]
+}
+
+result = builder.build(
+    structure=structure,
+    output_path="/path/to/output",
+    overwrite=False
+)
+
+print(f"ساخته شد: {result.created_count} آیتم")</code></pre>
+        </section>
+
+        <!-- Exporter Module -->
+        <section class="section" id="exporter">
+            <div class="section-header">
+                <div class="section-icon">📤</div>
+                <h1 class="section-title">ماژول Exporter (صادرکننده)</h1>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">📤</div>
+                    <span class="module-name">Exporter</span>
+                    <span class="module-path">src/modules/exporter.py</span>
+                </div>
+                <p class="module-desc">
+                    Exporter یک «کارخانه تبدیل فرمت» است. ساختار پروژه را دریافت می‌کند و در قالب‌های متنوعی مانند JSON،
+                    HTML، Markdown، ZIP و TAR صادر می‌کند. همچنین قابلیت رمزنگاری خروجی را نیز دارد.
+                </p>
+                <div class="module-features">
+                    <span class="feature-tag">JSON Export</span>
+                    <span class="feature-tag">HTML با استایل</span>
+                    <span class="feature-tag">Markdown</span>
+                    <span class="feature-tag">ZIP/TAR</span>
+                    <span class="feature-tag">رمزنگاری AES</span>
+                </div>
+            </div>
+
+            <h2>فرمت‌های پشتیبانی‌شده</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>فرمت</th>
+                        <th>متد</th>
+                        <th>ویژگی‌ها</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>JSON</strong></td>
+                        <td><code>_to_json()</code></td>
+                        <td>قابل خواندن توسط ماشین، مناسب API</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Text Tree</strong></td>
+                        <td><code>_to_tree()</code></td>
+                        <td>نمایش درختی ASCII، مناسب README</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HTML</strong></td>
+                        <td><code>_to_html_structure()</code></td>
+                        <td>رابط تعاملی با استایل رنگی</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Markdown</strong></td>
+                        <td><code>_to_markdown()</code></td>
+                        <td>سازگار با GitHub</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ZIP</strong></td>
+                        <td><code>_create_zip()</code></td>
+                        <td>آرشیو فشرده با متادیتا</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>نمونه خروجی Tree</h2>
+            <pre><code>my-project/
+├── 📁 src/
+│   ├── 📄 main.py
+│   ├── 📄 config.py
+│   └── 📁 modules/
+│       ├── 📄 scanner.py
+│       └── 📄 builder.py
+├── 📄 README.md
+└── 📄 requirements.txt</code></pre>
+        </section>
+
+        <!-- Content Extractor -->
+        <section class="section" id="content-extractor">
+            <div class="section-header">
+                <div class="section-icon">📄</div>
+                <h1 class="section-title">ماژول Content Extractor (استخراج‌کننده محتوا)</h1>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">📄</div>
+                    <span class="module-name">Content Extractor</span>
+                    <span class="module-path">src/modules/content_extractor.py</span>
+                </div>
+                <p class="module-desc">
+                    این ماژول محتوای متنی فایل‌ها را استخراج می‌کند. قادر به تشخیص خودکار encoding فایل‌ها، فیلتر کردن
+                    فایل‌های باینری، و استخراج هوشمند با مدیریت خطا است.
+                </p>
+                <div class="module-features">
+                    <span class="feature-tag">تشخیص Encoding</span>
+                    <span class="feature-tag">فیلتر باینری</span>
+                    <span class="feature-tag">محدودیت حجم</span>
+                    <span class="feature-tag">کش هوشمند</span>
+                    <span class="feature-tag">متادیتای کامل</span>
+                </div>
+            </div>
+
+            <h2>فرآیند استخراج</h2>
+            <div class="mermaid">
+                flowchart LR
+                A["📄 فایل"] --> B{"باینری است؟"}
+                B -->|بله| C["⏭️ Skip"]
+                B -->|خیر| D["🔍 تشخیص Encoding"]
+                D --> E["📖 خواندن محتوا"]
+                E --> F["📊 محاسبه Hash"]
+                F --> G["💾 ذخیره در کش"]
+                G --> H["✅ FileContent"]
+            </div>
+
+            <h2>کلاس FileContent</h2>
+            <pre><code class="language-python">@dataclass
+class FileContent:
+    path: str              # مسیر نسبی فایل
+    content: str           # محتوای متنی
+    encoding: str          # کدگذاری (UTF-8, ASCII, ...)
+    size: int              # اندازه به بایت
+    hash: str              # MD5 hash
+    mime_type: str         # نوع MIME
+    last_modified: datetime # تاریخ آخرین تغییر</code></pre>
+        </section>
+
+        <!-- Parser Module -->
+        <section class="section" id="parser">
+            <div class="section-header">
+                <div class="section-icon">📖</div>
+                <h1 class="section-title">ماژول Parser (تفسیرکننده)</h1>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">📖</div>
+                    <span class="module-name">Parser</span>
+                    <span class="module-path">src/modules/parser.py</span>
+                </div>
+                <p class="module-desc">
+                    Parser ورودی‌های مختلف (JSON، متن درختی، clipboard) را می‌خواند و به ساختار داده‌ای یکسان تبدیل
+                    می‌کند. این ماژول نقش «مترجم» را در سیستم دارد.
+                </p>
+                <div class="module-features">
+                    <span class="feature-tag">JSON Parser</span>
+                    <span class="feature-tag">Tree Text Parser</span>
+                    <span class="feature-tag">Clipboard Parser</span>
+                    <span class="feature-tag">تشخیص خودکار فرمت</span>
+                </div>
+            </div>
+
+            <h2>فرمت‌های ورودی</h2>
+            <ul>
+                <li><strong>JSON:</strong> ساختار استاندارد با فیلدهای name، type، children</li>
+                <li><strong>Tree Text:</strong> متن با کاراکترهای │ ├── └── برای نمایش سلسله‌مراتب</li>
+                <li><strong>Indented Text:</strong> متن با تورفتگی (indent) برای نشان دادن عمق</li>
+            </ul>
+        </section>
+
+        <!-- Validator Module -->
+        <section class="section" id="validator">
+            <div class="section-header">
+                <div class="section-icon">✅</div>
+                <h1 class="section-title">ماژول Validator (اعتبارسنج)</h1>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">✅</div>
+                    <span class="module-name">Validator</span>
+                    <span class="module-path">src/modules/validator.py</span>
+                </div>
+                <p class="module-desc">
+                    Validator مسئول بررسی صحت نام فایل‌ها، مسیرها، و ساختار ورودی است. از ایجاد فایل‌های نامعتبر یا
+                    خطرناک جلوگیری می‌کند.
+                </p>
+            </div>
+
+            <h2>بررسی‌های امنیتی</h2>
+            <ul>
+                <li><strong>کاراکترهای غیرمجاز:</strong> بررسی <code>\ / : * ? " < > |</code></li>
+                <li><strong>نام‌های رزرو شده:</strong> CON، PRN، AUX (در ویندوز)</li>
+                <li><strong>Path Traversal:</strong> جلوگیری از <code>../</code></li>
+                <li><strong>طول نام:</strong> حداکثر 255 کاراکتر</li>
+            </ul>
+        </section>
+
+        <!-- Security Module -->
+        <section class="section" id="security">
+            <div class="section-header">
+                <div class="section-icon">🔐</div>
+                <h1 class="section-title">ماژول Security (امنیت)</h1>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">🔐</div>
+                    <span class="module-name">Security</span>
+                    <span class="module-path">src/modules/security.py</span>
+                </div>
+                <p class="module-desc">
+                    این ماژول مسئول تمام عملیات امنیتی از جمله رمزنگاری/رمزگشایی، تشخیص اطلاعات حساس، و ایجاد امضای
+                    دیجیتال است.
+                </p>
+                <div class="module-features">
+                    <span class="feature-tag">AES-256 Encryption</span>
+                    <span class="feature-tag">تشخیص API Key</span>
+                    <span class="feature-tag">تشخیص رمز عبور</span>
+                    <span class="feature-tag">Checksum</span>
+                </div>
+            </div>
+
+            <h2>الگوریتم رمزنگاری</h2>
+            <div class="alert alert-success">
+                <span class="alert-icon">🔒</span>
+                <div class="alert-content">
+                    <div class="alert-title">AES-256 در حالت GCM</div>
+                    <p class="alert-text">
+                        از استاندارد AES با کلید 256 بیتی در حالت Galois/Counter Mode (GCM) استفاده می‌شود که هم
+                        رمزنگاری و هم احراز اصالت (Authentication) را فراهم می‌کند.
+                    </p>
+                </div>
+            </div>
+
+            <h2>الگوهای تشخیص اطلاعات حساس</h2>
+            <pre><code class="language-python">SENSITIVE_PATTERNS = [
+    r'api[_-]?key\s*[=:]\s*["\']?[\w-]+',      # API Keys
+    r'password\s*[=:]\s*["\']?[\w@#$%^&*]+',  # Passwords
+    r'secret\s*[=:]\s*["\']?[\w-]+',          # Secrets
+    r'token\s*[=:]\s*["\']?[\w-]+',           # Tokens
+    r'-----BEGIN.*PRIVATE KEY-----',          # Private Keys
+]</code></pre>
+        </section>
+
+        <!-- Logger Module -->
+        <section class="section" id="logger">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h1 class="section-title">ماژول Logger (لاگر)</h1>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">📝</div>
+                    <span class="module-name">Logger</span>
+                    <span class="module-path">src/modules/logger.py</span>
+                </div>
+                <p class="module-desc">
+                    سیستم متمرکز ثبت وقایع با پشتیبانی از خروجی‌های متعدد (کنسول، فایل، GUI) و سطوح مختلف لاگ.
+                </p>
+                <div class="module-features">
+                    <span class="feature-tag">Singleton Pattern</span>
+                    <span class="feature-tag">Multiple Handlers</span>
+                    <span class="feature-tag">Log Rotation</span>
+                    <span class="feature-tag">JSON/HTML Export</span>
+                </div>
+            </div>
+
+            <h2>سطوح لاگ</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>سطح</th>
+                        <th>رنگ</th>
+                        <th>کاربرد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>DEBUG</code></td>
+                        <td style="color: #8b949e;">خاکستری</td>
+                        <td>اطلاعات دیباگ (فقط در حالت توسعه)</td>
+                    </tr>
+                    <tr>
+                        <td><code>INFO</code></td>
+                        <td style="color: #58a6ff;">آبی</td>
+                        <td>عملیات عادی و موفق</td>
+                    </tr>
+                    <tr>
+                        <td><code>WARNING</code></td>
+                        <td style="color: #d29922;">زرد</td>
+                        <td>هشدارها و موارد قابل توجه</td>
+                    </tr>
+                    <tr>
+                        <td><code>ERROR</code></td>
+                        <td style="color: #f85149;">قرمز</td>
+                        <td>خطاهای قابل بازیابی</td>
+                    </tr>
+                    <tr>
+                        <td><code>CRITICAL</code></td>
+                        <td style="color: #f85149; font-weight: bold;">قرمز تیره</td>
+                        <td>خطاهای بحرانی</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Cache Manager -->
+        <section class="section" id="cache-manager">
+            <div class="section-header">
+                <div class="section-icon">💾</div>
+                <h1 class="section-title">ماژول Cache Manager (مدیر کش)</h1>
+            </div>
+
+            <div class="module-card">
+                <div class="module-header">
+                    <div class="module-icon">💾</div>
+                    <span class="module-name">Cache Manager</span>
+                    <span class="module-path">src/modules/cache_manager.py</span>
+                </div>
+                <p class="module-desc">
+                    سیستم کش دو لایه (حافظه + دیسک) برای ذخیره نتایج عملیات پرهزینه و افزایش سرعت.
+                </p>
+            </div>
+
+            <h2>استراتژی کش</h2>
+            <ol>
+                <li><strong>لایه اول - حافظه (RAM):</strong> سریع‌ترین دسترسی، محدودیت حجم</li>
+                <li><strong>لایه دوم - دیسک:</strong> پایدار، حجم بالا، کندتر</li>
+            </ol>
+        </section>
+
+        <!-- Other Modules Summary -->
+        <section class="section" id="other-modules">
+            <div class="section-header">
+                <div class="section-icon">📦</div>
+                <h1 class="section-title">سایر ماژول‌ها</h1>
+            </div>
+
+            <div class="module-card" id="diff-compare">
+                <div class="module-header">
+                    <div class="module-icon">🔄</div>
+                    <span class="module-name">Diff Compare</span>
+                    <span class="module-path">src/modules/diff_compare.py</span>
+                </div>
+                <p class="module-desc">مقایسه دو ساختار پروژه و تشخیص تفاوت‌ها (فایل‌های اضافه، حذف، تغییر یافته)</p>
+            </div>
+
+            <div class="module-card" id="plugin-manager">
+                <div class="module-header">
+                    <div class="module-icon">🔌</div>
+                    <span class="module-name">Plugin Manager</span>
+                    <span class="module-path">src/modules/plugin_manager.py</span>
+                </div>
+                <p class="module-desc">مدیریت افزونه‌ها، بارگذاری پویا، و اجرای هوک‌ها</p>
+            </div>
+
+            <div class="module-card" id="profile-manager">
+                <div class="module-header">
+                    <div class="module-icon">👤</div>
+                    <span class="module-name">Profile Manager</span>
+                    <span class="module-path">src/modules/profile_manager.py</span>
+                </div>
+                <p class="module-desc">ذخیره و بازیابی پروفایل‌های تنظیمات (الگوهای ignore، فرمت خروجی و...)</p>
+            </div>
+
+            <div class="module-card" id="project-detector">
+                <div class="module-header">
+                    <div class="module-icon">🎯</div>
+                    <span class="module-name">Project Detector</span>
+                    <span class="module-path">src/modules/project_detector.py</span>
+                </div>
+                <p class="module-desc">تشخیص خودکار نوع پروژه (Python، Node.js، Laravel و...) و پیشنهاد تنظیمات مناسب
+                </p>
+            </div>
+
+            <div class="module-card" id="file-analyzer">
+                <div class="module-header">
+                    <div class="module-icon">📊</div>
+                    <span class="module-name">File Analyzer</span>
+                    <span class="module-path">src/modules/file_analyzer.py</span>
+                </div>
+                <p class="module-desc">آنالیز متریک‌های کد، محاسبه پیچیدگی، و تولید آمار</p>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="volume1_architecture.html">← معماری سیستم</a>
+            <a href="volume1_gui.html">رابط کاربری →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+        <p>تهیه شده با ❤️ توسط سیستم هوشمند Antigravity</p>
+    </footer>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</body>
+
+</html>

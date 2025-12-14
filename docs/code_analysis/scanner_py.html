@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل کد scanner.py - مستندات StructureMaster</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-orange: #db6d28;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 2;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            padding: 3rem 2rem;
+            border-bottom: 3px solid var(--accent-blue);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: #000;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .hero-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-purple);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .toc-grid a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .toc-grid a:hover {
+            background: var(--bg-secondary);
+            color: var(--accent-blue);
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 1.5rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 1.25rem 0 0.75rem;
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin: 1rem 0 0.5rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: var(--bg-code);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+
+        .code-lines {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .code-content {
+            padding: 1rem;
+        }
+
+        .line-analysis {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .line-analysis:last-child {
+            border-bottom: none;
+        }
+
+        .line-num {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-align: center;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .line-content {
+            padding: 0.75rem 1rem;
+        }
+
+        .line-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            direction: ltr;
+            text-align: left;
+            background: var(--bg-code);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .line-explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-icon {
+            font-size: 1.1rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .relation-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .relation-title {
+            font-weight: 700;
+            color: var(--accent-green);
+            margin-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .section {
+                padding: 1.25rem;
+            }
+
+            .line-analysis {
+                grid-template-columns: 50px 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <a href="../COMPREHENSIVE_DOCS_FA.html" class="nav-brand"><span>📘</span><span>مستندات
+                StructureMaster</span></a>
+        <div class="nav-links">
+            <a href="../volumes/volume1_intro.html">مقدمه</a>
+            <a href="../volumes/volume1_modules.html">ماژول‌ها</a>
+            <a href="../volumes/volume2_code_analysis.html">تحلیل کد</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">جلد دوم - تحلیل کد</span>
+            <h1>🔍 تحلیل ماژول Scanner</h1>
+            <div class="hero-path">src/modules/scanner.py</div>
+            <p class="hero-desc">ماژول اسکنر مسئول پیمایش و استخراج ساختار دایرکتوری پروژه‌ها است. این ماژول قلب فرآیند
+                استخراج ساختار محسوب می‌شود.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value">560</div>
+                    <div class="stat-label">خط کد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">کلاس</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">23</div>
+                    <div class="stat-label">متد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">9</div>
+                    <div class="stat-label">import</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- TOC -->
+        <div class="toc">
+            <div class="toc-title">📑 فهرست بخش‌ها</div>
+            <div class="toc-grid">
+                <a href="#overview">نمای کلی فایل</a>
+                <a href="#imports">بخش Imports</a>
+                <a href="#fileinfo">کلاس FileInfo</a>
+                <a href="#scanresult">کلاس ScanResult</a>
+                <a href="#projectscanner">کلاس ProjectScanner</a>
+                <a href="#scan-method">متد scan</a>
+                <a href="#recursive-scan">متد _scan_recursive</a>
+                <a href="#parallel-scan">اسکن موازی</a>
+                <a href="#helpers">متدهای کمکی</a>
+                <a href="#cache">سیستم کش</a>
+                <a href="#relations">ارتباط با سایر ماژول‌ها</a>
+            </div>
+        </div>
+
+        <!-- Overview -->
+        <section class="section" id="overview">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h1 class="section-title">نمای کلی فایل</h1>
+            </div>
+
+            <p>
+                فایل <code>scanner.py</code> یکی از مهم‌ترین ماژول‌های پروژه StructureMaster است. این ماژول وظیفه پیمایش
+                (Crawling) دایرکتوری‌های پروژه و استخراج لیست کامل فایل‌ها و پوشه‌ها را بر عهده دارد. Scanner با استفاده
+                از الگوریتم‌های بهینه، حتی پروژه‌های بسیار بزرگ را در کوتاه‌ترین زمان ممکن اسکن می‌کند.
+            </p>
+
+            <h2>ویژگی‌های کلیدی</h2>
+            <ul style="padding-right: 2rem; color: var(--text-secondary);">
+                <li><strong>اسکن چند نخی (Multi-threaded):</strong> برای پروژه‌های بزرگ از ThreadPoolExecutor استفاده
+                    می‌کند</li>
+                <li><strong>کش هوشمند:</strong> نتایج اسکن را ذخیره می‌کند تا اسکن‌های مکرر سریع‌تر باشند</li>
+                <li><strong>تشخیص خودکار نوع پروژه:</strong> از ProjectDetector برای شناسایی نوع پروژه استفاده می‌کند
+                </li>
+                <li><strong>الگوهای ignore قابل تنظیم:</strong> پشتیبانی از .gitignore و .structureignore</li>
+            </ul>
+
+            <h2>ساختار کلی فایل</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>خطوط</th>
+                        <th>بخش</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1-9</td>
+                        <td>Docstring</td>
+                        <td>توضیحات کلی ماژول</td>
+                    </tr>
+                    <tr>
+                        <td>11-24</td>
+                        <td>Imports</td>
+                        <td>وارد کردن کتابخانه‌ها</td>
+                    </tr>
+                    <tr>
+                        <td>27-57</td>
+                        <td>FileInfo</td>
+                        <td>کلاس داده‌ای اطلاعات فایل</td>
+                    </tr>
+                    <tr>
+                        <td>60-78</td>
+                        <td>ScanResult</td>
+                        <td>کلاس نتیجه اسکن</td>
+                    </tr>
+                    <tr>
+                        <td>81-555</td>
+                        <td>ProjectScanner</td>
+                        <td>کلاس اصلی اسکنر</td>
+                    </tr>
+                    <tr>
+                        <td>558-559</td>
+                        <td>Singleton</td>
+                        <td>ایجاد نمونه سراسری</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Imports Section -->
+        <section class="section" id="imports">
+            <div class="section-header">
+                <div class="section-icon">📦</div>
+                <h1 class="section-title">بخش Imports (خطوط 1-24)</h1>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Module Docstring & Imports</span>
+                    <span class="code-lines">خطوط 1-24</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">1-9</div>
+                        <div class="line-content">
+                            <div class="line-code">"""
+                                StructureMaster - Scanner Module
+                                Scans and extracts project structures from the filesystem.
+                                Features:
+                                - Multi-threaded scanning for large projects
+                                - Smart caching for improved performance
+                                - Auto project type detection
+                                - Configurable ignore patterns
+                                """</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Docstring</span>
+                                این بلوک یک <strong>Module Docstring</strong> است که در ابتدای هر ماژول پایتون قرار
+                                می‌گیرد. این توضیحات به برنامه‌نویسان دیگر کمک می‌کند تا هدف و قابلیت‌های ماژول را درک
+                                کنند.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">11</div>
+                        <div class="line-content">
+                            <div class="line-code">import os</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Standard Library</span>
+                                ماژول <code>os</code> برای تعامل با سیستم عامل استفاده می‌شود. اینجا احتمالاً برای
+                                عملیات فایل‌سیستم استفاده می‌شود، هرچند بیشتر عملیات با <code>pathlib</code> انجام
+                                می‌شوند.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">12</div>
+                        <div class="line-content">
+                            <div class="line-code">import fnmatch</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Pattern Matching</span>
+                                ماژول <code>fnmatch</code> برای مطابقت نام فایل‌ها با الگوهای glob (مانند
+                                <code>*.py</code> یا <code>node_modules/</code>) استفاده می‌شود. این ماژول برای
+                                پیاده‌سازی سیستم ignore patterns ضروری است.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">13</div>
+                        <div class="line-content">
+                            <div class="line-code">from pathlib import Path</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Modern File I/O</span>
+                                کلاس <code>Path</code> یک رابط شیء‌گرا برای کار با مسیرها است. این کلاس cross-platform
+                                است و کار با فایل‌ها و دایرکتوری‌ها را ساده‌تر می‌کند.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">14</div>
+                        <div class="line-content">
+                            <div class="line-code">from typing import Dict, Any, List, Optional, Set, Callable, Tuple
+                            </div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Type Hints</span>
+                                این انواع از ماژول <code>typing</code> وارد می‌شوند تا <strong>Type Hints</strong>
+                                (نشانه‌گذاری نوع) را فعال کنند. این کار باعث می‌شود کد خوانآتر و قابل بررسی‌تر باشد.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">15</div>
+                        <div class="line-content">
+                            <div class="line-code">from dataclasses import dataclass, field</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Data Classes</span>
+                                دکوراتور <code>@dataclass</code> برای ایجاد کلاس‌های داده‌ای است که به صورت خودکار
+                                متدهای <code>__init__</code>، <code>__repr__</code> و غیره تولید می‌کند.
+                                <code>field</code> برای سفارشی‌سازی فیلدها استفاده می‌شود.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">16</div>
+                        <div class="line-content">
+                            <div class="line-code">from datetime import datetime</div>
+                            <p class="line-explanation">
+                                برای کار با تاریخ و زمان، مانند ذخیره زمان آخرین تغییر فایل‌ها و محاسبه مدت زمان اسکن.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">17</div>
+                        <div class="line-content">
+                            <div class="line-code">from concurrent.futures import ThreadPoolExecutor, as_completed</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Concurrency</span>
+                                برای اجرای موازی عملیات اسکن. <code>ThreadPoolExecutor</code> یک Pool از Thread‌ها
+                                مدیریت می‌کند و <code>as_completed</code> برای دریافت نتایج به ترتیب تکمیل استفاده
+                                می‌شود.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">18</div>
+                        <div class="line-content">
+                            <div class="line-code">import threading</div>
+                            <p class="line-explanation">
+                                برای استفاده از <code>Lock</code> در مدیریت همزمانی دسترسی به کش.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">19</div>
+                        <div class="line-content">
+                            <div class="line-code">import hashlib</div>
+                            <p class="line-explanation">
+                                برای تولید hash و کلیدهای کش با استفاده از الگوریتم MD5.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">22-24</div>
+                        <div class="line-content">
+                            <div class="line-code">from ..config import Config, ProjectType
+                                from .logger import Logger
+                                from .project_detector import ProjectDetector</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Relative Imports</span>
+                                وارد کردن ماژول‌های داخلی پروژه: <code>Config</code> برای تنظیمات، <code>Logger</code>
+                                برای ثبت وقایع، و <code>ProjectDetector</code> برای تشخیص نوع پروژه. علامت
+                                <code>..</code> به معنای یک سطح بالاتر در ساختار پوشه‌ها است.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FileInfo Class -->
+        <section class="section" id="fileinfo">
+            <div class="section-header">
+                <div class="section-icon">📄</div>
+                <h1 class="section-title">کلاس FileInfo (خطوط 27-57)</h1>
+            </div>
+
+            <p>
+                کلاس <code>FileInfo</code> یک <strong>Data Class</strong> است که اطلاعات کامل یک فایل یا دایرکتوری را
+                ذخیره می‌کند.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">@dataclass FileInfo</span>
+                    <span class="code-lines">خطوط 27-57</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">27-28</div>
+                        <div class="line-content">
+                            <div class="line-code">@dataclass
+                                class FileInfo:</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Decorator</span>
+                                دکوراتور <code>@dataclass</code> این کلاس را به یک Data Class تبدیل می‌کند. پایتون به
+                                صورت خودکار متدهای <code>__init__</code>، <code>__repr__</code> و <code>__eq__</code> را
+                                برای این کلاس تولید می‌کند.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">30-41</div>
+                        <div class="line-content">
+                            <div class="line-code"> path: str
+                                name: str
+                                relative_path: str
+                                size: int
+                                is_file: bool
+                                is_dir: bool
+                                extension: str = ''
+                                modified_time: Optional[datetime] = None
+                                created_time: Optional[datetime] = None
+                                permissions: str = ''
+                                is_binary: bool = False
+                                is_hidden: bool = False</div>
+                            <p class="line-explanation">
+                                <strong>فیلدهای کلاس:</strong> هر فیلد اطلاعات خاصی درباره فایل ذخیره می‌کند:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>path</code>: مسیر مطلق فایل</li>
+                                <li><code>name</code>: نام فایل</li>
+                                <li><code>relative_path</code>: مسیر نسبی از ریشه پروژه</li>
+                                <li><code>size</code>: اندازه فایل به بایت</li>
+                                <li><code>is_binary</code>: آیا فایل باینری است؟</li>
+                                <li><code>is_hidden</code>: آیا فایل مخفی است؟ (شروع با نقطه)</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">43-57</div>
+                        <div class="line-content">
+                            <div class="line-code"> def to_dict(self) -> Dict[str, Any]:
+                                return {
+                                'path': self.path,
+                                'name': self.name,
+                                'relative_path': self.relative_path,
+                                # ... more fields
+                                }</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Serialization</span>
+                                متد <code>to_dict</code> شیء را به یک دیکشنری پایتون تبدیل می‌کند. این کار برای سریالایز
+                                کردن داده‌ها به JSON ضروری است. توجه کنید که <code>datetime</code> به فرمت ISO تبدیل
+                                می‌شود.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">چرا Data Class؟</div>
+                    <p class="alert-text">
+                        استفاده از <code>@dataclass</code> به جای کلاس معمولی، کد را کوتاه‌تر و خواناتر می‌کند. پایتون
+                        به صورت خودکار متدهای ضروری را تولید می‌کند و نیازی به نوشتن دستی <code>__init__</code> نیست.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ScanResult Class -->
+        <section class="section" id="scanresult">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h1 class="section-title">کلاس ScanResult (خطوط 60-78)</h1>
+            </div>
+
+            <p>
+                کلاس <code>ScanResult</code> نتیجه کامل یک عملیات اسکن را نگهداری می‌کند.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">@dataclass ScanResult</span>
+                    <span class="code-lines">خطوط 60-78</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">60-78</div>
+                        <div class="line-content">
+                            <div class="line-code">@dataclass
+                                class ScanResult:
+                                """Result of a project scan."""
+                                success: bool
+                                structure: Dict[str, Any] = field(default_factory=dict)
+                                files: List[FileInfo] = field(default_factory=list)
+                                project_type: ProjectType = ProjectType.UNKNOWN
+                                root_path: str = ''
+                                errors: List[str] = field(default_factory=list)
+                                warnings: List[str] = field(default_factory=list)
+                                stats: Dict[str, Any] = field(default_factory=lambda: {
+                                'total_files': 0,
+                                'total_directories': 0,
+                                'total_size': 0,
+                                'binary_files': 0,
+                                'hidden_items': 0,
+                                'skipped_items': 0,
+                                'scan_time_ms': 0,
+                                })</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Factory Function</span>
+                                <strong>فیلدهای مهم:</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>success</code>: آیا اسکن موفق بود؟</li>
+                                <li><code>structure</code>: دیکشنری تودرتو نشان‌دهنده ساختار</li>
+                                <li><code>files</code>: لیست تمام فایل‌های اسکن‌شده</li>
+                                <li><code>stats</code>: آمار اسکن (تعداد فایل‌ها، حجم و...)</li>
+                            </ul>
+                            <br>
+                            <strong>نکته:</strong> استفاده از <code>field(default_factory=...)</code> برای مقادیر
+                            پیش‌فرض قابل تغییر (mutable) ضروری است. بدون این کار، تمام instance‌ها یک لیست مشترک خواهند
+                            داشت!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ProjectScanner Class -->
+        <section class="section" id="projectscanner">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h1 class="section-title">کلاس ProjectScanner (خطوط 81-555)</h1>
+            </div>
+
+            <p>
+                کلاس اصلی اسکنر که تمام منطق پیمایش و استخراج ساختار را پیاده‌سازی می‌کند.
+            </p>
+
+            <h2>متد __init__ (سازنده)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Constructor</span>
+                    <span class="code-lines">خطوط 86-109</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">86-97</div>
+                        <div class="line-content">
+                            <div class="line-code">def __init__(self,
+                                ignore_patterns: Optional[List[str]] = None,
+                                max_workers: Optional[int] = None,
+                                use_cache: bool = True):
+                                """
+                                Initialize scanner.
+
+                                Args:
+                                ignore_patterns: Additional patterns to ignore
+                                max_workers: Maximum threads for parallel scanning
+                                use_cache: Enable caching for repeated scans
+                                """</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Constructor</span>
+                                سازنده کلاس با سه پارامتر اختیاری:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>ignore_patterns</code>: الگوهای اضافی برای نادیده گرفتن</li>
+                                <li><code>max_workers</code>: حداکثر تعداد Thread برای اسکن موازی</li>
+                                <li><code>use_cache</code>: فعال/غیرفعال کردن کش</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">98-106</div>
+                        <div class="line-content">
+                            <div class="line-code"> self.logger = Logger.get_instance()
+                                self.detector = ProjectDetector()
+                                self.ignore_patterns = ignore_patterns or []
+                                self.max_workers = max_workers or Config.MAX_WORKERS
+                                self.use_cache = use_cache
+
+                                # Cache for scan results
+                                self._cache: Dict[str, Tuple[float, ScanResult]] = {}
+                                self._cache_lock = threading.Lock()</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Initialization</span>
+                                مقداردهی اولیه اعضای کلاس:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>Logger.get_instance()</code>: استفاده از الگوی Singleton برای لاگر</li>
+                                <li><code>_cache</code>: دیکشنری برای ذخیره نتایج اسکن</li>
+                                <li><code>_cache_lock</code>: قفل برای جلوگیری از race condition</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scan Method -->
+        <section class="section" id="scan-method">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h1 class="section-title">متد scan - نقطه ورود اصلی (خطوط 111-220)</h1>
+            </div>
+
+            <p>
+                این متد نقطه ورود اصلی برای شروع یک اسکن است. تمام پارامترها را دریافت کرده و فرآیند اسکن را هماهنگ
+                می‌کند.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">scan() method</span>
+                    <span class="code-lines">خطوط 111-220</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">111-131</div>
+                        <div class="line-content">
+                            <div class="line-code">def scan(self,
+                                path: Path,
+                                recursive: bool = True,
+                                include_hidden: bool = False,
+                                follow_symlinks: bool = False,
+                                auto_detect_project: bool = True,
+                                custom_ignore: Optional[List[str]] = None) -> ScanResult:</div>
+                            <p class="line-explanation">
+                                <strong>پارامترها:</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>path</code>: مسیر دایرکتوری برای اسکن</li>
+                                <li><code>recursive</code>: اسکن بازگشتی در زیرپوشه‌ها</li>
+                                <li><code>include_hidden</code>: شامل کردن فایل‌های مخفی</li>
+                                <li><code>follow_symlinks</code>: دنبال کردن لینک‌های نمادین</li>
+                                <li><code>auto_detect_project</code>: تشخیص خودکار نوع پروژه</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">132-146</div>
+                        <div class="line-content">
+                            <div class="line-code">path = Path(path).resolve()
+                                start_time = datetime.now()
+
+                                # Check if path exists
+                                if not path.exists():
+                                return ScanResult(
+                                success=False,
+                                errors=[f"Path does not exist: {path}"]
+                                )
+
+                                if not path.is_dir():
+                                return ScanResult(
+                                success=False,
+                                errors=[f"Path is not a directory: {path}"]
+                                )</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Validation</span>
+                                <strong>اعتبارسنجی ورودی:</strong>
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>resolve()</code> مسیر را به مسیر مطلق تبدیل می‌کند</li>
+                                <li>بررسی وجود مسیر</li>
+                                <li>بررسی اینکه مسیر یک دایرکتوری است</li>
+                            </ol>
+                            در صورت خطا، یک <code>ScanResult</code> با <code>success=False</code> برگردانده می‌شود (به
+                            جای پرتاب exception).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">148-154</div>
+                        <div class="line-content">
+                            <div class="line-code"># Check cache
+                                cache_key = self._get_cache_key(path, recursive, include_hidden)
+                                if self.use_cache:
+                                cached = self._get_cached(cache_key, path)
+                                if cached:
+                                self.logger.debug(f"Using cached scan result for {path}")
+                                return cached</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Caching</span>
+                                بررسی کش: اگر نتیجه این اسکن قبلاً ذخیره شده باشد و هنوز معتبر باشد، از کش استفاده
+                                می‌شود. این کار سرعت را به شدت افزایش می‌دهد.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">162-180</div>
+                        <div class="line-content">
+                            <div class="line-code"># Build ignore patterns
+                                all_ignore = set(Config.DEFAULT_IGNORE_PATTERNS)
+                                all_ignore.update(self.ignore_patterns)
+                                if custom_ignore:
+                                all_ignore.update(custom_ignore)
+
+                                # Load .structureignore if present
+                                structureignore = path / '.structureignore'
+                                if structureignore.exists():
+                                all_ignore.update(self._load_ignore_file(structureignore))
+
+                                # Auto-detect project type
+                                if auto_detect_project:
+                                result.project_type = self.detector.detect(path)
+                                self.logger.info(f"Detected project type: {result.project_type.name}")
+
+                                # Add project-specific ignore patterns
+                                project_patterns = Config.PROJECT_IGNORE_PATTERNS.get(result.project_type, [])
+                                all_ignore.update(project_patterns)</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Pattern Building</span>
+                                ساخت لیست کامل الگوهای ignore:
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>الگوهای پیش‌فرض از Config</li>
+                                <li>الگوهای سفارشی کلاس</li>
+                                <li>الگوهای سفارشی پارامتر</li>
+                                <li>الگوهای فایل <code>.structureignore</code></li>
+                                <li>الگوهای مخصوص نوع پروژه (مثلاً <code>node_modules</code> برای Node.js)</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">183-204</div>
+                        <div class="line-content">
+                            <div class="line-code">try:
+                                if recursive:
+                                if self.max_workers > 1:
+                                self._scan_parallel(...)
+                                else:
+                                self._scan_recursive(...)
+                                else:
+                                self._scan_single_level(...)
+
+                                except PermissionError as e:
+                                result.errors.append(f"Permission denied: {e}")
+                                except Exception as e:
+                                result.errors.append(f"Scan error: {str(e)}")
+                                result.success = False</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Flow Control</span>
+                                انتخاب استراتژی اسکن:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>اگر <code>recursive</code> فعال باشد و تعداد workerها بیش از 1 باشد → اسکن موازی
+                                </li>
+                                <li>اگر <code>recursive</code> فعال باشد → اسکن بازگشتی</li>
+                                <li>در غیر این صورت → فقط یک سطح</li>
+                            </ul>
+                            تمام خطاها catch شده و به لیست errors اضافه می‌شوند.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- _scan_recursive Method -->
+        <section class="section" id="recursive-scan">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h1 class="section-title">متد _scan_recursive (خطوط 222-285)</h1>
+            </div>
+
+            <p>
+                این متد قلب عملیات اسکن است و به صورت بازگشتی (Recursive) تمام زیردایرکتوری‌ها را پیمایش می‌کند.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_scan_recursive()</span>
+                    <span class="code-lines">خطوط 222-285</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">222-229</div>
+                        <div class="line-content">
+                            <div class="line-code">def _scan_recursive(self,
+                                current_path: Path,
+                                root_path: Path,
+                                result: ScanResult,
+                                ignore_patterns: frozenset,
+                                include_hidden: bool,
+                                follow_symlinks: bool,
+                                current_dict: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Method Signature</span>
+                                پارامترهای متد:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>current_path</code>: دایرکتوری فعلی که در حال اسکن است</li>
+                                <li><code>root_path</code>: مسیر ریشه پروژه (برای محاسبه مسیر نسبی)</li>
+                                <li><code>result</code>: شیء ScanResult برای ذخیره نتایج</li>
+                                <li><code>ignore_patterns</code>: مجموعه الگوهای ignore (frozenset برای بهینگی)</li>
+                                <li><code>current_dict</code>: دیکشنری فعلی در ساختار درختی</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">234-241</div>
+                        <div class="line-content">
+                            <div class="line-code">try:
+                                entries = sorted(current_path.iterdir(), key=lambda x: (not x.is_dir(), x.name.lower()))
+                                except PermissionError:
+                                result.warnings.append(f"Permission denied: {current_path}")
+                                return current_dict
+                                except Exception as e:
+                                result.warnings.append(f"Error reading directory {current_path}: {e}")
+                                return current_dict</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Directory Iteration</span>
+                                <code>iterdir()</code> لیست محتویات دایرکتوری را برمی‌گرداند. سپس با استفاده از
+                                <code>sorted()</code> و یک تابع کلید سفارشی، ابتدا پوشه‌ها و سپس فایل‌ها (به ترتیب
+                                الفبایی) مرتب می‌شوند.
+                                <br><br>
+                                <strong>نکته:</strong> خطاهای <code>PermissionError</code> به صورت هشدار (warning) ثبت
+                                می‌شوند تا اسکن متوقف نشود.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">243-251</div>
+                        <div class="line-content">
+                            <div class="line-code">for entry in entries:
+                                try:
+                                relative = entry.relative_to(root_path)
+                                relative_str = str(relative).replace('\\', '/')
+
+                                # Check if should skip
+                                if self._should_skip(entry.name, relative_str, ignore_patterns, include_hidden):
+                                result.stats['skipped_items'] += 1
+                                continue</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Loop & Filter</span>
+                                برای هر ورودی (entry):
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>مسیر نسبی محاسبه می‌شود</li>
+                                <li>بک‌اسلش‌ها به فوروارد اسلش تبدیل می‌شوند (سازگاری cross-platform)</li>
+                                <li>بررسی می‌شود آیا باید نادیده گرفته شود</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">253-256</div>
+                        <div class="line-content">
+                            <div class="line-code"># Handle symlinks
+                                if entry.is_symlink() and not follow_symlinks:
+                                continue</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Symlink Handling</span>
+                                لینک‌های نمادین (Symbolic Links) به صورت پیش‌فرض نادیده گرفته می‌شوند. این رفتار قابل
+                                تنظیم است چون دنبال کردن symlinks می‌تواند منجر به حلقه بی‌نهایت شود.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">257-275</div>
+                        <div class="line-content">
+                            <div class="line-code"># Get file info
+                                file_info = self._get_file_info(entry, root_path)
+                                result.files.append(file_info)
+
+                                if entry.is_dir():
+                                result.stats['total_directories'] += 1
+                                current_dict[entry.name] = {}
+                                self._scan_recursive(
+                                entry, root_path, result, ignore_patterns,
+                                include_hidden, follow_symlinks, current_dict[entry.name]
+                                )
+                                else:
+                                result.stats['total_files'] += 1
+                                result.stats['total_size'] += file_info.size
+                                if file_info.is_binary:
+                                result.stats['binary_files'] += 1
+                                if file_info.is_hidden:
+                                result.stats['hidden_items'] += 1
+                                current_dict[entry.name] = None</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Recursion</span>
+                                <strong>منطق اصلی اسکن:</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>اگر <strong>دایرکتوری</strong> باشد: یک دیکشنری خالی ایجاد شده و متد به صورت بازگشتی
+                                    فراخوانی می‌شود</li>
+                                <li>اگر <strong>فایل</strong> باشد: آمار به‌روزرسانی شده و مقدار <code>None</code> در
+                                    دیکشنری قرار می‌گیرد</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">277-280</div>
+                        <div class="line-content">
+                            <div class="line-code"># Progress callback
+                                if self._progress_callback:
+                                total = result.stats['total_files'] + result.stats['total_directories']
+                                self._progress_callback(total, 0, entry.name)</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Callback Pattern</span>
+                                اگر یک callback برای گزارش پیشرفت تنظیم شده باشد، پس از پردازش هر آیتم فراخوانی می‌شود.
+                                این الگو به رابط کاربری اجازه می‌دهد progress bar را به‌روز کند.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Parallel Scan -->
+        <section class="section" id="parallel-scan">
+            <div class="section-header">
+                <div class="section-icon">⚡</div>
+                <h1 class="section-title">اسکن موازی (خطوط 287-391)</h1>
+            </div>
+
+            <p>
+                برای پروژه‌های بزرگ، اسکن موازی با استفاده از <code>ThreadPoolExecutor</code> سرعت را به شدت افزایش
+                می‌دهد.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_scan_parallel()</span>
+                    <span class="code-lines">خطوط 287-357</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">287-293</div>
+                        <div class="line-content">
+                            <div class="line-code">def _scan_parallel(self,
+                                current_path: Path,
+                                root_path: Path,
+                                result: ScanResult,
+                                ignore_patterns: frozenset,
+                                include_hidden: bool,
+                                follow_symlinks: bool) -> None:</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Method Signature</span>
+                                این متد مشابه <code>_scan_recursive</code> است اما از چندین Thread برای پردازش همزمان
+                                استفاده می‌کند.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">296-327</div>
+                        <div class="line-content">
+                            <div class="line-code"># First pass: get all directories to scan
+                                dirs_to_scan: List[Tuple[Path, Dict[str, Any]]] = []
+
+                                def collect_dirs(path: Path, parent_dict: Dict[str, Any]):
+                                try:
+                                for entry in path.iterdir():
+                                # ... filtering logic ...
+                                if entry.is_dir():
+                                parent_dict[entry.name] = {}
+                                dirs_to_scan.append((entry, parent_dict[entry.name]))
+                                else:
+                                parent_dict[entry.name] = None
+                                # ... process file ...
+                                except PermissionError:
+                                result.warnings.append(f"Permission denied: {path}")
+
+                                # Start with root
+                                collect_dirs(current_path, result.structure)</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Two-Pass Algorithm</span>
+                                <strong>الگوریتم دو مرحله‌ای:</strong>
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><strong>مرحله اول:</strong> جمع‌آوری تمام دایرکتوری‌ها در یک لیست</li>
+                                <li><strong>مرحله دوم:</strong> پردازش موازی دایرکتوری‌ها</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">329-357</div>
+                        <div class="line-content">
+                            <div class="line-code"># Process directories in parallel
+                                with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+                                while dirs_to_scan:
+                                futures = {}
+                                batch = dirs_to_scan[:self.max_workers * 2]
+                                dirs_to_scan = dirs_to_scan[self.max_workers * 2:]
+
+                                for dir_path, dir_dict in batch:
+                                future = executor.submit(
+                                self._scan_directory_files,
+                                dir_path, root_path, dir_dict, ignore_patterns, include_hidden
+                                )
+                                futures[future] = (dir_path, dir_dict)
+
+                                for future in as_completed(futures):
+                                dir_path, dir_dict = futures[future]
+                                try:
+                                sub_files, sub_dirs, sub_stats = future.result()
+                                result.files.extend(sub_files)
+                                # ... update stats ...
+                                except Exception as e:
+                                result.warnings.append(f"Error scanning {dir_path}: {e}")</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Thread Pool</span>
+                                <strong>پردازش موازی:</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>ThreadPoolExecutor</code> مجموعه‌ای از Thread‌ها را مدیریت می‌کند</li>
+                                <li>دایرکتوری‌ها به صورت batch پردازش می‌شوند</li>
+                                <li><code>as_completed</code> نتایج را به ترتیب تکمیل (نه ترتیب ارسال) برمی‌گرداند</li>
+                                <li>دایرکتوری‌های جدید کشف‌شده به لیست اضافه می‌شوند</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">نکته Thread Safety</div>
+                    <p class="alert-text">
+                        دیکشنری‌های پایتون thread-safe نیستند، اما اینجا چون هر Thread روی بخش جداگانه‌ای از دیکشنری کار
+                        می‌کند (هر دایرکتوری دیکشنری مخصوص خود دارد)، مشکلی پیش نمی‌آید.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Helper Methods -->
+        <section class="section" id="helpers">
+            <div class="section-header">
+                <div class="section-icon">🛠️</div>
+                <h1 class="section-title">متدهای کمکی (خطوط 393-504)</h1>
+            </div>
+
+            <h2>متد _scan_single_level (خطوط 393-420)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_scan_single_level()</span>
+                    <span class="code-lines">خطوط 393-420</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">393-420</div>
+                        <div class="line-content">
+                            <div class="line-code">def _scan_single_level(self,
+                                path: Path,
+                                root_path: Path,
+                                result: ScanResult,
+                                ignore_patterns: frozenset,
+                                include_hidden: bool) -> None:
+                                """Scan only the top level of a directory."""
+                                try:
+                                for entry in sorted(path.iterdir(), key=lambda x: (not x.is_dir(), x.name.lower())):
+                                if self._should_skip(entry.name, relative_str, ignore_patterns, include_hidden):
+                                result.stats['skipped_items'] += 1
+                                continue
+
+                                file_info = self._get_file_info(entry, root_path)
+                                result.files.append(file_info)
+
+                                if entry.is_dir():
+                                result.structure[entry.name] = {}
+                                else:
+                                result.structure[entry.name] = None</div>
+                            <p class="line-explanation">
+                                این متد فقط <strong>یک سطح</strong> از دایرکتوری را اسکن می‌کند (بدون ورود به
+                                زیردایرکتوری‌ها). مفید برای مواقعی که فقط به محتویات مستقیم یک پوشه نیاز دارید.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _should_skip (خطوط 422-441)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_should_skip()</span>
+                    <span class="code-lines">خطوط 422-441</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">422-441</div>
+                        <div class="line-content">
+                            <div class="line-code">def _should_skip(self, name: str, relative_path: str,
+                                ignore_patterns: frozenset, include_hidden: bool) -> bool:
+                                """Check if a file/directory should be skipped."""
+                                # Skip hidden files if not included
+                                if not include_hidden and name.startswith('.'):
+                                return True
+
+                                # Check ignore patterns
+                                for pattern in ignore_patterns:
+                                # Directory pattern (ends with /)
+                                if pattern.endswith('/'):
+                                if fnmatch.fnmatch(name, pattern[:-1]):
+                                return True
+                                # Regular pattern
+                                elif fnmatch.fnmatch(name, pattern):
+                                return True
+                                elif fnmatch.fnmatch(relative_path, pattern):
+                                return True
+
+                                return False</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Pattern Matching</span>
+                                این متد تعیین می‌کند آیا یک فایل/دایرکتوری باید نادیده گرفته شود:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>فایل‌های مخفی (شروع با نقطه) → skip اگر <code>include_hidden=False</code></li>
+                                <li>الگوهایی که با <code>/</code> تمام می‌شوند فقط روی دایرکتوری‌ها اعمال می‌شوند</li>
+                                <li>الگوها هم روی نام و هم روی مسیر نسبی بررسی می‌شوند</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _get_file_info (خطوط 443-479)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_get_file_info()</span>
+                    <span class="code-lines">خطوط 443-479</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">443-470</div>
+                        <div class="line-content">
+                            <div class="line-code">def _get_file_info(self, path: Path, root_path: Path) -> FileInfo:
+                                """Get detailed information about a file/directory."""
+                                try:
+                                stat = path.stat()
+                                relative = path.relative_to(root_path)
+
+                                # Check if binary
+                                is_binary = False
+                                if path.is_file():
+                                is_binary = Config.is_binary_file(str(path))
+
+                                # Get permissions
+                                permissions = self._format_permissions(stat.st_mode)
+
+                                return FileInfo(
+                                path=str(path),
+                                name=path.name,
+                                relative_path=str(relative).replace('\\', '/'),
+                                size=stat.st_size if path.is_file() else 0,
+                                is_file=path.is_file(),
+                                is_dir=path.is_dir(),
+                                extension=path.suffix.lower() if path.is_file() else '',
+                                modified_time=datetime.fromtimestamp(stat.st_mtime),
+                                created_time=datetime.fromtimestamp(stat.st_ctime),
+                                permissions=permissions,
+                                is_binary=is_binary,
+                                is_hidden=path.name.startswith('.'),
+                                )</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">File Metadata</span>
+                                این متد تمام اطلاعات یک فایل را استخراج می‌کند:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>path.stat()</code> اطلاعات سیستم‌فایل را می‌خواند</li>
+                                <li><code>st_mtime</code> و <code>st_ctime</code> timestamp‌های یونیکس هستند</li>
+                                <li><code>path.suffix</code> پسوند فایل را برمی‌گرداند (مثلاً <code>.py</code>)</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">471-479</div>
+                        <div class="line-content">
+                            <div class="line-code"> except Exception:
+                                return FileInfo(
+                                path=str(path),
+                                name=path.name,
+                                relative_path=str(path.relative_to(root_path)).replace('\\', '/'),
+                                size=0,
+                                is_file=path.is_file(),
+                                is_dir=path.is_dir(),
+                                )</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Fallback</span>
+                                در صورت بروز هر خطایی (مثلاً عدم دسترسی)، یک شیء <code>FileInfo</code> با اطلاعات حداقلی
+                                برگردانده می‌شود. این باعث می‌شود اسکن به خاطر یک فایل مشکل‌دار متوقف نشود.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _format_permissions (خطوط 481-491)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_format_permissions()</span>
+                    <span class="code-lines">خطوط 481-491</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">481-491</div>
+                        <div class="line-content">
+                            <div class="line-code">def _format_permissions(self, mode: int) -> str:
+                                """Format file permissions as Unix-style string."""
+                                import stat as stat_module
+                                perms = ''
+                                for who in ['USR', 'GRP', 'OTH']:
+                                for perm, char in [('R', 'r'), ('W', 'w'), ('X', 'x')]:
+                                if mode & getattr(stat_module, f'S_I{perm}{who}', 0):
+                                perms += char
+                                else:
+                                perms += '-'
+                                return perms</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Bitwise Operations</span>
+                                این متد عدد mode را به فرمت یونیکسی تبدیل می‌کند:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>خروجی مانند: <code>rwxr-xr--</code></li>
+                                <li>از عملیات بیتی <code>&amp;</code> برای بررسی هر permission استفاده می‌شود</li>
+                                <li><code>getattr</code> ثابت‌های <code>S_IRUSR</code>، <code>S_IWUSR</code> و... را
+                                    برمی‌گرداند</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _load_ignore_file (خطوط 493-504)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_load_ignore_file()</span>
+                    <span class="code-lines">خطوط 493-504</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">493-504</div>
+                        <div class="line-content">
+                            <div class="line-code">def _load_ignore_file(self, filepath: Path) -> List[str]:
+                                """Load ignore patterns from a file."""
+                                patterns = []
+                                try:
+                                with open(filepath, 'r', encoding='utf-8') as f:
+                                for line in f:
+                                line = line.strip()
+                                if line and not line.startswith('#'):
+                                patterns.append(line)
+                                except Exception:
+                                pass
+                                return patterns</div>
+                            <p class="line-explanation">
+                                این متد یک فایل <code>.structureignore</code> یا <code>.gitignore</code> را می‌خواند و
+                                الگوها را استخراج می‌کند:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>خطوط خالی نادیده گرفته می‌شوند</li>
+                                <li>خطوط شروع‌شده با <code>#</code> (کامنت) نادیده گرفته می‌شوند</li>
+                                <li>خطاها بی‌صدا نادیده گرفته می‌شوند</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cache System -->
+        <section class="section" id="cache">
+            <div class="section-header">
+                <div class="section-icon">💾</div>
+                <h1 class="section-title">سیستم کش (خطوط 506-542)</h1>
+            </div>
+
+            <p>
+                سیستم کش باعث می‌شود اسکن‌های مکرر یک پروژه بسیار سریع‌تر باشند. کش به صورت خودکار بی‌اعتبار می‌شود اگر
+                فایل‌ها تغییر کنند.
+            </p>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Cache Methods</span>
+                    <span class="code-lines">خطوط 506-542</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">506-509</div>
+                        <div class="line-content">
+                            <div class="line-code">def _get_cache_key(self, path: Path, recursive: bool, include_hidden:
+                                bool) -> str:
+                                """Generate cache key for a scan."""
+                                key_data = f"{path}:{recursive}:{include_hidden}:{sorted(self.ignore_patterns)}"
+                                return hashlib.md5(key_data.encode()).hexdigest()</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Cache Key</span>
+                                کلید کش از ترکیب پارامترهای اسکن ساخته می‌شود:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>مسیر، حالت بازگشتی، شامل کردن فایل‌های مخفی، و الگوهای ignore</li>
+                                <li>از MD5 برای تولید یک کلید کوتاه و یکتا استفاده می‌شود</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">511-528</div>
+                        <div class="line-content">
+                            <div class="line-code">def _get_cached(self, key: str, path: Path) -> Optional[ScanResult]:
+                                """Get cached scan result if valid."""
+                                with self._cache_lock:
+                                if key not in self._cache:
+                                return None
+
+                                mtime, result = self._cache[key]
+
+                                # Check if cache is still valid
+                                try:
+                                current_mtime = path.stat().st_mtime
+                                if current_mtime > mtime:
+                                del self._cache[key]
+                                return None
+                                except Exception:
+                                return None
+
+                                return result</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Cache Validation</span>
+                                <strong>اعتبارسنجی کش:</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>_cache_lock</code> از race condition جلوگیری می‌کند</li>
+                                <li>زمان تغییر دایرکتوری بررسی می‌شود</li>
+                                <li>اگر دایرکتوری پس از کش شدن تغییر کرده باشد، کش بی‌اعتبار است</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">530-542</div>
+                        <div class="line-content">
+                            <div class="line-code">def _cache_result(self, key: str, path: Path, result: ScanResult) ->
+                                None:
+                                """Cache a scan result."""
+                                with self._cache_lock:
+                                try:
+                                mtime = path.stat().st_mtime
+                                self._cache[key] = (mtime, result)
+                                except Exception:
+                                pass
+
+                                def clear_cache(self) -> None:
+                                """Clear the scan cache."""
+                                with self._cache_lock:
+                                self._cache.clear()</div>
+                            <p class="line-explanation">
+                                <code>_cache_result</code> نتیجه را همراه با timestamp ذخیره می‌کند.
+                                <code>clear_cache</code> برای پاک کردن دستی کش در مواقع نیاز استفاده می‌شود.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Utility Methods & Singleton -->
+        <section class="section" id="utility">
+            <div class="section-header">
+                <div class="section-icon">🔧</div>
+                <h1 class="section-title">متدهای عمومی و Singleton (خطوط 544-559)</h1>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Utility Methods</span>
+                    <span class="code-lines">خطوط 544-555</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">544-546</div>
+                        <div class="line-content">
+                            <div class="line-code">def set_progress_callback(self, callback: Callable[[int, int, str],
+                                None]) -> None:
+                                """Set progress callback function."""
+                                self._progress_callback = callback</div>
+                            <p class="line-explanation">
+                                تنظیم تابع callback برای گزارش پیشرفت. پارامترها: (تعداد کل، تعداد پردازش‌شده، نام آیتم
+                                فعلی)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">548-551</div>
+                        <div class="line-content">
+                            <div class="line-code">def add_ignore_pattern(self, pattern: str) -> None:
+                                """Add an ignore pattern."""
+                                if pattern not in self.ignore_patterns:
+                                self.ignore_patterns.append(pattern)</div>
+                            <p class="line-explanation">
+                                افزودن یک الگوی ignore جدید. بررسی تکراری بودن انجام می‌شود.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="line-analysis">
+                        <div class="line-num">553-555</div>
+                        <div class="line-content">
+                            <div class="line-code">def set_ignore_patterns(self, patterns: List[str]) -> None:
+                                """Set ignore patterns."""
+                                self.ignore_patterns = list(patterns)</div>
+                            <p class="line-explanation">
+                                جایگزینی کامل الگوهای ignore. از <code>list()</code> برای ایجاد کپی استفاده شده تا
+                                تغییرات خارجی روی لیست اصلی تأثیر نگذارد.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Singleton Instance</span>
+                    <span class="code-lines">خطوط 558-559</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">558-559</div>
+                        <div class="line-content">
+                            <div class="line-code"># Create singleton instance
+                                scanner = ProjectScanner()</div>
+                            <p class="line-explanation">
+                                <span class="concept-tag">Singleton Pattern</span>
+                                یک نمونه سراسری از Scanner ایجاد می‌شود. این الگو به module-level singleton معروف است و
+                                ساده‌ترین روش پیاده‌سازی Singleton در پایتون است. با این کار:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>سایر ماژول‌ها می‌توانند با <code>from scanner import scanner</code> به آن دسترسی
+                                    داشته باشند</li>
+                                <li>کش بین تمام استفاده‌کننده‌ها به اشتراک گذاشته می‌شود</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Relations -->
+        <section class="section" id="relations">
+            <div class="section-header">
+                <div class="section-icon">🔗</div>
+                <h1 class="section-title">ارتباط با سایر ماژول‌ها</h1>
+            </div>
+
+            <div class="relation-card">
+                <div class="relation-title">📦 وابستگی به Config</div>
+                <p style="color: var(--text-secondary);">
+                    Scanner از <code>Config</code> برای دریافت الگوهای ignore پیش‌فرض، تعداد workerها و بررسی نوع فایل
+                    (باینری یا متنی) استفاده می‌کند.
+                </p>
+            </div>
+
+            <div class="relation-card">
+                <div class="relation-title">📝 وابستگی به Logger</div>
+                <p style="color: var(--text-secondary);">
+                    تمام عملیات مهم (شروع اسکن، خطاها، استفاده از کش) با استفاده از <code>Logger</code> ثبت می‌شوند.
+                </p>
+            </div>
+
+            <div class="relation-card">
+                <div class="relation-title">🎯 وابستگی به ProjectDetector</div>
+                <p style="color: var(--text-secondary);">
+                    برای تشخیص خودکار نوع پروژه (Python، Node.js، Laravel و...) از <code>ProjectDetector</code> استفاده
+                    می‌شود.
+                </p>
+            </div>
+
+            <div class="relation-card">
+                <div class="relation-title">👆 استفاده‌کننده‌ها</div>
+                <p style="color: var(--text-secondary);">
+                    این ماژول توسط <code>Exporter</code>، <code>ContentExtractor</code> و رابط‌های کاربری (GUI/CLI)
+                    استفاده می‌شود.
+                </p>
+            </div>
+        </section>
+
+        <!-- Final Notes -->
+        <section class="section" id="final-notes">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h1 class="section-title">نکات پایانی و خلاصه</h1>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">نقاط قوت این ماژول</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>مقیاس‌پذیری:</strong> پشتیبانی از اسکن موازی برای پروژه‌های بزرگ</li>
+                        <li><strong>انعطاف‌پذیری:</strong> الگوهای ignore قابل سفارشی‌سازی</li>
+                        <li><strong>کش هوشمند:</strong> جلوگیری از اسکن‌های تکراری</li>
+                        <li><strong>مقاومت در برابر خطا:</strong> خطاها ثبت می‌شوند اما اسکن متوقف نمی‌شود</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">الگوهای طراحی استفاده‌شده</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>Singleton:</strong> یک نمونه سراسری برای به اشتراک‌گذاری کش</li>
+                        <li><strong>Strategy:</strong> انتخاب بین اسکن بازگشتی، موازی، یا تک‌سطحی</li>
+                        <li><strong>Observer:</strong> استفاده از callback برای گزارش پیشرفت</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">نکات مهم برای توسعه‌دهندگان</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li>هنگام کار با symlinks مراقب حلقه‌های بی‌نهایت باشید</li>
+                        <li>برای پروژه‌های خیلی بزرگ (میلیون‌ها فایل) ممکن است حافظه کم بیاید</li>
+                        <li>کش فقط زمان تغییر ریشه را بررسی می‌کند، نه زیرپوشه‌ها</li>
+                        <li>الگوهای ignore از fnmatch استفاده می‌کنند (نه regex)</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <h2>خلاصه جریان اجرا</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>مرحله</th>
+                        <th>متد</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>۱</td>
+                        <td><code>scan()</code></td>
+                        <td>اعتبارسنجی ورودی و بررسی کش</td>
+                    </tr>
+                    <tr>
+                        <td>۲</td>
+                        <td>-</td>
+                        <td>ساخت لیست الگوهای ignore</td>
+                    </tr>
+                    <tr>
+                        <td>۳</td>
+                        <td><code>ProjectDetector.detect()</code></td>
+                        <td>تشخیص نوع پروژه</td>
+                    </tr>
+                    <tr>
+                        <td>۴</td>
+                        <td><code>_scan_recursive()</code> یا <code>_scan_parallel()</code></td>
+                        <td>پیمایش دایرکتوری‌ها</td>
+                    </tr>
+                    <tr>
+                        <td>۵</td>
+                        <td><code>_get_file_info()</code></td>
+                        <td>استخراج متادیتای هر فایل</td>
+                    </tr>
+                    <tr>
+                        <td>۶</td>
+                        <td><code>_cache_result()</code></td>
+                        <td>ذخیره نتیجه در کش</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="../volumes/volume2_code_analysis.html">← فهرست تحلیل کد</a>
+            <a href="builder_py.html">تحلیل builder.py →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+    </footer>
+</body>
+
+</html>

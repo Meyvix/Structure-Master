@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات جامع StructureMaster - صفحه اصلی</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-orange: #db6d28;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 2;
+            min-height: 100vh;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 50%, #1a2744 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(88, 166, 255, 0.08) 0%, transparent 50%);
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-logo {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #fff, var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .badge-blue {
+            background: var(--accent-blue);
+            color: #000;
+        }
+
+        .badge-green {
+            background: var(--accent-green);
+            color: #000;
+        }
+
+        .badge-purple {
+            background: var(--accent-purple);
+            color: #fff;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Volume Cards */
+        .volume-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .volume-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .volume-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .volume-header {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .volume-card:nth-child(1) .volume-header {
+            background: linear-gradient(135deg, #1e3a5f, #0d2847);
+            border-bottom: 3px solid var(--accent-blue);
+        }
+
+        .volume-card:nth-child(2) .volume-header {
+            background: linear-gradient(135deg, #1a4731, #0d2820);
+            border-bottom: 3px solid var(--accent-green);
+        }
+
+        .volume-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .volume-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .volume-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        .volume-content {
+            padding: 1.5rem 2rem;
+        }
+
+        .volume-chapters {
+            list-style: none;
+            padding: 0;
+        }
+
+        .volume-chapters li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .volume-chapters li:last-child {
+            border-bottom: none;
+        }
+
+        .volume-chapters a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            flex: 1;
+            transition: color 0.2s;
+        }
+
+        .volume-chapters a:hover {
+            color: var(--accent-blue);
+        }
+
+        .chapter-icon {
+            width: 28px;
+            height: 28px;
+            background: var(--bg-secondary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stats-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-purple);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Quick Links */
+        .quick-links {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .quick-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .quick-link:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .volume-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-logo">📘</div>
+            <h1>مستندات جامع StructureMaster</h1>
+            <p class="hero-subtitle">
+                راهنمای کامل، آموزشی و حرفه‌ای پروژه StructureMaster
+                <br>شامل توضیحات مفصل، تحلیل خط‌به‌خط کدها، و مثال‌های کاربردی
+            </p>
+            <div class="hero-badges">
+                <span class="badge badge-blue">نسخه ۱.۰.۰</span>
+                <span class="badge badge-green">زمستان ۱۴۰۳</span>
+                <span class="badge badge-purple">زبان فارسی</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Volume Cards -->
+        <div class="volume-grid">
+            <!-- Volume 1 -->
+            <div class="volume-card">
+                <div class="volume-header">
+                    <div class="volume-icon">📖</div>
+                    <h2 class="volume-title">جلد اول: دانشنامه آموزشی</h2>
+                    <p class="volume-subtitle">معرفی، معماری، ماژول‌ها و قابلیت‌ها</p>
+                </div>
+                <div class="volume-content">
+                    <ul class="volume-chapters">
+                        <li>
+                            <span class="chapter-icon">🚀</span>
+                            <a href="volumes/volume1_intro.html">مقدمه و معرفی پروژه</a>
+                        </li>
+                        <li>
+                            <span class="chapter-icon">🏛️</span>
+                            <a href="volumes/volume1_architecture.html">معماری سیستم و جریان داده</a>
+                        </li>
+                        <li>
+                            <span class="chapter-icon">⚙️</span>
+                            <a href="volumes/volume1_modules.html">ماژول‌های هسته</a>
+                        </li>
+                        <li>
+                            <span class="chapter-icon">🖥️</span>
+                            <a href="volumes/volume1_gui.html">رابط کاربری و CLI</a>
+                        </li>
+                        <li>
+                            <span class="chapter-icon">📁</span>
+                            <a href="volumes/volume1_file_types.html">انواع فایل‌های قابل پردازش</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Volume 2 -->
+            <div class="volume-card">
+                <div class="volume-header">
+                    <div class="volume-icon">🔬</div>
+                    <h2 class="volume-title">جلد دوم: آناتومی کدها</h2>
+                    <p class="volume-subtitle">تحلیل خط‌به‌خط تمام فایل‌های پروژه</p>
+                </div>
+                <div class="volume-content">
+                    <ul class="volume-chapters">
+                        <li>
+                            <span class="chapter-icon">📄</span>
+                            <a href="volumes/volume2_code_analysis.html">فهرست فایل‌های تحلیل‌شده</a>
+                        </li>
+                        <li>
+                            <span class="chapter-icon">🔍</span>
+                            <a href="code_analysis/scanner_py.html">scanner.py</a>
+                        </li>
+                        <li>
+                            <span class="chapter-icon">🏗️</span>
+                            <a href="code_analysis/builder_py.html">builder.py</a>
+                        </li>
+                        <li>
+                            <span class="chapter-icon">📤</span>
+                            <a href="code_analysis/exporter_py.html">exporter.py</a>
+                        </li>
+                        <li>
+                            <span class="chapter-icon">📝</span>
+                            <a href="code_analysis/logger_py.html">logger.py</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-section">
+            <h2 class="stats-title">📊 آمار مستندات</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">جلد</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">بخش</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">40+</div>
+                    <div class="stat-label">فایل کد</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5000+</div>
+                    <div class="stat-label">خط کد</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <h3 class="quick-title">🔗 دسترسی سریع</h3>
+            <div class="link-grid">
+                <a href="volumes/volume1_intro.html#installation" class="quick-link">
+                    <span>⚙️</span>
+                    <span>راهنمای نصب</span>
+                </a>
+                <a href="volumes/volume1_intro.html#quick-start" class="quick-link">
+                    <span>🚀</span>
+                    <span>شروع سریع</span>
+                </a>
+                <a href="volumes/volume1_architecture.html" class="quick-link">
+                    <span>🏛️</span>
+                    <span>دیاگرام معماری</span>
+                </a>
+                <a href="volumes/volume1_gui.html#cli" class="quick-link">
+                    <span>💻</span>
+                    <span>دستورات CLI</span>
+                </a>
+                <a href="CODE_EXPLANATION_FA.html" class="quick-link">
+                    <span>📂</span>
+                    <span>آنالیز کد (قدیمی)</span>
+                </a>
+                <a href="TUTORIAL_COMPLETE_FA.html" class="quick-link">
+                    <span>📖</span>
+                    <span>آموزش (قدیمی)</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-logo">📘</div>
+        <p class="footer-text">مستندات جامع StructureMaster</p>
+        <p class="footer-text">نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+        <p class="footer-text" style="margin-top: 1rem; color: #6e7681;">
+            تهیه شده با ❤️ توسط سیستم هوشمند Antigravity
+        </p>
+    </footer>
+</body>
+
+</html>

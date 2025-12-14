@@ -1,0 +1,21 @@
+{
+  "name": "security-audit",
+  "description": "Security-focused scan for sensitive data detection",
+  "created": "2025-12-14T15:53:35.233771",
+  "modified": "2025-12-14T15:53:35.235887",
+  "recursive": true,
+  "include_hidden": true,
+  "follow_symlinks": false,
+  "auto_detect_project": true,
+  "ignore_patterns": [],
+  "extract_content": true,
+  "include_binary_metadata": false,
+  "max_file_size_mb": 100.0,
+  "export_format": "json",
+  "pretty_output": true,
+  "compress_output": false,
+  "encrypt_output": false,
+  "force_overwrite": false,
+  "dry_run": false,
+  "log_level": "debug"
+}

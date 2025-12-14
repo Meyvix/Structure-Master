@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل کد builder.py - مستندات StructureMaster</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-orange: #db6d28;
+            --border-color: #30363d
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 2
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+            text-decoration: none
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue)
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            padding: 3rem 2rem;
+            border-bottom: 3px solid var(--accent-green)
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #000;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem
+        }
+
+        .hero-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem
+        }
+
+        .hero-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-purple)
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary)
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem
+        }
+
+        .toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem
+        }
+
+        .toc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem
+        }
+
+        .toc-grid a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 6px
+        }
+
+        .toc-grid a:hover {
+            background: var(--bg-secondary);
+            color: var(--accent-blue)
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color)
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color)
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 1.5rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue)
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 1.25rem 0 0.75rem
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            margin: 1rem 0
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            line-height: 1.6
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden
+        }
+
+        .code-header {
+            background: var(--bg-code);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .code-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green)
+        }
+
+        .code-lines {
+            font-size: 0.8rem;
+            color: var(--text-muted)
+        }
+
+        .code-content {
+            padding: 1rem
+        }
+
+        .line-analysis {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            border-bottom: 1px solid var(--border-color)
+        }
+
+        .line-analysis:last-child {
+            border-bottom: none
+        }
+
+        .line-num {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-align: center;
+            border-left: 1px solid var(--border-color)
+        }
+
+        .line-content {
+            padding: 0.75rem 1rem
+        }
+
+        .line-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            direction: ltr;
+            text-align: left;
+            background: var(--bg-code);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            white-space: pre
+        }
+
+        .line-explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue)
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow)
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green)
+        }
+
+        .alert-icon {
+            font-size: 1.1rem
+        }
+
+        .alert-content {
+            flex: 1
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color)
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 0.9rem
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted)
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color)
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue)
+        }
+
+        @media(max-width:768px) {
+            .hero h1 {
+                font-size: 1.75rem
+            }
+
+            .section {
+                padding: 1.25rem
+            }
+
+            .line-analysis {
+                grid-template-columns: 50px 1fr
+            }
+
+            .nav-links {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <a href="../COMPREHENSIVE_DOCS_FA.html" class="nav-brand"><span>📘</span><span>مستندات
+                StructureMaster</span></a>
+        <div class="nav-links">
+            <a href="../volumes/volume1_intro.html">مقدمه</a>
+            <a href="../volumes/volume1_modules.html">ماژول‌ها</a>
+            <a href="../volumes/volume2_code_analysis.html">تحلیل کد</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">جلد دوم - تحلیل کد</span>
+            <h1>🏗️ تحلیل ماژول Builder</h1>
+            <div class="hero-path">src/modules/builder.py</div>
+            <p class="hero-desc">ماژول Builder مسئول ساخت ساختار پروژه از روی دیکشنری ورودی است. این ماژول فایل‌ها و
+                دایرکتوری‌ها را ایجاد می‌کند و عکس عملیات Scanner عمل می‌کند.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value">346</div>
+                    <div class="stat-label">خط کد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">کلاس</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">متد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">import</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="toc">
+            <div class="toc-title">📑 فهرست بخش‌ها</div>
+            <div class="toc-grid">
+                <a href="#overview">نمای کلی فایل</a>
+                <a href="#imports">بخش Imports</a>
+                <a href="#buildoperation">کلاس BuildOperation</a>
+                <a href="#buildresult">کلاس BuildResult</a>
+                <a href="#structurebuilder">کلاس StructureBuilder</a>
+                <a href="#build-method">متد build</a>
+                <a href="#preview-build">متد _preview_build</a>
+                <a href="#execute-build">متد _execute_build</a>
+                <a href="#helpers">متدهای کمکی</a>
+                <a href="#rollback">سیستم Rollback</a>
+                <a href="#relations">ارتباط با سایر ماژول‌ها</a>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <section class="section" id="overview">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h1 class="section-title">نمای کلی فایل</h1>
+            </div>
+            <p>فایل <code>builder.py</code> مسئول ساخت ساختار فایل‌سیستم از روی یک دیکشنری است. این ماژول عکس عملیات
+                Scanner را انجام می‌دهد: در حالی که Scanner ساختار فایل‌سیستم را می‌خواند، Builder آن را می‌سازد.</p>
+            <h2>ویژگی‌های کلیدی</h2>
+            <ul style="padding-right: 2rem; color: var(--text-secondary);">
+                <li><strong>ایجاد چند نخی (Multi-threaded):</strong> برای ساختارهای بزرگ از ThreadPoolExecutor استفاده
+                    می‌کند</li>
+                <li><strong>حالت Dry-Run:</strong> پیش‌نمایش عملیات بدون اجرای واقعی</li>
+                <li><strong>مدیریت تداخل:</strong> گزینه‌های Force و Skip برای فایل‌های موجود</li>
+                <li><strong>Rollback خودکار:</strong> در صورت خطا، فایل‌های ایجادشده حذف می‌شوند</li>
+            </ul>
+            <h2>ساختار کلی فایل</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>خطوط</th>
+                        <th>بخش</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1-9</td>
+                        <td>Docstring</td>
+                        <td>توضیحات کلی ماژول و ویژگی‌ها</td>
+                    </tr>
+                    <tr>
+                        <td>11-20</td>
+                        <td>Imports</td>
+                        <td>وارد کردن کتابخانه‌های استاندارد و داخلی</td>
+                    </tr>
+                    <tr>
+                        <td>23-37</td>
+                        <td>BuildOperation</td>
+                        <td>کلاس داده‌ای یک عملیات منفرد</td>
+                    </tr>
+                    <tr>
+                        <td>40-60</td>
+                        <td>BuildResult</td>
+                        <td>کلاس نتیجه کلی ساخت</td>
+                    </tr>
+                    <tr>
+                        <td>63-341</td>
+                        <td>StructureBuilder</td>
+                        <td>کلاس اصلی سازنده با تمام متدها</td>
+                    </tr>
+                    <tr>
+                        <td>344-345</td>
+                        <td>Singleton</td>
+                        <td>ایجاد نمونه سراسری builder</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Imports Section -->
+        <section class="section" id="imports">
+            <div class="section-header">
+                <div class="section-icon">📦</div>
+                <h1 class="section-title">بخش Imports (خطوط 1-20)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Module Docstring & Imports</span>
+                    <span class="code-lines">خطوط 1-20</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">1-9</div>
+                        <div class="line-content">
+                            <div class="line-code">"""
+                                StructureMaster - Builder Module
+                                Builds project structure from parsed input.
+                                Features:
+                                - Create directories and files
+                                - Handle conflicts with force/dry-run modes
+                                - Multi-threaded file creation
+                                - Rollback on errors
+                                """</div>
+                            <p class="line-explanation"><span class="concept-tag">Docstring</span>
+                                این بلوک یک <strong>Module Docstring</strong> است که هدف و قابلیت‌های اصلی ماژول را
+                                توضیح می‌دهد. چهار ویژگی کلیدی ذکر شده: ایجاد فایل/پوشه، مدیریت تداخل، ایجاد چندنخی، و
+                                Rollback.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">11</div>
+                        <div class="line-content">
+                            <div class="line-code">import os</div>
+                            <p class="line-explanation"><span class="concept-tag">Standard Library</span>
+                                ماژول <code>os</code> برای عملیات سیستم‌عامل. در اینجا از <code>os.cpu_count()</code>
+                                برای تعیین تعداد پیش‌فرض threadها استفاده می‌شود.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">12</div>
+                        <div class="line-content">
+                            <div class="line-code">import shutil</div>
+                            <p class="line-explanation"><span class="concept-tag">File Operations</span>
+                                ماژول <code>shutil</code> برای عملیات سطح بالای فایل‌سیستم. از
+                                <code>shutil.rmtree()</code> برای حذف بازگشتی دایرکتوری‌ها (در rollback و overwrite)
+                                استفاده می‌شود.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">13</div>
+                        <div class="line-content">
+                            <div class="line-code">from pathlib import Path</div>
+                            <p class="line-explanation"><span class="concept-tag">Modern File I/O</span>
+                                کلاس <code>Path</code> یک رابط شیء‌گرا برای کار با مسیرها. متدهایی مانند
+                                <code>mkdir()</code>، <code>touch()</code>، <code>exists()</code> و
+                                <code>is_dir()</code> استفاده می‌شوند.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">14</div>
+                        <div class="line-content">
+                            <div class="line-code">from typing import Dict, Any, List, Optional, Tuple, Callable</div>
+                            <p class="line-explanation"><span class="concept-tag">Type Hints</span>
+                                انواع داده برای Type Hints. <code>Callable</code> برای تعریف نوع callback function
+                                استفاده می‌شود: <code>Callable[[int, int, str], None]</code> یعنی تابعی که سه آرگومان
+                                می‌گیرد و None برمی‌گرداند.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">15</div>
+                        <div class="line-content">
+                            <div class="line-code">from dataclasses import dataclass, field</div>
+                            <p class="line-explanation"><span class="concept-tag">Data Classes</span>
+                                <code>@dataclass</code> برای ایجاد کلاس‌های داده‌ای.
+                                <code>field(default_factory=...)</code> برای مقادیر پیش‌فرض mutable مانند لیست و دیکشنری
+                                ضروری است.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">16</div>
+                        <div class="line-content">
+                            <div class="line-code">from datetime import datetime</div>
+                            <p class="line-explanation">برای اندازه‌گیری زمان ساخت. <code>datetime.now()</code> در ابتدا
+                                و انتهای build فراخوانی شده و اختلاف به میلی‌ثانیه تبدیل می‌شود.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">17</div>
+                        <div class="line-content">
+                            <div class="line-code">from concurrent.futures import ThreadPoolExecutor, as_completed</div>
+                            <p class="line-explanation"><span class="concept-tag">Concurrency</span>
+                                <code>ThreadPoolExecutor</code> یک pool از threadها مدیریت می‌کند.
+                                <code>as_completed</code> به ترتیب تکمیل شدن futureها را برمی‌گرداند (نه به ترتیب
+                                ارسال).
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">18</div>
+                        <div class="line-content">
+                            <div class="line-code">import threading</div>
+                            <p class="line-explanation"><span class="concept-tag">Thread Safety</span>
+                                برای استفاده از <code>threading.Lock()</code> جهت جلوگیری از race condition هنگام
+                                به‌روزرسانی همزمان result توسط چند thread.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">20</div>
+                        <div class="line-content">
+                            <div class="line-code">from .logger import Logger</div>
+                            <p class="line-explanation"><span class="concept-tag">Relative Import</span>
+                                وارد کردن Logger از همین پکیج. نقطه (<code>.</code>) به معنای دایرکتوری فعلی است. از
+                                <code>Logger.get_instance()</code> برای دریافت singleton استفاده می‌شود.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BuildOperation Class -->
+        <section class="section" id="buildoperation">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h1 class="section-title">کلاس BuildOperation (خطوط 23-37)</h1>
+            </div>
+            <p>این Data Class یک عملیات ساخت منفرد را نشان می‌دهد. هر فایل یا دایرکتوری که ایجاد می‌شود یک
+                BuildOperation دارد.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">@dataclass BuildOperation</span>
+                    <span class="code-lines">خطوط 23-37</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">23-24</div>
+                        <div class="line-content">
+                            <div class="line-code">@dataclass
+                                class BuildOperation:</div>
+                            <p class="line-explanation"><span class="concept-tag">Decorator</span>
+                                دکوراتور <code>@dataclass</code> این کلاس را به یک Data Class تبدیل می‌کند. پایتون به
+                                صورت خودکار متدهای <code>__init__</code>، <code>__repr__</code> و <code>__eq__</code> را
+                                تولید می‌کند.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">25</div>
+                        <div class="line-content">
+                            <div class="line-code"> """Represents a single build operation."""</div>
+                            <p class="line-explanation">Docstring کلاس که هدف آن را توضیح می‌دهد.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">26</div>
+                        <div class="line-content">
+                            <div class="line-code"> operation: str # 'create_dir', 'create_file', 'skip', 'overwrite'
+                            </div>
+                            <p class="line-explanation"><span class="concept-tag">Field</span>
+                                نوع عملیات. چهار مقدار ممکن:
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li><code>create_dir</code>: ایجاد دایرکتوری جدید</li>
+                                <li><code>create_file</code>: ایجاد فایل جدید</li>
+                                <li><code>skip</code>: رد شدن (فایل موجود است و force=False)</li>
+                                <li><code>overwrite</code>: بازنویسی (فایل موجود است و force=True)</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">27</div>
+                        <div class="line-content">
+                            <div class="line-code"> path: str</div>
+                            <p class="line-explanation">مسیر کامل فایل یا دایرکتوری که عملیات روی آن انجام شده.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">28</div>
+                        <div class="line-content">
+                            <div class="line-code"> success: bool = False</div>
+                            <p class="line-explanation"><span class="concept-tag">Default Value</span>
+                                آیا عملیات موفق بود؟ پیش‌فرض <code>False</code> است تا اگر خطا رخ دهد، وضعیت صحیح باشد.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">29</div>
+                        <div class="line-content">
+                            <div class="line-code"> error: Optional[str] = None</div>
+                            <p class="line-explanation">پیام خطا (در صورت وجود). <code>Optional[str]</code> یعنی
+                                می‌تواند <code>str</code> یا <code>None</code> باشد.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">31-37</div>
+                        <div class="line-content">
+                            <div class="line-code"> def to_dict(self) -> Dict[str, Any]:
+                                return {
+                                'operation': self.operation,
+                                'path': self.path,
+                                'success': self.success,
+                                'error': self.error,
+                                }</div>
+                            <p class="line-explanation"><span class="concept-tag">Serialization</span>
+                                متد <code>to_dict</code> شیء را به دیکشنری تبدیل می‌کند. این کار برای سریالایز کردن به
+                                JSON و گزارش‌دهی ضروری است.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- BuildResult Class -->
+        <section class="section" id="buildresult">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h1 class="section-title">کلاس BuildResult (خطوط 40-60)</h1>
+            </div>
+            <p>کلاس <code>BuildResult</code> نتیجه کامل یک عملیات ساخت را نگهداری می‌کند. شامل وضعیت کلی، لیست
+                عملیات‌ها، خطاها، هشدارها و آمار است.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">@dataclass BuildResult</span>
+                    <span class="code-lines">خطوط 40-60</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">40-42</div>
+                        <div class="line-content">
+                            <div class="line-code">@dataclass
+                                class BuildResult:
+                                """Result of build operation."""</div>
+                            <p class="line-explanation">تعریف Data Class برای نتیجه ساخت.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">43</div>
+                        <div class="line-content">
+                            <div class="line-code"> success: bool</div>
+                            <p class="line-explanation"><span class="concept-tag">Required Field</span>
+                                آیا ساخت کلی موفق بود؟ این فیلد مقدار پیش‌فرض ندارد پس <strong>اجباری</strong> است.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">44</div>
+                        <div class="line-content">
+                            <div class="line-code"> output_path: str = ''</div>
+                            <p class="line-explanation">مسیر خروجی که ساختار در آن ایجاد شده.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">45</div>
+                        <div class="line-content">
+                            <div class="line-code"> operations: List[BuildOperation] = field(default_factory=list)</div>
+                            <p class="line-explanation"><span class="concept-tag">Factory Function</span>
+                                لیست تمام عملیات‌های انجام‌شده. <code>field(default_factory=list)</code> تضمین می‌کند هر
+                                instance لیست مجزای خود را دارد.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">46-47</div>
+                        <div class="line-content">
+                            <div class="line-code"> errors: List[str] = field(default_factory=list)
+                                warnings: List[str] = field(default_factory=list)</div>
+                            <p class="line-explanation">لیست خطاها و هشدارها. خطاها باعث <code>success=False</code>
+                                می‌شوند اما هشدارها خیر.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">48-55</div>
+                        <div class="line-content">
+                            <div class="line-code"> stats: Dict[str, int] = field(default_factory=lambda: {
+                                'directories_created': 0,
+                                'files_created': 0,
+                                'items_skipped': 0,
+                                'items_overwritten': 0,
+                                'errors': 0,
+                                'build_time_ms': 0,
+                                })</div>
+                            <p class="line-explanation"><span class="concept-tag">Lambda Factory</span>
+                                دیکشنری آمار با مقادیر اولیه صفر. استفاده از <code>lambda</code> به جای dict مستقیم،
+                                تضمین می‌کند هر instance دیکشنری مجزا دارد.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">57-60</div>
+                        <div class="line-content">
+                            <div class="line-code"> @property
+                                def created_paths(self) -> List[str]:
+                                return [op.path for op in self.operations
+                                if op.success and op.operation in ('create_dir', 'create_file')]</div>
+                            <p class="line-explanation"><span class="concept-tag">Property</span>
+                                یک property که لیست مسیرهای موفقیت‌آمیز ایجادشده را برمی‌گرداند. استفاده از <strong>list
+                                    comprehension</strong> با دو شرط فیلتر.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">چرا از default_factory استفاده می‌کنیم؟</div>
+                    <p class="alert-text">اگر مستقیماً <code>operations: List = []</code> بنویسیم، تمام instance‌ها یک
+                        لیست مشترک خواهند داشت! این یک اشتباه رایج در Python است.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- StructureBuilder Class -->
+        <section class="section" id="structurebuilder">
+            <div class="section-header">
+                <div class="section-icon">🏗️</div>
+                <h1 class="section-title">کلاس StructureBuilder (خطوط 63-341)</h1>
+            </div>
+            <p>کلاس اصلی که ساختار پروژه را می‌سازد. این کلاس شامل تمام منطق ایجاد فایل‌ها و دایرکتوری‌ها است.</p>
+            <h2>متد __init__ (سازنده)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Constructor</span>
+                    <span class="code-lines">خطوط 68-85</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">68-74</div>
+                        <div class="line-content">
+                            <div class="line-code">def __init__(self, max_workers: Optional[int] = None):
+                                """
+                                Initialize builder.
+
+                                Args:
+                                max_workers: Maximum threads for parallel creation
+                                """</div>
+                            <p class="line-explanation"><span class="concept-tag">Constructor</span>
+                                سازنده با یک پارامتر اختیاری. اگر <code>max_workers</code> داده نشود، از تعداد هسته‌های
+                                CPU استفاده می‌شود.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">75</div>
+                        <div class="line-content">
+                            <div class="line-code"> self.logger = Logger.get_instance()</div>
+                            <p class="line-explanation"><span class="concept-tag">Singleton Pattern</span>
+                                دریافت نمونه singleton از Logger. این تضمین می‌کند تمام ماژول‌ها از یک logger استفاده
+                                کنند.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">76</div>
+                        <div class="line-content">
+                            <div class="line-code"> self.max_workers = max_workers or os.cpu_count() or 4</div>
+                            <p class="line-explanation"><span class="concept-tag">Short-circuit Evaluation</span>
+                                اولویت: پارامتر ورودی → تعداد CPU → پیش‌فرض 4. <code>or</code> اگر مقدار اول falsy باشد،
+                                مقدار دوم را برمی‌گرداند.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">78-79</div>
+                        <div class="line-content">
+                            <div class="line-code"> # Progress callback
+                                self._progress_callback: Optional[Callable[[int, int, str], None]] = None</div>
+                            <p class="line-explanation"><span class="concept-tag">Callback Pattern</span>
+                                تابع callback برای گزارش پیشرفت. امضا:
+                                <code>(processed, total, current_item) -> None</code>. رابط کاربری می‌تواند از این برای
+                                progress bar استفاده کند.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">81-82</div>
+                        <div class="line-content">
+                            <div class="line-code"> # Thread safety
+                                self._lock = threading.Lock()</div>
+                            <p class="line-explanation"><span class="concept-tag">Thread Safety</span>
+                                قفل برای جلوگیری از race condition. هنگام به‌روزرسانی result توسط چند thread، از این
+                                lock استفاده می‌شود.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">84-85</div>
+                        <div class="line-content">
+                            <div class="line-code"> # Created paths for potential rollback
+                                self._created_paths: List[Path] = []</div>
+                            <p class="line-explanation"><span class="concept-tag">Rollback Support</span>
+                                لیست مسیرهای ایجادشده. در صورت خطا، این مسیرها به ترتیب معکوس حذف می‌شوند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Build Method -->
+        <section class="section" id="build-method">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h1 class="section-title">متد build - نقطه ورود اصلی (خطوط 87-157)</h1>
+            </div>
+            <p>این متد نقطه ورود اصلی برای ساخت ساختار است. تمام پارامترها را دریافت کرده و فرآیند ساخت را هماهنگ
+                می‌کند.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">build() method</span>
+                    <span class="code-lines">خطوط 87-157</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">87-92</div>
+                        <div class="line-content">
+                            <div class="line-code">def build(self,
+                                structure: Dict[str, Any],
+                                output_path: Optional[Path] = None,
+                                force: bool = False,
+                                dry_run: bool = False,
+                                create_root: bool = True) -> BuildResult:</div>
+                            <p class="line-explanation"><strong>پارامترها:</strong>
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li><code>structure</code>: دیکشنری ساختار (از Parser)</li>
+                                <li><code>output_path</code>: مسیر خروجی</li>
+                                <li><code>force</code>: بازنویسی فایل‌های موجود</li>
+                                <li><code>dry_run</code>: فقط پیش‌نمایش (بدون ایجاد)</li>
+                                <li><code>create_root</code>: ایجاد دایرکتوری ریشه</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">106-112</div>
+                        <div class="line-content">
+                            <div class="line-code">start_time = datetime.now()
+
+                                # Set default output path
+                                if output_path is None:
+                                output_path = Path.cwd() / 'root'
+                                else:
+                                output_path = Path(output_path).resolve()</div>
+                            <p class="line-explanation"><span class="concept-tag">Time Tracking</span>
+                                ثبت زمان شروع برای محاسبه مدت ساخت. اگر مسیر خروجی داده نشده، از <code>./root</code>
+                                استفاده می‌شود. <code>resolve()</code> مسیر را به مطلق تبدیل می‌کند.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">122-137</div>
+                        <div class="line-content">
+                            <div class="line-code">try:
+                                # Create root directory if needed
+                                if create_root and not dry_run:
+                                if not output_path.exists():
+                                output_path.mkdir(parents=True, exist_ok=True)
+                                self._created_paths.append(output_path)
+                                result.operations.append(BuildOperation(...))
+                                result.stats['directories_created'] += 1
+                                elif not output_path.is_dir():
+                                result.success = False
+                                result.errors.append(f"Output path exists but is not a directory: {output_path}")
+                                return result</div>
+                            <p class="line-explanation"><span class="concept-tag">Root Directory</span>
+                                ایجاد دایرکتوری ریشه:
+                            <ol style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li>اگر وجود ندارد → ایجاد با <code>parents=True</code></li>
+                                <li>اگر وجود دارد اما دایرکتوری نیست → خطا</li>
+                                <li>مسیر ایجادشده به لیست rollback اضافه می‌شود</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">139-143</div>
+                        <div class="line-content">
+                            <div class="line-code"># Build structure
+                                if dry_run:
+                                self._preview_build(structure, output_path, result, force)
+                                else:
+                                self._execute_build(structure, output_path, result, force)</div>
+                            <p class="line-explanation"><span class="concept-tag">Strategy Pattern</span>
+                                انتخاب استراتژی بر اساس حالت:
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li><code>dry_run=True</code> → <code>_preview_build</code> (فقط پیش‌نمایش)</li>
+                                <li><code>dry_run=False</code> → <code>_execute_build</code> (ایجاد واقعی)</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">145-151</div>
+                        <div class="line-content">
+                            <div class="line-code">except Exception as e:
+                                result.success = False
+                                result.errors.append(f"Build failed: {str(e)}")
+
+                                # Rollback on failure
+                                if not dry_run and self._created_paths:
+                                self._rollback(result)</div>
+                            <p class="line-explanation"><span class="concept-tag">Error Recovery</span>
+                                در صورت خطا:
+                            <ol style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li><code>success=False</code> تنظیم می‌شود</li>
+                                <li>پیام خطا ثبت می‌شود</li>
+                                <li>اگر فایل‌هایی ایجاد شده باشند، rollback انجام می‌شود</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">153-157</div>
+                        <div class="line-content">
+                            <div class="line-code"># Calculate build time
+                                end_time = datetime.now()
+                                result.stats['build_time_ms'] = int((end_time - start_time).total_seconds() * 1000)
+
+                                return result</div>
+                            <p class="line-explanation">محاسبه زمان ساخت به میلی‌ثانیه و بازگرداندن نتیجه.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Preview Build Method -->
+        <section class="section" id="preview-build">
+            <div class="section-header">
+                <div class="section-icon">👁️</div>
+                <h1 class="section-title">متد _preview_build (خطوط 159-192)</h1>
+            </div>
+            <p>این متد پیش‌نمایش عملیات ساخت را بدون ایجاد واقعی انجام می‌دهد. برای حالت <code>dry_run</code> استفاده
+                می‌شود.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_preview_build()</span>
+                    <span class="code-lines">خطوط 159-192</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">159-165</div>
+                        <div class="line-content">
+                            <div class="line-code">def _preview_build(self, structure: Dict[str, Any], base_path: Path,
+                                result: BuildResult, force: bool,
+                                current_path: str = '') -> None:
+                                """Preview build operations without executing."""
+                                for name, content in structure.items():
+                                full_path = base_path / name
+                                display_path = f"{current_path}/{name}" if current_path else name</div>
+                            <p class="line-explanation"><span class="concept-tag">Method Signature</span>
+                                پارامترها مشابه <code>_execute_build</code> هستند. <code>current_path</code> برای نمایش
+                                مسیر نسبی در خروجی استفاده می‌شود.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">167</div>
+                        <div class="line-content">
+                            <div class="line-code">is_directory = isinstance(content, dict)</div>
+                            <p class="line-explanation"><span class="concept-tag">Type Check</span>
+                                تشخیص نوع آیتم: اگر مقدار <code>dict</code> باشد → دایرکتوری، در غیر این صورت → فایل.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">169-182</div>
+                        <div class="line-content">
+                            <div class="line-code">if full_path.exists():
+                                if force:
+                                operation = 'overwrite'
+                                result.stats['items_overwritten'] += 1
+                                else:
+                                operation = 'skip'
+                                result.stats['items_skipped'] += 1
+                                result.warnings.append(f"Would skip (exists): {display_path}")
+                                else:
+                                operation = 'create_dir' if is_directory else 'create_file'
+                                if is_directory:
+                                result.stats['directories_created'] += 1
+                                else:
+                                result.stats['files_created'] += 1</div>
+                            <p class="line-explanation"><span class="concept-tag">Conflict Resolution</span>
+                                منطق تعیین عملیات:
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li>اگر وجود دارد و <code>force=True</code> → overwrite</li>
+                                <li>اگر وجود دارد و <code>force=False</code> → skip + warning</li>
+                                <li>اگر وجود ندارد → create_dir یا create_file</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">184-192</div>
+                        <div class="line-content">
+                            <div class="line-code">result.operations.append(BuildOperation(
+                                operation=operation,
+                                path=str(full_path),
+                                success=True # In preview mode, all operations "succeed"
+                                ))
+
+                                # Recurse into directories
+                                if is_directory and content:
+                                self._preview_build(content, full_path, result, force, display_path)</div>
+                            <p class="line-explanation"><span class="concept-tag">Recursion</span>
+                                در حالت پیش‌نمایش، همه عملیات‌ها "موفق" هستند. برای دایرکتوری‌های غیرخالی، به صورت
+                                بازگشتی فراخوانی می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Execute Build Method -->
+        <section class="section" id="execute-build">
+            <div class="section-header">
+                <div class="section-icon">⚡</div>
+                <h1 class="section-title">متد _execute_build (خطوط 194-285)</h1>
+            </div>
+            <p>این متد ساخت واقعی را انجام می‌دهد. برای ساختارهای بزرگ از پردازش موازی استفاده می‌کند.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_execute_build() - Signature</span>
+                    <span class="code-lines">خطوط 194-199</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">194-199</div>
+                        <div class="line-content">
+                            <div class="line-code">def _execute_build(self, structure: Dict[str, Any], base_path: Path,
+                                result: BuildResult, force: bool,
+                                current_path: str = '') -> None:
+                                """Execute build operations."""
+                                total_items = self._count_items(structure)
+                                processed = 0</div>
+                            <p class="line-explanation"><span class="concept-tag">Method Signature</span>
+                                شروع با شمارش کل آیتم‌ها برای محاسبه درصد پیشرفت. <code>processed</code> تعداد آیتم‌های
+                                پردازش‌شده را پیگیری می‌کند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">process_item() - Inner Function</span>
+                    <span class="code-lines">خطوط 201-247</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">201-204</div>
+                        <div class="line-content">
+                            <div class="line-code">def process_item(item: Tuple[str, Any, Path, str]) -> BuildOperation:
+                                name, content, parent, display = item
+                                full_path = parent / name
+                                is_directory = isinstance(content, dict)</div>
+                            <p class="line-explanation"><span class="concept-tag">Inner Function</span>
+                                تابع داخلی برای پردازش یک آیتم. از Tuple برای انتقال اطلاعات استفاده می‌شود:
+                                <code>(name, content, parent_path, display_path)</code>.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">206-220</div>
+                        <div class="line-content">
+                            <div class="line-code">try:
+                                # Handle existing paths
+                                if full_path.exists():
+                                if not force:
+                                return BuildOperation(
+                                operation='skip',
+                                path=str(full_path),
+                                success=True
+                                )
+                                else:
+                                # Remove existing for overwrite
+                                if full_path.is_dir():
+                                shutil.rmtree(full_path)
+                                else:
+                                full_path.unlink()</div>
+                            <p class="line-explanation"><span class="concept-tag">Overwrite Logic</span>
+                                منطق مدیریت تداخل:
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li>اگر وجود دارد و <code>force=False</code> → skip</li>
+                                <li>اگر وجود دارد و <code>force=True</code> → حذف و سپس ایجاد مجدد</li>
+                                <li><code>shutil.rmtree()</code> برای دایرکتوری، <code>unlink()</code> برای فایل</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">222-239</div>
+                        <div class="line-content">
+                            <div class="line-code"># Create directory or file
+                                if is_directory:
+                                full_path.mkdir(parents=True, exist_ok=True)
+                                self._created_paths.append(full_path)
+                                return BuildOperation(
+                                operation='create_dir',
+                                path=str(full_path),
+                                success=True
+                                )
+                                else:
+                                full_path.parent.mkdir(parents=True, exist_ok=True)
+                                full_path.touch()
+                                self._created_paths.append(full_path)
+                                return BuildOperation(
+                                operation='create_file',
+                                path=str(full_path),
+                                success=True
+                                )</div>
+                            <p class="line-explanation"><span class="concept-tag">File Creation</span>
+                                <strong>ایجاد آیتم:</strong>
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li>دایرکتوری: <code>mkdir(parents=True)</code> والدین را هم ایجاد می‌کند</li>
+                                <li>فایل: ابتدا والد ایجاد، سپس <code>touch()</code></li>
+                                <li>مسیر به <code>_created_paths</code> برای rollback اضافه می‌شود</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">241-247</div>
+                        <div class="line-content">
+                            <div class="line-code">except Exception as e:
+                                return BuildOperation(
+                                operation='create_dir' if is_directory else 'create_file',
+                                path=str(full_path),
+                                success=False,
+                                error=str(e)
+                                )</div>
+                            <p class="line-explanation"><span class="concept-tag">Error Handling</span>
+                                خطاها catch شده و به صورت BuildOperation با <code>success=False</code> برگردانده
+                                می‌شوند. این باعث می‌شود یک خطا کل عملیات را متوقف نکند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Item Collection & Processing</span>
+                    <span class="code-lines">خطوط 249-285</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">249-251</div>
+                        <div class="line-content">
+                            <div class="line-code"># Collect all items to process
+                                items_to_process = []
+                                self._collect_items(structure, base_path, '', items_to_process)</div>
+                            <p class="line-explanation"><span class="concept-tag">Pre-processing</span>
+                                قبل از پردازش، تمام آیتم‌ها در یک لیست جمع‌آوری می‌شوند. این امکان تصمیم‌گیری درباره
+                                استراتژی پردازش را می‌دهد.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">253-258</div>
+                        <div class="line-content">
+                            <div class="line-code">if len(items_to_process) > 20 and self.max_workers > 1:
+                                # Parallel processing for large structures
+                                # Note: We need to process directories before files
+                                dirs = [(n, c, p, d) for n, c, p, d in items_to_process if isinstance(c, dict)]
+                                files = [(n, c, p, d) for n, c, p, d in items_to_process if not isinstance(c, dict)]
+                            </div>
+                            <p class="line-explanation"><span class="concept-tag">Optimization</span>
+                                اگر بیش از 20 آیتم باشد و چند thread موجود باشد، از پردازش موازی استفاده می‌شود.
+                                دایرکتوری‌ها و فایل‌ها جدا می‌شوند.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">260-266</div>
+                        <div class="line-content">
+                            <div class="line-code"># Create directories first (sequentially to ensure parents exist)
+                                for item in dirs:
+                                op = process_item(item)
+                                self._record_operation(op, result)
+                                processed += 1
+                                if self._progress_callback:
+                                self._progress_callback(processed, total_items, item[0])</div>
+                            <p class="line-explanation"><span class="concept-tag">Sequential Processing</span>
+                                <strong>نکته مهم:</strong> دایرکتوری‌ها به صورت ترتیبی ایجاد می‌شوند تا والدین قبل از
+                                فرزندان ایجاد شوند.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">268-277</div>
+                        <div class="line-content">
+                            <div class="line-code"># Create files in parallel
+                                with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
+                                futures = {executor.submit(process_item, item): item for item in files}
+                                for future in as_completed(futures):
+                                op = future.result()
+                                with self._lock:
+                                self._record_operation(op, result)
+                                processed += 1
+                                if self._progress_callback:
+                                self._progress_callback(processed, total_items, futures[future][0])</div>
+                            <p class="line-explanation"><span class="concept-tag">Parallel Processing</span>
+                                فایل‌ها به صورت موازی ایجاد می‌شوند. <code>with self._lock</code> تضمین می‌کند
+                                به‌روزرسانی result thread-safe است.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">278-285</div>
+                        <div class="line-content">
+                            <div class="line-code">else:
+                                # Sequential processing
+                                for item in items_to_process:
+                                op = process_item(item)
+                                self._record_operation(op, result)
+                                processed += 1
+                                if self._progress_callback:
+                                self._progress_callback(processed, total_items, item[0])</div>
+                            <p class="line-explanation"><span class="concept-tag">Fallback</span>
+                                برای ساختارهای کوچک (کمتر از 20 آیتم) یا وقتی فقط 1 thread موجود است، پردازش ترتیبی
+                                ساده‌تر و سریع‌تر است.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">چرا دایرکتوری‌ها ترتیبی ایجاد می‌شوند؟</div>
+                    <p class="alert-text">اگر دایرکتوری‌ها به صورت موازی ایجاد شوند، ممکن است فرزند قبل از والد ایجاد
+                        شود و خطای "parent directory does not exist" رخ دهد.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Helper Methods -->
+        <section class="section" id="helpers">
+            <div class="section-header">
+                <div class="section-icon">🔧</div>
+                <h1 class="section-title">متدهای کمکی (خطوط 287-323)</h1>
+            </div>
+            <p>این متدها وظایف کمکی مانند جمع‌آوری آیتم‌ها، شمارش، و ثبت عملیات را انجام می‌دهند.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_collect_items()</span>
+                    <span class="code-lines">خطوط 287-296</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">287-296</div>
+                        <div class="line-content">
+                            <div class="line-code">def _collect_items(self, structure: Dict[str, Any], base_path: Path,
+                                current_path: str,
+                                items: List[Tuple[str, Any, Path, str]]) -> None:
+                                """Collect all items to process."""
+                                for name, content in structure.items():
+                                display = f"{current_path}/{name}" if current_path else name
+                                items.append((name, content, base_path, display))
+
+                                if isinstance(content, dict) and content:
+                                self._collect_items(content, base_path / name, display, items)</div>
+                            <p class="line-explanation"><span class="concept-tag">Recursive Collection</span>
+                                جمع‌آوری بازگشتی تمام آیتم‌ها در یک لیست flat. هر آیتم یک tuple است:
+                                <code>(name, content, parent_path, display_path)</code>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_count_items()</span>
+                    <span class="code-lines">خطوط 298-305</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">298-305</div>
+                        <div class="line-content">
+                            <div class="line-code">def _count_items(self, structure: Dict[str, Any]) -> int:
+                                """Count total items in structure."""
+                                count = 0
+                                for name, content in structure.items():
+                                count += 1
+                                if isinstance(content, dict) and content:
+                                count += self._count_items(content)
+                                return count</div>
+                            <p class="line-explanation"><span class="concept-tag">Recursive Count</span>
+                                شمارش بازگشتی کل آیتم‌ها. برای محاسبه درصد پیشرفت استفاده می‌شود. <code>O(n)</code> با n
+                                = تعداد آیتم‌ها.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_record_operation()</span>
+                    <span class="code-lines">خطوط 307-323</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">307-323</div>
+                        <div class="line-content">
+                            <div class="line-code">def _record_operation(self, op: BuildOperation, result: BuildResult)
+                                -> None:
+                                """Record an operation result."""
+                                result.operations.append(op)
+
+                                if not op.success:
+                                result.stats['errors'] += 1
+                                if op.error:
+                                result.errors.append(f"{op.path}: {op.error}")
+                                else:
+                                if op.operation == 'create_dir':
+                                result.stats['directories_created'] += 1
+                                elif op.operation == 'create_file':
+                                result.stats['files_created'] += 1
+                                elif op.operation == 'skip':
+                                result.stats['items_skipped'] += 1
+                                elif op.operation == 'overwrite':
+                                result.stats['items_overwritten'] += 1</div>
+                            <p class="line-explanation"><span class="concept-tag">Statistics Update</span>
+                                ثبت عملیات و به‌روزرسانی آمار. این متد از داخل <code>_execute_build</code> فراخوانی
+                                می‌شود (با lock در حالت موازی).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rollback System -->
+        <section class="section" id="rollback">
+            <div class="section-header">
+                <div class="section-icon">↩️</div>
+                <h1 class="section-title">سیستم Rollback (خطوط 325-337)</h1>
+            </div>
+            <p>در صورت خطا، تمام فایل‌ها و دایرکتوری‌های ایجادشده حذف می‌شوند تا سیستم به حالت قبل برگردد.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_rollback()</span>
+                    <span class="code-lines">خطوط 325-337</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">325-327</div>
+                        <div class="line-content">
+                            <div class="line-code">def _rollback(self, result: BuildResult) -> None:
+                                """Rollback created files/directories on failure."""
+                                self.logger.warn("Rolling back created files...")</div>
+                            <p class="line-explanation">شروع rollback با ثبت هشدار در log.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">329-337</div>
+                        <div class="line-content">
+                            <div class="line-code"># Remove in reverse order (files before directories)
+                                for path in reversed(self._created_paths):
+                                try:
+                                if path.is_file():
+                                path.unlink()
+                                elif path.is_dir():
+                                shutil.rmtree(path)
+                                except Exception as e:
+                                result.warnings.append(f"Rollback failed for {path}: {e}")</div>
+                            <p class="line-explanation"><span class="concept-tag">Memento Pattern</span>
+                                <strong>ترتیب معکوس:</strong> فایل‌ها قبل از دایرکتوری‌ها حذف می‌شوند تا دایرکتوری‌ها
+                                خالی باشند. خطاهای rollback فقط به عنوان warning ثبت می‌شوند و عملیات را متوقف نمی‌کنند.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Relations Section -->
+        <section class="section" id="relations">
+            <div class="section-header">
+                <div class="section-icon">🔗</div>
+                <h1 class="section-title">ارتباط با سایر ماژول‌ها</h1>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ماژول</th>
+                        <th>نوع ارتباط</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Logger</code></td>
+                        <td>وابستگی</td>
+                        <td>ثبت وقایع و هشدارها</td>
+                    </tr>
+                    <tr>
+                        <td><code>Parser</code></td>
+                        <td>ورودی</td>
+                        <td>دیکشنری ساختار از Parser دریافت می‌شود</td>
+                    </tr>
+                    <tr>
+                        <td><code>Validator</code></td>
+                        <td>پیش‌نیاز</td>
+                        <td>ساختار قبل از ساخت باید validate شود</td>
+                    </tr>
+                    <tr>
+                        <td><code>CLI/GUI</code></td>
+                        <td>استفاده‌کننده</td>
+                        <td>رابط‌های کاربری از builder استفاده می‌کنند</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">الگوهای طراحی استفاده‌شده</div>
+                    <p class="alert-text">
+                    <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                        <li><strong>Command Pattern:</strong> هر BuildOperation یک command است</li>
+                        <li><strong>Memento Pattern:</strong> لیست _created_paths برای rollback</li>
+                        <li><strong>Strategy Pattern:</strong> انتخاب بین preview و execute</li>
+                        <li><strong>Singleton:</strong> نمونه سراسری builder</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="pagination">
+            <a href="scanner_py.html">← تحلیل scanner.py</a>
+            <a href="exporter_py.html">تحلیل exporter.py →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+    </footer>
+</body>
+
+</html>

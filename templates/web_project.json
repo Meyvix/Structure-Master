@@ -1,0 +1,52 @@
+{
+  "name": "web_project",
+  "description": "Standard web project structure template",
+  "version": "1.0.0",
+  "structure": {
+    "src": {
+      "assets": {
+        "images": {},
+        "fonts": {},
+        "icons": {}
+      },
+      "components": {
+        "common": {},
+        "layout": {}
+      },
+      "pages": {},
+      "styles": {
+        "base.css": null,
+        "variables.css": null,
+        "components.css": null
+      },
+      "scripts": {
+        "main.js": null,
+        "utils.js": null
+      },
+      "data": {}
+    },
+    "public": {
+      "index.html": null,
+      "favicon.ico": null,
+      "robots.txt": null
+    },
+    "tests": {
+      "unit": {},
+      "e2e": {}
+    },
+    "docs": {
+      "README.md": null
+    },
+    "config": {
+      ".env.example": null
+    },
+    ".gitignore": null,
+    "package.json": null,
+    "README.md": null
+  },
+  "variables": {
+    "project_name": "my-web-project",
+    "author": "",
+    "license": "MIT"
+  }
+}

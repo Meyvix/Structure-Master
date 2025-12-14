@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات جامع StructureMaster - انواع فایل‌ها</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 2;
+            min-height: 100vh;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #065f46 0%, #0d1b2a 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-green);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #000;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 2rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        ul {
+            padding-right: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        tr:hover {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        .file-category {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-icon {
+            font-size: 2rem;
+        }
+
+        .category-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+
+        .extension-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .extension-tag {
+            background: var(--bg-code);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-align: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-yellow);
+            border: 1px solid var(--border-color);
+        }
+
+        .alert {
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-icon {
+            font-size: 1.25rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand"><span>📘</span><span>مستندات StructureMaster</span></div>
+        <div class="nav-links">
+            <a href="../COMPREHENSIVE_DOCS_FA.html">صفحه اصلی</a>
+            <a href="volume1_intro.html">مقدمه</a>
+            <a href="volume1_architecture.html">معماری</a>
+            <a href="volume1_modules.html">ماژول‌ها</a>
+            <a href="volume1_gui.html">رابط کاربری</a>
+            <a href="volume2_code_analysis.html">تحلیل کد</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="badge">جلد اول - بخش ۵</span>
+            <h1>📁 انواع فایل‌های قابل پردازش</h1>
+            <p class="subtitle">لیست کامل فرمت‌ها، نحوه تشخیص، و رفتار سیستم با هر نوع فایل</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Introduction -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h1 class="section-title">نحوه تشخیص نوع فایل</h1>
+            </div>
+
+            <p>
+                StructureMaster با استفاده از سه روش مختلف، نوع فایل‌ها را تشخیص می‌دهد:
+            </p>
+
+            <ol>
+                <li><strong>پسوند فایل (Extension):</strong> ساده‌ترین و سریع‌ترین روش. مثلاً <code>.py</code> برای
+                    پایتون.</li>
+                <li><strong>Magic Bytes:</strong> بررسی بایت‌های اول فایل برای تشخیص فرمت واقعی (مفید برای فایل‌های بدون
+                    پسوند).</li>
+                <li><strong>MIME Type:</strong> استفاده از کتابخانه <code>mimetypes</code> برای تشخیص دقیق‌تر.</li>
+            </ol>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">فایل‌های متنی vs باینری</div>
+                    <p class="alert-text">
+                        سیستم تشخیص می‌دهد آیا فایل متنی است یا باینری. محتوای فایل‌های باینری (مانند تصاویر) استخراج
+                        نمی‌شود اما در ساختار لیست می‌شوند.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Programming Languages -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">💻</div>
+                <h1 class="section-title">زبان‌های برنامه‌نویسی</h1>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">🐍</span>
+                    <span class="category-title">Python</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.py</span>
+                    <span class="extension-tag">.pyw</span>
+                    <span class="extension-tag">.pyx</span>
+                    <span class="extension-tag">.pxd</span>
+                    <span class="extension-tag">.pyi</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">🟨</span>
+                    <span class="category-title">JavaScript / TypeScript</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.js</span>
+                    <span class="extension-tag">.jsx</span>
+                    <span class="extension-tag">.ts</span>
+                    <span class="extension-tag">.tsx</span>
+                    <span class="extension-tag">.mjs</span>
+                    <span class="extension-tag">.cjs</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">☕</span>
+                    <span class="category-title">Java / Kotlin</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.java</span>
+                    <span class="extension-tag">.kt</span>
+                    <span class="extension-tag">.kts</span>
+                    <span class="extension-tag">.jar</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">🔵</span>
+                    <span class="category-title">C / C++ / C#</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.c</span>
+                    <span class="extension-tag">.h</span>
+                    <span class="extension-tag">.cpp</span>
+                    <span class="extension-tag">.hpp</span>
+                    <span class="extension-tag">.cc</span>
+                    <span class="extension-tag">.cs</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">🦀</span>
+                    <span class="category-title">Rust / Go</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.rs</span>
+                    <span class="extension-tag">.go</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">🐘</span>
+                    <span class="category-title">PHP</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.php</span>
+                    <span class="extension-tag">.phtml</span>
+                    <span class="extension-tag">.php5</span>
+                    <span class="extension-tag">.php7</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">💎</span>
+                    <span class="category-title">Ruby</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.rb</span>
+                    <span class="extension-tag">.erb</span>
+                    <span class="extension-tag">.rake</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Web Technologies -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🌐</div>
+                <h1 class="section-title">فناوری‌های وب</h1>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">📄</span>
+                    <span class="category-title">HTML / Templates</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.html</span>
+                    <span class="extension-tag">.htm</span>
+                    <span class="extension-tag">.xhtml</span>
+                    <span class="extension-tag">.vue</span>
+                    <span class="extension-tag">.svelte</span>
+                    <span class="extension-tag">.blade.php</span>
+                    <span class="extension-tag">.ejs</span>
+                    <span class="extension-tag">.jinja</span>
+                    <span class="extension-tag">.twig</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">🎨</span>
+                    <span class="category-title">استایل‌ها (CSS)</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.css</span>
+                    <span class="extension-tag">.scss</span>
+                    <span class="extension-tag">.sass</span>
+                    <span class="extension-tag">.less</span>
+                    <span class="extension-tag">.styl</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Formats -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h1 class="section-title">فرمت‌های داده</h1>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">📋</span>
+                    <span class="category-title">JSON / YAML / XML</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.json</span>
+                    <span class="extension-tag">.yaml</span>
+                    <span class="extension-tag">.yml</span>
+                    <span class="extension-tag">.xml</span>
+                    <span class="extension-tag">.toml</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">📝</span>
+                    <span class="category-title">Markdown / Documentation</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.md</span>
+                    <span class="extension-tag">.mdx</span>
+                    <span class="extension-tag">.rst</span>
+                    <span class="extension-tag">.txt</span>
+                    <span class="extension-tag">.rtf</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configuration Files -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h1 class="section-title">فایل‌های پیکربندی</h1>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>فایل</th>
+                        <th>پروژه/ابزار</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>package.json</code></td>
+                        <td>Node.js</td>
+                        <td>تنظیمات پروژه و وابستگی‌ها</td>
+                    </tr>
+                    <tr>
+                        <td><code>requirements.txt</code></td>
+                        <td>Python</td>
+                        <td>لیست پکیج‌های مورد نیاز</td>
+                    </tr>
+                    <tr>
+                        <td><code>setup.py</code></td>
+                        <td>Python</td>
+                        <td>تنظیمات نصب پکیج</td>
+                    </tr>
+                    <tr>
+                        <td><code>pyproject.toml</code></td>
+                        <td>Python</td>
+                        <td>تنظیمات مدرن پایتون</td>
+                    </tr>
+                    <tr>
+                        <td><code>composer.json</code></td>
+                        <td>PHP</td>
+                        <td>تنظیمات Composer</td>
+                    </tr>
+                    <tr>
+                        <td><code>Cargo.toml</code></td>
+                        <td>Rust</td>
+                        <td>تنظیمات Cargo</td>
+                    </tr>
+                    <tr>
+                        <td><code>go.mod</code></td>
+                        <td>Go</td>
+                        <td>ماژول‌های Go</td>
+                    </tr>
+                    <tr>
+                        <td><code>Dockerfile</code></td>
+                        <td>Docker</td>
+                        <td>تعریف image</td>
+                    </tr>
+                    <tr>
+                        <td><code>.env</code></td>
+                        <td>عمومی</td>
+                        <td>متغیرهای محیطی</td>
+                    </tr>
+                    <tr>
+                        <td><code>.gitignore</code></td>
+                        <td>Git</td>
+                        <td>الگوهای نادیده‌گیری</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Binary Files -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🔒</div>
+                <h1 class="section-title">فایل‌های باینری (غیرقابل استخراج محتوا)</h1>
+            </div>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">فایل‌های باینری</div>
+                    <p class="alert-text">
+                        محتوای این فایل‌ها استخراج نمی‌شود، اما در ساختار پروژه لیست می‌شوند و متادیتای آنها (اندازه،
+                        تاریخ) ذخیره می‌شود.
+                    </p>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">🖼️</span>
+                    <span class="category-title">تصاویر</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.png</span>
+                    <span class="extension-tag">.jpg</span>
+                    <span class="extension-tag">.jpeg</span>
+                    <span class="extension-tag">.gif</span>
+                    <span class="extension-tag">.svg</span>
+                    <span class="extension-tag">.webp</span>
+                    <span class="extension-tag">.ico</span>
+                    <span class="extension-tag">.bmp</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">🎵</span>
+                    <span class="category-title">صوت و ویدیو</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.mp3</span>
+                    <span class="extension-tag">.mp4</span>
+                    <span class="extension-tag">.wav</span>
+                    <span class="extension-tag">.avi</span>
+                    <span class="extension-tag">.mkv</span>
+                    <span class="extension-tag">.webm</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">📦</span>
+                    <span class="category-title">آرشیو و فشرده</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.zip</span>
+                    <span class="extension-tag">.tar</span>
+                    <span class="extension-tag">.gz</span>
+                    <span class="extension-tag">.rar</span>
+                    <span class="extension-tag">.7z</span>
+                </div>
+            </div>
+
+            <div class="file-category">
+                <div class="category-header">
+                    <span class="category-icon">⚙️</span>
+                    <span class="category-title">اجرایی و کتابخانه</span>
+                </div>
+                <div class="extension-grid">
+                    <span class="extension-tag">.exe</span>
+                    <span class="extension-tag">.dll</span>
+                    <span class="extension-tag">.so</span>
+                    <span class="extension-tag">.dylib</span>
+                    <span class="extension-tag">.pyc</span>
+                    <span class="extension-tag">.pyo</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="volume1_gui.html">← رابط کاربری</a>
+            <a href="volume2_code_analysis.html">تحلیل کد →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+    </footer>
+</body>
+
+</html>

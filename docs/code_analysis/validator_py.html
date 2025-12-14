@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل کد validator.py - مستندات StructureMaster</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 2;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            padding: 3rem 2rem;
+            border-bottom: 3px solid var(--accent-yellow);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-yellow);
+            color: #000;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .hero-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-yellow);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-green));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 1.5rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: var(--bg-code);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+
+        .code-lines {
+            font-size: 0.8rem;
+            color: #6e7681;
+        }
+
+        .code-content {
+            padding: 1rem;
+        }
+
+        .line-analysis {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .line-analysis:last-child {
+            border-bottom: none;
+        }
+
+        .line-num {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-align: center;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .line-content {
+            padding: 0.75rem 1rem;
+        }
+
+        .line-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            direction: ltr;
+            text-align: left;
+            background: var(--bg-code);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .line-explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-icon {
+            font-size: 1.1rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: #6e7681;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <a href="../COMPREHENSIVE_DOCS_FA.html" class="nav-brand">📘 مستندات StructureMaster</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">جلد دوم - تحلیل کد</span>
+            <h1>✅ تحلیل ماژول Validator</h1>
+            <div class="hero-path">src/modules/validator.py</div>
+            <p class="hero-desc">ماژول Validator ساختار پروژه را از نظر صحت و سازگاری بررسی می‌کند: نام‌های معتبر،
+                مسیرهای مجاز، و سازگاری با سیستم‌عامل.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value">379</div>
+                    <div class="stat-label">خط کد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">کلاس</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">متد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">Win/Unix</div>
+                    <div class="stat-label">سازگاری</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Overview -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h1 class="section-title">نمای کلی</h1>
+            </div>
+            <p>ماژول <code>validator.py</code> ساختارهای پروژه را قبل از ایجاد بررسی می‌کند. این کار از بروز خطا در زمان
+                ساخت جلوگیری می‌کند.</p>
+            <h2>موارد بررسی‌شده</h2>
+            <ul style="padding-right: 2rem; color: var(--text-secondary);">
+                <li>نام‌های فایل/پوشه معتبر (بدون کاراکترهای غیرمجاز)</li>
+                <li>نام‌های رزرو شده ویندوز (CON, PRN, AUX, ...)</li>
+                <li>حداکثر طول مسیر (260 کاراکتر در ویندوز)</li>
+                <li>حداکثر عمق تودرتو (50 سطح)</li>
+                <li>مسیرهای تکراری</li>
+                <li>تداخل با فایل‌های موجود</li>
+            </ul>
+        </section>
+
+        <!-- ValidationLevel -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🏷️</div>
+                <h1 class="section-title">کلاس ValidationLevel (خطوط 16-21)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">class ValidationLevel(Enum)</span>
+                    <span class="code-lines">خطوط 16-21</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">16-21</div>
+                        <div class="line-content">
+                            <div class="line-code">class ValidationLevel(Enum):
+                                INFO = auto() # اطلاعات (مثل فایل مخفی)
+                                WARNING = auto() # هشدار (مثل فاصله انتهایی)
+                                ERROR = auto() # خطا (مثل کاراکتر غیرمجاز)
+                                CRITICAL = auto() # بحرانی (مثل عمق بیش از حد)</div>
+                            <p class="line-explanation"><span class="concept-tag">Severity Levels</span>
+                                سطوح مختلف شدت برای گزارش‌دهی. فقط ERROR و CRITICAL باعث is_valid=False می‌شوند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reserved Names -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🚫</div>
+                <h1 class="section-title">نام‌های رزرو شده ویندوز (خطوط 89-93)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">WINDOWS_RESERVED_NAMES</span>
+                    <span class="code-lines">خطوط 89-93</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">89-93</div>
+                        <div class="line-content">
+                            <div class="line-code">WINDOWS_RESERVED_NAMES = {
+                                'CON', 'PRN', 'AUX', 'NUL',
+                                'COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7', 'COM8', 'COM9',
+                                'LPT1', 'LPT2', 'LPT3', 'LPT4', 'LPT5', 'LPT6', 'LPT7', 'LPT8', 'LPT9',
+                                }</div>
+                            <p class="line-explanation"><span class="concept-tag">Windows Legacy</span>
+                                این نام‌ها از دوران DOS باقی مانده و نمی‌توان فایلی با این نام‌ها ساخت:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><strong>CON:</strong> Console (صفحه‌کلید/نمایشگر)</li>
+                                <li><strong>PRN:</strong> Printer</li>
+                                <li><strong>COM1-9:</strong> Serial ports</li>
+                                <li><strong>LPT1-9:</strong> Parallel ports</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">چرا این نام‌ها مشکل‌ساز هستند؟</div>
+                    <p class="alert-text">حتی با پسوند هم نمی‌توان فایل ساخت! مثلاً <code>con.txt</code> هم در ویندوز
+                        خطا می‌دهد.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Validate Name -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h1 class="section-title">متد _validate_name (خطوط 211-288)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_validate_name()</span>
+                    <span class="code-lines">خطوط 234-254</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">234-243</div>
+                        <div class="line-content">
+                            <div class="line-code"># Check for invalid characters
+                                invalid_chars = self.WINDOWS_INVALID_CHARS if self.is_windows else
+                                self.UNIX_INVALID_CHARS
+                                found_invalid = [c for c in name if c in invalid_chars]
+                                if found_invalid:
+                                result.add_issue(
+                                ValidationLevel.ERROR,
+                                f"Invalid characters: {found_invalid}",
+                                path=path,
+                                suggestion=f"Remove characters: {', '.join(repr(c) for c in found_invalid)}"
+                                )</div>
+                            <p class="line-explanation"><span class="concept-tag">OS-Specific</span>
+                                <strong>کاراکترهای غیرمجاز:</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><strong>Windows:</strong> <code>&lt;&gt;:"|?*\x00</code></li>
+                                <li><strong>Unix:</strong> <code>/\x00</code> (فقط slash و null)</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Check Output Conflicts -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">⚔️</div>
+                <h1 class="section-title">بررسی تداخل (خطوط 311-343)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_check_output_conflicts()</span>
+                    <span class="code-lines">خطوط 311-343</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">324-331</div>
+                        <div class="line-content">
+                            <div class="line-code">if is_dir != target_is_dir:
+                                result.add_issue(
+                                ValidationLevel.ERROR,
+                                f"Type conflict: expecting {'directory' if is_dir else 'file'}, "
+                                f"found {'directory' if target_is_dir else 'file'}",
+                                path=str(target),
+                                suggestion="Use --force to overwrite or choose different output"
+                                )</div>
+                            <p class="line-explanation"><span class="concept-tag">Type Conflict</span>
+                                اگر در ساختار یک فایل تعریف شده ولی در مقصد یک دایرکتوری با همان نام وجود داشته باشد (یا
+                                برعکس)، خطا گزارش می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Notes -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h1 class="section-title">نکات پایانی</h1>
+            </div>
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">نقاط قوت</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>Cross-Platform:</strong> بررسی‌های مختلف برای Windows و Unix</li>
+                        <li><strong>پیشنهاد رفع:</strong> هر خطا با suggestion همراه است</li>
+                        <li><strong>سطح‌بندی:</strong> تفکیک INFO/WARNING/ERROR/CRITICAL</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="pagination">
+            <a href="parser_py.html">← تحلیل parser.py</a>
+            <a href="security_py.html">تحلیل security.py →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+    </footer>
+</body>
+
+</html>

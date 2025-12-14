@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل کد parser.py - مستندات StructureMaster</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 2;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            padding: 3rem 2rem;
+            border-bottom: 3px solid var(--accent-red);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-red);
+            color: #fff;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .hero-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-red);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .toc-grid a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .toc-grid a:hover {
+            background: var(--bg-secondary);
+            color: var(--accent-blue);
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 1.5rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: var(--bg-code);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+
+        .code-lines {
+            font-size: 0.8rem;
+            color: #6e7681;
+        }
+
+        .code-content {
+            padding: 1rem;
+        }
+
+        .line-analysis {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .line-analysis:last-child {
+            border-bottom: none;
+        }
+
+        .line-num {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-align: center;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .line-content {
+            padding: 0.75rem 1rem;
+        }
+
+        .line-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            direction: ltr;
+            text-align: left;
+            background: var(--bg-code);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .line-explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-icon {
+            font-size: 1.1rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .format-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .format-card .name {
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .format-card .example {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-green);
+            background: var(--bg-code);
+            padding: 0.5rem;
+            border-radius: 4px;
+            direction: ltr;
+            text-align: left;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: #6e7681;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <a href="../COMPREHENSIVE_DOCS_FA.html" class="nav-brand"><span>📘</span><span>مستندات
+                StructureMaster</span></a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">جلد دوم - تحلیل کد</span>
+            <h1>🔍 تحلیل ماژول Parser</h1>
+            <div class="hero-path">src/modules/parser.py</div>
+            <p class="hero-desc">ماژول Parser ورودی‌های متنی را به ساختار دیکشنری تبدیل می‌کند. پشتیبانی از JSON، Tree و
+                Plain Text.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value">460</div>
+                    <div class="stat-label">خط کد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">کلاس</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">17</div>
+                    <div class="stat-label">متد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">فرمت ورودی</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="toc">
+            <div class="toc-title">📑 فهرست بخش‌ها</div>
+            <div class="toc-grid">
+                <a href="#overview">نمای کلی</a>
+                <a href="#formats">فرمت‌های ورودی</a>
+                <a href="#inputformat">کلاس InputFormat</a>
+                <a href="#parseresult">کلاس ParseResult</a>
+                <a href="#structureparser">کلاس StructureParser</a>
+                <a href="#parse-tree">پارس فرمت Tree</a>
+                <a href="#converters">متدهای تبدیل</a>
+                <a href="#final-notes">نکات پایانی</a>
+            </div>
+        </div>
+
+        <!-- Overview -->
+        <section class="section" id="overview">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h1 class="section-title">نمای کلی فایل</h1>
+            </div>
+            <p>فایل <code>parser.py</code> مسئول تبدیل ورودی‌های مختلف (JSON، متن درختی، لیست مسیرها) به یک ساختار
+                دیکشنری یکنواخت است. این ماژول <strong>عکس Exporter</strong> عمل می‌کند.</p>
+            <h2>جریان کلی</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>مرحله</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>۱</td>
+                        <td>دریافت ورودی (رشته، فایل، یا دیکشنری)</td>
+                    </tr>
+                    <tr>
+                        <td>۲</td>
+                        <td>تشخیص خودکار فرمت</td>
+                    </tr>
+                    <tr>
+                        <td>۳</td>
+                        <td>پارس با متد مناسب</td>
+                    </tr>
+                    <tr>
+                        <td>۴</td>
+                        <td>بازگرداندن ParseResult با ساختار دیکشنری</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Supported Formats -->
+        <section class="section" id="formats">
+            <div class="section-header">
+                <div class="section-icon">📁</div>
+                <h1 class="section-title">فرمت‌های ورودی پشتیبانی‌شده</h1>
+            </div>
+            <div class="format-grid">
+                <div class="format-card">
+                    <div class="name">JSON Nested</div>
+                    <div class="example">{"src": {"main.py": null}}</div>
+                </div>
+                <div class="format-card">
+                    <div class="name">JSON Flat</div>
+                    <div class="example">["src/main.py", "src/utils/helper.py"]</div>
+                </div>
+                <div class="format-card">
+                    <div class="name">Tree Format</div>
+                    <div class="example">├── src/
+                        │ └── main.py</div>
+                </div>
+                <div class="format-card">
+                    <div class="name">Plain Text</div>
+                    <div class="example">src/main.py
+                        src/utils/helper.py</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- InputFormat Enum -->
+        <section class="section" id="inputformat">
+            <div class="section-header">
+                <div class="section-icon">🏷️</div>
+                <h1 class="section-title">کلاس InputFormat (خطوط 20-26)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">class InputFormat(Enum)</span>
+                    <span class="code-lines">خطوط 20-26</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">20-26</div>
+                        <div class="line-content">
+                            <div class="line-code">class InputFormat(Enum):
+                                JSON_NESTED = auto() # {"src": {"main.py": null}}
+                                JSON_FLAT = auto() # ["src/main.py", ...]
+                                TREE = auto() # Tree-like with ├── └── etc.
+                                PLAIN = auto() # One path per line
+                                UNKNOWN = auto()</div>
+                            <p class="line-explanation"><span class="concept-tag">Enum</span>
+                                استفاده از <code>auto()</code> برای تولید خودکار مقادیر عددی. این باعث می‌شود نیازی به
+                                تعیین دستی مقادیر نباشد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Parse Tree -->
+        <section class="section" id="parse-tree">
+            <div class="section-header">
+                <div class="section-icon">🌳</div>
+                <h1 class="section-title">پارس فرمت Tree (خطوط 211-277)</h1>
+            </div>
+            <p>این متد پیچیده‌ترین بخش Parser است و متن درختی ASCII را به دیکشنری تبدیل می‌کند.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_parse_tree()</span>
+                    <span class="code-lines">خطوط 211-277</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">218-219</div>
+                        <div class="line-content">
+                            <div class="line-code"># Stack to track current path: [(indent_level, dict_ref)]
+                                stack: List[Tuple[int, Dict[str, Any]]] = [(-1, structure)]</div>
+                            <p class="line-explanation"><span class="concept-tag">Stack Algorithm</span>
+                                استفاده از stack برای ردیابی سطح تورفتگی فعلی. هر عنصر شامل (سطح تورفتگی، reference به
+                                دیکشنری والد) است.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">229-234</div>
+                        <div class="line-content">
+                            <div class="line-code"># Pattern to extract name from tree line
+                                match = re.match(r'^([\s│|]*)([​s├└─|+`\-]*)(.*)$', line)
+                                if not match:
+                                continue
+
+                                prefix, tree_part, name = match.groups()
+                                name = name.strip()</div>
+                            <p class="line-explanation"><span class="concept-tag">Regex</span>
+                                این regex خط را به سه بخش تقسیم می‌کند:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><strong>prefix:</strong> فاصله‌ها و کاراکتر │</li>
+                                <li><strong>tree_part:</strong> کاراکترهای درختی (├└─|+`-)</li>
+                                <li><strong>name:</strong> نام فایل/پوشه</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">257-268</div>
+                        <div class="line-content">
+                            <div class="line-code"># Find correct parent level
+                                while len(stack) > 1 and stack[-1][0] >= indent:
+                                stack.pop()
+
+                                parent = stack[-1][1]
+
+                                # Add to structure
+                                if is_dir or self._looks_like_directory(name):
+                                parent[name] = {}
+                                stack.append((indent, parent[name]))
+                                else:
+                                parent[name] = None</div>
+                            <p class="line-explanation"><span class="concept-tag">Stack Pop</span>
+                                <strong>الگوریتم:</strong>
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>pop کردن تا رسیدن به سطح والد مناسب</li>
+                                <li>اگر دایرکتوری است، دیکشنری جدید و push به stack</li>
+                                <li>اگر فایل است، مقدار None</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">چرا از Stack استفاده می‌کنیم؟</div>
+                    <p class="alert-text">ساختار درختی به صورت طبیعی با stack مدل می‌شود. وقتی به یک سطح بالاتر
+                        برمی‌گردیم، pop می‌کنیم. وقتی به سطح پایین‌تر می‌رویم، push می‌کنیم.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Format Detection -->
+        <section class="section" id="detection">
+            <div class="section-header">
+                <div class="section-icon">🔎</div>
+                <h1 class="section-title">تشخیص خودکار فرمت (خطوط 162-183)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_detect_format()</span>
+                    <span class="code-lines">خطوط 162-183</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">162-183</div>
+                        <div class="line-content">
+                            <div class="line-code">def _detect_format(self, content: str) -> InputFormat:
+                                content = content.strip()
+
+                                # Check for JSON
+                                if content.startswith('{') or content.startswith('['):
+                                try:
+                                data = json.loads(content)
+                                if isinstance(data, list):
+                                return InputFormat.JSON_FLAT
+                                elif isinstance(data, dict):
+                                return InputFormat.JSON_NESTED
+                                except json.JSONDecodeError:
+                                pass
+
+                                # Check for tree format
+                                first_lines = content[:500]
+                                if any(c in first_lines for c in self.TREE_CHARS):
+                                return InputFormat.TREE
+
+                                # Default to plain text
+                                return InputFormat.PLAIN</div>
+                            <p class="line-explanation"><strong>منطق تشخیص:</strong>
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>شروع با <code>{</code> یا <code>[</code> → تلاش برای parse JSON</li>
+                                <li>وجود کاراکترهای <code>├└│─</code> → فرمت Tree</li>
+                                <li>در غیر این صورت → Plain Text</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Converters -->
+        <section class="section" id="converters">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h1 class="section-title">متدهای تبدیل (خطوط 414-455)</h1>
+            </div>
+            <p>Parser علاوه بر پارس، می‌تواند خروجی هم تولید کند:</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">to_tree_string() & to_path_list()</span>
+                    <span class="code-lines">خطوط 414-455</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">414-435</div>
+                        <div class="line-content">
+                            <div class="line-code">def to_tree_string(self, structure: Dict[str, Any],
+                                prefix: str = '', show_files: bool = True) -> str:
+                                """Convert structure to tree-like string representation."""
+                                # Recursive tree building with ├── and └── connectors</div>
+                            <p class="line-explanation">تبدیل دیکشنری به متن درختی ASCII (عکس _parse_tree).</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">441-455</div>
+                        <div class="line-content">
+                            <div class="line-code">def to_path_list(self, structure: Dict[str, Any],
+                                prefix: str = '') -> List[str]:
+                                """Convert structure to list of paths."""
+                                # Returns: ["src/", "src/main.py", "src/utils/", ...]</div>
+                            <p class="line-explanation">تبدیل دیکشنری به لیست مسیرها. مفید برای export به فرمت
+                                JSON_FLAT.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Notes -->
+        <section class="section" id="final-notes">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h1 class="section-title">نکات پایانی</h1>
+            </div>
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">نقاط قوت</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>تشخیص خودکار:</strong> نیازی به مشخص کردن فرمت نیست</li>
+                        <li><strong>انعطاف‌پذیری:</strong> پشتیبانی از چندین فرمت</li>
+                        <li><strong>Clipboard:</strong> امکان پارس مستقیم از کلیپ‌بورد</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">الگوهای طراحی</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>Strategy:</strong> متدهای مختلف برای هر فرمت</li>
+                        <li><strong>Chain of Responsibility:</strong> متد _parse_auto</li>
+                        <li><strong>Factory:</strong> تولید ParseResult با ساختار یکسان</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="pagination">
+            <a href="content_extractor_py.html">← تحلیل content_extractor.py</a>
+            <a href="validator_py.html">تحلیل validator.py →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+    </footer>
+</body>
+
+</html>

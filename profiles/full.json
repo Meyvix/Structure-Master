@@ -1,0 +1,21 @@
+{
+  "name": "full",
+  "description": "Full extraction with all content and metadata",
+  "created": "2025-12-14T15:53:35.233747",
+  "modified": "2025-12-14T15:53:35.234191",
+  "recursive": true,
+  "include_hidden": true,
+  "follow_symlinks": false,
+  "auto_detect_project": true,
+  "ignore_patterns": [],
+  "extract_content": true,
+  "include_binary_metadata": true,
+  "max_file_size_mb": 100.0,
+  "export_format": "json",
+  "pretty_output": true,
+  "compress_output": false,
+  "encrypt_output": false,
+  "force_overwrite": false,
+  "dry_run": false,
+  "log_level": "debug"
+}

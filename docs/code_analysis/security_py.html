@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل کد security.py - مستندات StructureMaster</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 2;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #2d1b4e 0%, #0d1b2a 100%);
+            padding: 3rem 2rem;
+            border-bottom: 3px solid var(--accent-red);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-red);
+            color: #fff;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .hero-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-red);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-purple));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 1.5rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: var(--bg-code);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+
+        .code-lines {
+            font-size: 0.8rem;
+            color: #6e7681;
+        }
+
+        .code-content {
+            padding: 1rem;
+        }
+
+        .line-analysis {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .line-analysis:last-child {
+            border-bottom: none;
+        }
+
+        .line-num {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-align: center;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .line-content {
+            padding: 0.75rem 1rem;
+        }
+
+        .line-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            direction: ltr;
+            text-align: left;
+            background: var(--bg-code);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .line-explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-icon {
+            font-size: 1.1rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: #6e7681;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <a href="../COMPREHENSIVE_DOCS_FA.html" class="nav-brand">📘 مستندات StructureMaster</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">جلد دوم - تحلیل کد</span>
+            <h1>🔐 تحلیل ماژول Security</h1>
+            <div class="hero-path">src/modules/security.py</div>
+            <p class="hero-desc">ماژول امنیتی: رمزنگاری AES-256، تشخیص داده‌های حساس، و اعتبارسنجی فایل‌ها.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value">391</div>
+                    <div class="stat-label">خط کد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">AES-256</div>
+                    <div class="stat-label">رمزنگاری</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">10</div>
+                    <div class="stat-label">الگوی حساس</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">PBKDF2</div>
+                    <div class="stat-label">Key Derivation</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Overview -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h1 class="section-title">نمای کلی</h1>
+            </div>
+            <p>ماژول <code>security.py</code> مسئول تمام عملیات امنیتی پروژه است: رمزنگاری/رمزگشایی، تشخیص داده‌های
+                حساس، و تأیید صحت فایل‌ها.</p>
+            <h2>قابلیت‌های کلیدی</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>قابلیت</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>رمزنگاری AES-256-CBC</td>
+                        <td>رمزنگاری قوی با salt و IV تصادفی</td>
+                    </tr>
+                    <tr>
+                        <td>PBKDF2</td>
+                        <td>استخراج کلید امن از رمز عبور (100,000 تکرار)</td>
+                    </tr>
+                    <tr>
+                        <td>HMAC-SHA256</td>
+                        <td>تأیید صحت داده‌های رمزشده</td>
+                    </tr>
+                    <tr>
+                        <td>اسکن حساسیت</td>
+                        <td>تشخیص API key، password، token و ...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Encryption Constants -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h1 class="section-title">تنظیمات رمزنگاری (خطوط 58-64)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Encryption Settings</span>
+                    <span class="code-lines">خطوط 58-64</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">58-64</div>
+                        <div class="line-content">
+                            <div class="line-code">SALT_SIZE = 16 # 128 bits - برای PBKDF2
+                                IV_SIZE = 16 # 128 bits - برای CBC mode
+                                KEY_SIZE = 32 # 256 bits - کلید AES
+                                ITERATIONS = 100000 # تعداد تکرار PBKDF2
+                                BLOCK_SIZE = 16 # 128 bits - اندازه بلاک AES</div>
+                            <p class="line-explanation"><span class="concept-tag">Cryptographic Constants</span>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><strong>Salt:</strong> مقدار تصادفی برای جلوگیری از rainbow table attacks</li>
+                                <li><strong>IV:</strong> مقدار اولیه برای CBC mode</li>
+                                <li><strong>Iterations:</strong> تعداد دور PBKDF2 (بالاتر = امن‌تر ولی کندتر)</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sensitive Patterns -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h1 class="section-title">الگوهای داده حساس (خطوط 66-77)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">SENSITIVE_PATTERNS</span>
+                    <span class="code-lines">خطوط 66-77</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">66-77</div>
+                        <div class="line-content">
+                            <div class="line-code">SENSITIVE_PATTERNS = {
+                                'api_key': r'(?i)(api[_-]?key|apikey)\s*[:=]\s*["\']?([a-zA-Z0-9_\-]{20,})["\']?',
+                                'password': r'(?i)(password|passwd|pwd)\s*[:=]\s*["\']?([^\s"\'']{4,})["\']?',
+                                'aws_key': r'(?i)aws[_-]?access[_-]?key[_-]?id\s*[:=]\s*["\']?([A-Z0-9]{20})["\']?',
+                                'private_key_header': r'-----BEGIN\s+(RSA\s+)?PRIVATE\s+KEY-----',
+                                'jwt_token': r'eyJ[a-zA-Z0-9_\-]*\.eyJ[a-zA-Z0-9_\-]*\.[a-zA-Z0-9_\-]*',
+                                ...
+                                }</div>
+                            <p class="line-explanation"><span class="concept-tag">Regex Patterns</span>
+                                الگوهای regex برای تشخیص داده‌های حساس:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>(?i)</code> - Case-insensitive</li>
+                                <li>تشخیص API keys، passwords، tokens، AWS credentials</li>
+                                <li>تشخیص private key headers</li>
+                                <li>تشخیص JWT tokens (ساختار eyJ...)</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Encrypt Method -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🔒</div>
+                <h1 class="section-title">متد encrypt (خطوط 102-150)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">encrypt()</span>
+                    <span class="code-lines">خطوط 122-150</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">122-134</div>
+                        <div class="line-content">
+                            <div class="line-code"># Generate salt and IV
+                                salt = secrets.token_bytes(self.SALT_SIZE)
+                                iv = secrets.token_bytes(self.IV_SIZE)
+
+                                # Derive key from password using PBKDF2
+                                kdf = PBKDF2HMAC(
+                                algorithm=hashes.SHA256(),
+                                length=self.KEY_SIZE,
+                                salt=salt,
+                                iterations=self.ITERATIONS,
+                                backend=default_backend()
+                                )
+                                key = kdf.derive(password.encode())</div>
+                            <p class="line-explanation"><span class="concept-tag">Key Derivation</span>
+                                <strong>فرآیند:</strong>
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>تولید salt و IV تصادفی با <code>secrets</code></li>
+                                <li>استخراج کلید 256-bit از رمز عبور با PBKDF2</li>
+                                <li>100,000 تکرار برای کندتر کردن brute-force</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">145-150</div>
+                        <div class="line-content">
+                            <div class="line-code"># Prepend salt and IV
+                                result = salt + iv + encrypted
+
+                                # Add HMAC for integrity
+                                h = hmac.new(key, result, hashlib.sha256)
+                                return result + h.digest()</div>
+                            <p class="line-explanation"><span class="concept-tag">Integrity Check</span>
+                                <strong>ساختار خروجی:</strong> <code>[Salt 16B][IV 16B][Ciphertext][HMAC 32B]</code>
+                                HMAC تضمین می‌کند که داده دستکاری نشده.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">نکته امنیتی</div>
+                    <p class="alert-text">همیشه از رمز عبور قوی استفاده کنید. حداقل 12 کاراکتر شامل حروف، اعداد و
+                        نمادها.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mask Sensitive -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">👁️</div>
+                <h1 class="section-title">پوشاندن داده‌های حساس (خطوط 345-357)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_mask_sensitive()</span>
+                    <span class="code-lines">خطوط 345-357</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">345-357</div>
+                        <div class="line-content">
+                            <div class="line-code">def _mask_sensitive(self, text: str) -> str:
+                                if ':' in text or '=' in text:
+                                sep_idx = max(text.find(':'), text.find('='))
+                                prefix = text[:sep_idx + 1]
+                                value = text[sep_idx + 1:].strip().strip('"\'')
+                                if len(value) > 4:
+                                masked = value[:2] + '*' * (len(value) - 4) + value[-2:]
+                                else:
+                                masked = '*' * len(value)
+                                return f"{prefix} {masked}"</div>
+                            <p class="line-explanation"><span class="concept-tag">Data Masking</span>
+                                مثال: <code>api_key = sk-abc123xyz789</code> تبدیل به
+                                <code>api_key: sk*********89</code>
+                                دو کاراکتر اول و آخر نمایش داده می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Notes -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h1 class="section-title">نکات پایانی</h1>
+            </div>
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">نقاط قوت</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>استانداردهای صنعتی:</strong> AES-256, PBKDF2, HMAC-SHA256</li>
+                        <li><strong>Lazy Import:</strong> کتابخانه cryptography فقط در صورت نیاز لود می‌شود</li>
+                        <li><strong>تشخیص جامع:</strong> 10+ الگوی داده حساس</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="pagination">
+            <a href="validator_py.html">← تحلیل validator.py</a>
+            <a href="logger_py.html">تحلیل logger.py →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+    </footer>
+</body>
+
+</html>

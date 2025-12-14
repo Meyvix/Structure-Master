@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل کد content_extractor.py - مستندات StructureMaster</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-orange: #db6d28;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 2;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            padding: 3rem 2rem;
+            border-bottom: 3px solid var(--accent-orange);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-orange);
+            color: #fff;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .hero-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .toc-grid a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .toc-grid a:hover {
+            background: var(--bg-secondary);
+            color: var(--accent-blue);
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-yellow));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 1.5rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: var(--bg-code);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+
+        .code-lines {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .code-content {
+            padding: 1rem;
+        }
+
+        .line-analysis {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .line-analysis:last-child {
+            border-bottom: none;
+        }
+
+        .line-num {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-align: center;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .line-content {
+            padding: 0.75rem 1rem;
+        }
+
+        .line-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            direction: ltr;
+            text-align: left;
+            background: var(--bg-code);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .line-explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-icon {
+            font-size: 1.1rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <a href="../COMPREHENSIVE_DOCS_FA.html" class="nav-brand"><span>📘</span><span>مستندات
+                StructureMaster</span></a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">جلد دوم - تحلیل کد</span>
+            <h1>📑 تحلیل ماژول Content Extractor</h1>
+            <div class="hero-path">src/modules/content_extractor.py</div>
+            <p class="hero-desc">این ماژول محتوای فایل‌ها را همراه با متادیتای کامل استخراج می‌کند: encoding، hash، MIME
+                type و موارد دیگر.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value">460</div>
+                    <div class="stat-label">خط کد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">کلاس</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">14</div>
+                    <div class="stat-label">متد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">chardet</div>
+                    <div class="stat-label">کتابخانه خارجی</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="toc">
+            <div class="toc-title">📑 فهرست بخش‌ها</div>
+            <div class="toc-grid">
+                <a href="#overview">نمای کلی</a>
+                <a href="#filecontent">کلاس FileContent</a>
+                <a href="#extractionresult">کلاس ExtractionResult</a>
+                <a href="#extractor">کلاس ContentExtractor</a>
+                <a href="#extract-single">متد extract_single</a>
+                <a href="#binary-detection">تشخیص فایل باینری</a>
+                <a href="#encoding">تشخیص Encoding</a>
+                <a href="#hashing">محاسبه Hash</a>
+                <a href="#final-notes">نکات پایانی</a>
+            </div>
+        </div>
+
+        <!-- Overview -->
+        <section class="section" id="overview">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h1 class="section-title">نمای کلی فایل</h1>
+            </div>
+            <p>فایل <code>content_extractor.py</code> مسئول استخراج محتوای فایل‌ها همراه با متادیتای کامل است. این ماژول
+                تکمیل‌کننده Scanner است: Scanner فقط ساختار را می‌خواند، اما ContentExtractor محتوای واقعی فایل‌ها را
+                استخراج می‌کند.</p>
+            <h2>ویژگی‌های کلیدی</h2>
+            <ul style="padding-right: 2rem; color: var(--text-secondary);">
+                <li><strong>تشخیص خودکار Encoding:</strong> با استفاده از کتابخانه chardet</li>
+                <li><strong>تشخیص فایل باینری:</strong> بررسی هم پسوند و هم محتوا</li>
+                <li><strong>محاسبه Hash:</strong> SHA-256 برای هر فایل</li>
+                <li><strong>پردازش موازی:</strong> ThreadPoolExecutor برای سرعت</li>
+                <li><strong>حد اندازه:</strong> امکان تنظیم حداکثر اندازه فایل</li>
+            </ul>
+        </section>
+
+        <!-- FileContent Class -->
+        <section class="section" id="filecontent">
+            <div class="section-header">
+                <div class="section-icon">📄</div>
+                <h1 class="section-title">کلاس FileContent (خطوط 28-95)</h1>
+            </div>
+            <p>این Data Class تمام اطلاعات یک فایل استخراج‌شده را نگه می‌دارد.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">@dataclass FileContent</span>
+                    <span class="code-lines">خطوط 28-64</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">28-45</div>
+                        <div class="line-content">
+                            <div class="line-code">@dataclass
+                                class FileContent:
+                                path: str # مسیر کامل
+                                relative_path: str # مسیر نسبی
+                                filename: str # نام فایل
+                                extension: str # پسوند
+                                size: int # اندازه (بایت)
+                                mime_type: str # نوع MIME
+                                sha256_hash: str # هش SHA-256
+                                permissions: str # مجوزها (rwxr-xr--)
+                                created_date: Optional[datetime] # تاریخ ایجاد
+                                modified_date: Optional[datetime]# تاریخ تغییر
+                                encoding: str # کدگذاری (utf-8, etc)
+                                is_binary: bool # آیا باینری است؟
+                                content: Optional[str] # محتوا (None برای باینری)
+                                line_count: int = 0 # تعداد خطوط
+                                error: Optional[str] = None # خطا (در صورت وجود)</div>
+                            <p class="line-explanation"><span class="concept-tag">Data Class</span>
+                                این کلاس <strong>16 فیلد</strong> دارد که تمام متادیتای ممکن یک فایل را پوشش می‌دهد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">to_formatted_string()</span>
+                    <span class="code-lines">خطوط 66-95</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">66-95</div>
+                        <div class="line-content">
+                            <div class="line-code">def to_formatted_string(self) -> str:
+                                """Format as the specified output template."""
+                                header =
+                                f"""================================================================================
+                                FILE: {self.filename}
+                                PATH: {self.path}
+                                TYPE: {self.extension.upper() if self.extension else 'UNKNOWN'}
+                                SIZE: {size_str}
+                                MIME: {self.mime_type}
+                                SHA256: {hash_str}
+                                PERMISSIONS: {self.permissions}
+                                CREATED: {created}
+                                MODIFIED: {modified}
+                                ================================================================================
+                                """</div>
+                            <p class="line-explanation"><span class="concept-tag">Template</span>
+                                این متد یک قالب متنی زیبا برای نمایش اطلاعات فایل تولید می‌کند. استفاده در خروجی TXT.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Extract Single -->
+        <section class="section" id="extract-single">
+            <div class="section-header">
+                <div class="section-icon">🔍</div>
+                <h1 class="section-title">متد extract_single (خطوط 180-290)</h1>
+            </div>
+            <p>این متد قلب عملیات استخراج است و تمام اطلاعات یک فایل را جمع‌آوری می‌کند.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">extract_single()</span>
+                    <span class="code-lines">خطوط 180-290</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">246-256</div>
+                        <div class="line-content">
+                            <div class="line-code"># Get MIME type
+                                mime_type, _ = mimetypes.guess_type(str(filepath))
+                                if not mime_type:
+                                mime_type = Config.get_mime_type(str(filepath))
+
+                                # Check if binary
+                                is_binary = self._is_binary(filepath)
+
+                                # Calculate hash
+                                sha256_hash = self._calculate_hash(filepath)</div>
+                            <p class="line-explanation"><strong>ترتیب عملیات:</strong>
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>دریافت MIME type (اول از mimetypes، سپس از Config)</li>
+                                <li>بررسی باینری بودن</li>
+                                <li>محاسبه SHA-256 hash</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">263-272</div>
+                        <div class="line-content">
+                            <div class="line-code">if not is_binary and size <= self.max_file_size: try: content,
+                                    encoding=self._read_file_content(filepath) line_count=content.count('\n') + 1 if
+                                    content else 0 except Exception as e: error=f"Error reading content: {e}" elif
+                                    is_binary: encoding='binary' elif size> self.max_file_size:
+                                    error = f"File too large ({size:,} bytes > {self.max_file_size:,} bytes limit)"
+                            </div>
+                            <p class="line-explanation"><span class="concept-tag">Conditional Extraction</span>
+                                محتوا فقط در صورتی استخراج می‌شود که:
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>فایل <strong>باینری نباشد</strong></li>
+                                <li>اندازه فایل از حد مجاز <strong>کمتر باشد</strong></li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Binary Detection -->
+        <section class="section" id="binary-detection">
+            <div class="section-header">
+                <div class="section-icon">🔢</div>
+                <h1 class="section-title">تشخیص فایل باینری (خطوط 385-402)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_is_binary()</span>
+                    <span class="code-lines">خطوط 385-402</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">385-402</div>
+                        <div class="line-content">
+                            <div class="line-code">def _is_binary(self, filepath: Path) -> bool:
+                                # First check by extension
+                                if Config.is_binary_file(str(filepath)):
+                                return True
+
+                                # Then check content
+                                try:
+                                with open(filepath, 'rb') as f:
+                                chunk = f.read(8192)
+                                if b'\x00' in chunk:
+                                return True
+                                # High ratio of non-printable characters
+                                text_chars = bytearray({7,8,9,10,12,13,27} | set(range(0x20, 0x100)))
+                                non_text = sum(1 for byte in chunk if byte not in text_chars)
+                                return len(chunk) > 0 and (non_text / len(chunk)) > 0.30
+                                except Exception:
+                                return True</div>
+                            <p class="line-explanation"><span class="concept-tag">Heuristic Detection</span>
+                                <strong>الگوریتم دو مرحله‌ای:</strong>
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><strong>بررسی پسوند:</strong> اگر پسوند در لیست باینری باشد → باینری</li>
+                                <li><strong>بررسی محتوا:</strong>
+                                    <ul>
+                                        <li>اگر <code>NULL byte (\x00)</code> وجود داشته باشد → باینری</li>
+                                        <li>اگر بیش از 30% کاراکترها غیرقابل‌چاپ باشند → باینری</li>
+                                    </ul>
+                                </li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">چرا فقط 8KB می‌خوانیم؟</div>
+                    <p class="alert-text">خواندن کل فایل برای تشخیص باینری کند است. 8KB اول معمولاً کافی است چون header
+                        فایل‌های باینری در همان ابتدا مشخص است.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Encoding Detection -->
+        <section class="section" id="encoding">
+            <div class="section-header">
+                <div class="section-icon">🔤</div>
+                <h1 class="section-title">تشخیص Encoding (خطوط 415-436)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_read_file_content()</span>
+                    <span class="code-lines">خطوط 415-436</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">415-436</div>
+                        <div class="line-content">
+                            <div class="line-code">def _read_file_content(self, filepath: Path) -> Tuple[str, str]:
+                                # Detect encoding
+                                try:
+                                with open(filepath, 'rb') as f:
+                                raw = f.read(10000)
+                                result = chardet.detect(raw)
+                                encoding = result.get('encoding', 'utf-8') or 'utf-8'
+                                except Exception:
+                                encoding = 'utf-8'
+
+                                # Read content
+                                try:
+                                with open(filepath, 'r', encoding=encoding, errors='replace') as f:
+                                content = f.read()
+                                return content, encoding
+                                except Exception:
+                                # Fallback to binary read
+                                with open(filepath, 'rb') as f:
+                                raw = f.read()
+                                content = raw.decode(encoding, errors='replace')
+                                return content, encoding</div>
+                            <p class="line-explanation"><span class="concept-tag">chardet</span>
+                                <strong>فرآیند تشخیص encoding:</strong>
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>خواندن 10KB اول به صورت باینری</li>
+                                <li>تشخیص encoding با <code>chardet.detect()</code></li>
+                                <li>خواندن فایل با encoding تشخیص‌داده‌شده</li>
+                                <li>در صورت خطا، fallback به read باینری با errors='replace'</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hashing -->
+        <section class="section" id="hashing">
+            <div class="section-header">
+                <div class="section-icon">#️⃣</div>
+                <h1 class="section-title">محاسبه Hash (خطوط 404-413)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_calculate_hash()</span>
+                    <span class="code-lines">خطوط 404-413</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">404-413</div>
+                        <div class="line-content">
+                            <div class="line-code">def _calculate_hash(self, filepath: Path) -> str:
+                                sha256 = hashlib.sha256()
+                                try:
+                                with open(filepath, 'rb') as f:
+                                for chunk in iter(lambda: f.read(8192), b''):
+                                sha256.update(chunk)
+                                return sha256.hexdigest()
+                                except Exception:
+                                return ''</div>
+                            <p class="line-explanation"><span class="concept-tag">Chunked Hashing</span>
+                                <strong>نکات مهم:</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>iter(lambda: f.read(8192), b'')</code>: خواندن chunk به chunk تا پایان فایل
+                                </li>
+                                <li><code>update()</code>: به‌روزرسانی تدریجی hash (memory-efficient)</li>
+                                <li>خروجی: 64 کاراکتر hex (256 بیت)</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">چرا SHA-256؟</div>
+                    <p class="alert-text">SHA-256 یک الگوریتم hash امن است که برای تشخیص تغییرات فایل و یکتایی استفاده
+                        می‌شود. برخلاف MD5، هنوز شکسته نشده است.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Notes -->
+        <section class="section" id="final-notes">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h1 class="section-title">نکات پایانی</h1>
+            </div>
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">نقاط قوت</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>تشخیص هوشمند:</strong> ترکیب پسوند و محتوا برای تشخیص باینری</li>
+                        <li><strong>مقاومت در برابر خطا:</strong> fallback در همه مراحل</li>
+                        <li><strong>بهینه‌سازی حافظه:</strong> خواندن chunk به chunk</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">الگوهای طراحی</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>Template Method:</strong> extract با گزینه‌های مختلف</li>
+                        <li><strong>Strategy:</strong> sequential vs parallel extraction</li>
+                        <li><strong>Null Object:</strong> برگرداندن FileContent با error به جای exception</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="pagination">
+            <a href="exporter_py.html">← تحلیل exporter.py</a>
+            <a href="parser_py.html">تحلیل parser.py →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+    </footer>
+</body>
+
+</html>

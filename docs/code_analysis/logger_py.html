@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل کد logger.py - مستندات StructureMaster</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 2;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+        }
+
+        .nav-brand {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a3a2e 0%, #0d1b2a 100%);
+            padding: 3rem 2rem;
+            border-bottom: 3px solid var(--accent-green);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-green);
+            color: #000;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .hero-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-green);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 1.5rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: var(--bg-code);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .code-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+
+        .code-lines {
+            font-size: 0.8rem;
+            color: #6e7681;
+        }
+
+        .code-content {
+            padding: 1rem;
+        }
+
+        .line-analysis {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .line-analysis:last-child {
+            border-bottom: none;
+        }
+
+        .line-num {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-align: center;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .line-content {
+            padding: 0.75rem 1rem;
+        }
+
+        .line-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            direction: ltr;
+            text-align: left;
+            background: var(--bg-code);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .line-explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-icon {
+            font-size: 1.1rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .level-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .level-card {
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .level-card.trace {
+            background: rgba(136, 136, 136, 0.2);
+            border: 1px solid #888;
+        }
+
+        .level-card.debug {
+            background: rgba(0, 188, 212, 0.2);
+            border: 1px solid #00bcd4;
+        }
+
+        .level-card.info {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid #4caf50;
+        }
+
+        .level-card.warn {
+            background: rgba(255, 152, 0, 0.2);
+            border: 1px solid #ff9800;
+        }
+
+        .level-card.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid #f44336;
+        }
+
+        .level-card.critical {
+            background: rgba(156, 39, 176, 0.2);
+            border: 1px solid #9c27b0;
+        }
+
+        .level-card .name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .level-card .value {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: #6e7681;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <a href="../COMPREHENSIVE_DOCS_FA.html" class="nav-brand">📘 مستندات StructureMaster</a>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">جلد دوم - تحلیل کد</span>
+            <h1>📋 تحلیل ماژول Logger</h1>
+            <div class="hero-path">src/modules/logger.py</div>
+            <p class="hero-desc">سیستم لاگ‌گیری پیشرفته با پشتیبانی از سطوح مختلف، خروجی رنگی، و export به
+                TXT/JSON/HTML.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value">504</div>
+                    <div class="stat-label">خط کد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">سطح لاگ</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">فرمت خروجی</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">Singleton</div>
+                    <div class="stat-label">الگوی طراحی</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Overview -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h1 class="section-title">نمای کلی</h1>
+            </div>
+            <p>ماژول <code>logger.py</code> یک سیستم لاگ‌گیری کامل است که بر پایه <code>logging</code> استاندارد پایتون
+                ساخته شده و قابلیت‌های اضافی دارد.</p>
+            <h2>سطوح لاگ</h2>
+            <div class="level-grid">
+                <div class="level-card trace">
+                    <div class="name">TRACE</div>
+                    <div class="value">5</div>
+                </div>
+                <div class="level-card debug">
+                    <div class="name">DEBUG</div>
+                    <div class="value">10</div>
+                </div>
+                <div class="level-card info">
+                    <div class="name">INFO</div>
+                    <div class="value">20</div>
+                </div>
+                <div class="level-card warn">
+                    <div class="name">WARN</div>
+                    <div class="value">30</div>
+                </div>
+                <div class="level-card error">
+                    <div class="name">ERROR</div>
+                    <div class="value">40</div>
+                </div>
+                <div class="level-card critical">
+                    <div class="name">CRITICAL</div>
+                    <div class="value">50</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Singleton Pattern -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🔒</div>
+                <h1 class="section-title">الگوی Singleton (خطوط 128-134)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">__new__()</span>
+                    <span class="code-lines">خطوط 128-134</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">128-134</div>
+                        <div class="line-content">
+                            <div class="line-code">def __new__(cls, *args, **kwargs):
+                                """Singleton pattern."""
+                                if cls._instance is None:
+                                with cls._lock:
+                                if cls._instance is None:
+                                cls._instance = super().__new__(cls)
+                                return cls._instance</div>
+                            <p class="line-explanation"><span class="concept-tag">Double-Checked Locking</span>
+                                <strong>پیاده‌سازی Singleton thread-safe:</strong>
+                            <ol style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li>بررسی اولیه بدون lock (سریع)</li>
+                                <li>گرفتن lock فقط در صورت نیاز</li>
+                                <li>بررسی مجدد داخل lock (ایمن)</li>
+                            </ol>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ColorFormatter -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🎨</div>
+                <h1 class="section-title">خروجی رنگی (خطوط 81-116)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">ColorFormatter</span>
+                    <span class="code-lines">خطوط 84-93</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">84-93</div>
+                        <div class="line-content">
+                            <div class="line-code">COLORS = {
+                                'TRACE': '\033[90m', # Gray
+                                'DEBUG': '\033[36m', # Cyan
+                                'INFO': '\033[32m', # Green
+                                'WARN': '\033[33m', # Yellow
+                                'ERROR': '\033[31m', # Red
+                                'CRITICAL': '\033[35m', # Magenta
+                                'RESET': '\033[0m', # Reset
+                                }</div>
+                            <p class="line-explanation"><span class="concept-tag">ANSI Escape Codes</span>
+                                کدهای ANSI برای رنگ‌آمیزی خروجی ترمینال. در ویندوز از <code>colorama</code> استفاده
+                                می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- In-Memory Storage -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">💾</div>
+                <h1 class="section-title">ذخیره‌سازی در حافظه (خطوط 166-167)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">In-Memory Log Storage</span>
+                    <span class="code-lines">خطوط 166-167</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">166-167</div>
+                        <div class="line-content">
+                            <div class="line-code"># In-memory log storage
+                                self._entries: deque = deque(maxlen=max_entries)</div>
+                            <p class="line-explanation"><span class="concept-tag">deque</span>
+                                استفاده از <code>deque</code> با <code>maxlen</code> برای محدود کردن تعداد لاگ‌ها در
+                                حافظه. وقتی پر شود، قدیمی‌ترین‌ها حذف می‌شوند (FIFO).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export Methods -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📤</div>
+                <h1 class="section-title">متدهای Export (خطوط 303-486)</h1>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>متد</th>
+                        <th>فرمت</th>
+                        <th>ویژگی‌ها</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>export_txt()</code></td>
+                        <td>TXT</td>
+                        <td>ساده و قابل خواندن</td>
+                    </tr>
+                    <tr>
+                        <td><code>export_json()</code></td>
+                        <td>JSON</td>
+                        <td>ساختاریافته و قابل پارس</td>
+                    </tr>
+                    <tr>
+                        <td><code>export_html()</code></td>
+                        <td>HTML</td>
+                        <td>رنگی با فیلتر JavaScript</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">خروجی HTML تعاملی</div>
+                    <p class="alert-text">خروجی HTML شامل فیلتر بر اساس سطح و جستجوی متن با JavaScript است.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Notes -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h1 class="section-title">نکات پایانی</h1>
+            </div>
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">نقاط قوت</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>Thread-Safe:</strong> استفاده از lock برای دسترسی همزمان</li>
+                        <li><strong>Flexible:</strong> خروجی به console، file، و حافظه</li>
+                        <li><strong>Exportable:</strong> سه فرمت خروجی مختلف</li>
+                        <li><strong>Filterable:</strong> فیلتر بر اساس سطح و زمان</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <div class="pagination">
+            <a href="security_py.html">← تحلیل security.py</a>
+            <a href="../volumes/volume2_code_analysis.html">بازگشت به فهرست →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+    </footer>
+</body>
+
+</html>

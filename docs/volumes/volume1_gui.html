@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات جامع StructureMaster - رابط کاربری و CLI</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-orange: #db6d28;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', -apple-system, sans-serif;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 2;
+            min-height: 100vh;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #4c1d95 0%, #0d1b2a 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-orange);
+            position: relative;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: var(--accent-orange);
+            color: #000;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-purple));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 2rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin: 1.25rem 0 0.5rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            padding-right: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .alert {
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .alert-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        tr:hover {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        .tab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tab-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .tab-card:hover {
+            border-color: var(--accent-orange);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(219, 109, 40, 0.15);
+        }
+
+        .tab-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .tab-file {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .tab-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .cli-command {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .cli-name {
+            color: var(--accent-green);
+            font-weight: 700;
+            min-width: 100px;
+        }
+
+        .cli-desc {
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .mermaid {
+            background: var(--bg-code);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .toc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent-blue);
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand"><span>📘</span><span>مستندات StructureMaster</span></div>
+        <div class="nav-links">
+            <a href="../COMPREHENSIVE_DOCS_FA.html">صفحه اصلی</a>
+            <a href="volume1_intro.html">مقدمه</a>
+            <a href="volume1_architecture.html">معماری</a>
+            <a href="volume1_modules.html">ماژول‌ها</a>
+            <a href="volume1_gui.html" class="active">رابط کاربری</a>
+            <a href="volume2_code_analysis.html">تحلیل کد</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="badge">جلد اول - بخش ۴</span>
+            <h1>🖥️ رابط کاربری گرافیکی و خط فرمان</h1>
+            <p class="subtitle">GUI با PyQt6 | CLI با Click و Rich | Web API با FastAPI</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <div class="toc-title">📑 فهرست مطالب</div>
+            <ul class="toc-list">
+                <li><a href="#gui-overview">نمای کلی GUI</a></li>
+                <li><a href="#gui-components">کامپوننت‌های GUI</a></li>
+                <li><a href="#gui-tabs">تب‌های برنامه</a></li>
+                <li><a href="#cli">رابط خط فرمان (CLI)</a></li>
+                <li><a href="#web-api">رابط وب (Web API)</a></li>
+                <li><a href="#cloud">سرویس‌های ابری</a></li>
+            </ul>
+        </div>
+
+        <!-- GUI Overview -->
+        <section class="section" id="gui-overview">
+            <div class="section-header">
+                <div class="section-icon">🖥️</div>
+                <h1 class="section-title">رابط کاربری گرافیکی (GUI)</h1>
+            </div>
+
+            <p>
+                رابط گرافیکی StructureMaster با استفاده از کتابخانه <strong>PyQt6</strong> توسعه یافته است. PyQt6 یک
+                binding پایتون برای فریم‌ورک Qt است که امکان ساخت رابط‌های کاربری غنی، پاسخگو و cross-platform را فراهم
+                می‌کند.
+            </p>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">🎨</span>
+                <div class="alert-content">
+                    <div class="alert-title">تم تاریک (Dark Theme)</div>
+                    <p class="alert-text">
+                        رابط کاربری با تم تاریک طراحی شده که خستگی چشم را کاهش داده و تجربه کاربری مدرنی ارائه می‌دهد.
+                        استایل‌ها در فایل <code>styles.py</code> تعریف شده‌اند.
+                    </p>
+                </div>
+            </div>
+
+            <h2>ساختار فایل‌های GUI</h2>
+            <pre><code>src/gui/
+├── __init__.py          # نقطه ورود پکیج
+├── main_window.py       # پنجره اصلی و مدیریت تب‌ها
+├── styles.py            # تعریف تم و استایل‌های CSS
+├── components.py        # ویجت‌های سفارشی
+└── tabs/                # تب‌های برنامه
+    ├── __init__.py
+    ├── structure_builder_tab.py
+    ├── structure_extractor_tab.py
+    ├── content_extractor_tab.py
+    ├── settings_tab.py
+    ├── analytics_tab.py
+    └── search_tab.py</code></pre>
+
+            <h2>نمودار سلسله‌مراتب ویجت‌ها</h2>
+            <div class="mermaid">
+                graph TD
+                MW["MainWindow (QMainWindow)"] --> TB["QTabWidget"]
+                TB --> T1["Structure Builder Tab"]
+                TB --> T2["Structure Extractor Tab"]
+                TB --> T3["Content Extractor Tab"]
+                TB --> T4["Settings Tab"]
+                TB --> T5["Analytics Tab"]
+                TB --> T6["Search Tab"]
+
+                MW --> SB["QStatusBar"]
+                MW --> MB["QMenuBar"]
+
+                T1 --> BTN1["QPushButton: Build"]
+                T1 --> TREE1["QTreeWidget"]
+                T2 --> BTN2["QPushButton: Scan"]
+                T2 --> TREE2["QTreeWidget"]
+            </div>
+        </section>
+
+        <!-- GUI Components -->
+        <section class="section" id="gui-components">
+            <div class="section-header">
+                <div class="section-icon">🧩</div>
+                <h1 class="section-title">کامپوننت‌های سفارشی</h1>
+            </div>
+
+            <p>
+                فایل <code>components.py</code> شامل ویجت‌های سفارشی است که در سراسر برنامه استفاده می‌شوند.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>کامپوننت</th>
+                        <th>کلاس پایه</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>StyledCard</strong></td>
+                        <td>QFrame</td>
+                        <td>کادر استایل‌دار با سایه و گوشه‌های گرد</td>
+                    </tr>
+                    <tr>
+                        <td><strong>FileTreeWidget</strong></td>
+                        <td>QTreeWidget</td>
+                        <td>نمایش درختی فایل‌ها با آیکون‌های رنگی</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LogViewer</strong></td>
+                        <td>QTextEdit</td>
+                        <td>نمایش لاگ‌ها با رنگ‌بندی بر اساس سطح</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ProgressCard</strong></td>
+                        <td>QWidget</td>
+                        <td>نمایش پیشرفت عملیات با درصد</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IconButton</strong></td>
+                        <td>QPushButton</td>
+                        <td>دکمه با آیکون و tooltip</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>نمونه کد: ایجاد کارت استایل‌دار</h2>
+            <pre><code class="language-python">from src.gui.components import StyledCard
+
+# ایجاد یک کارت با عنوان و محتوا
+card = StyledCard(
+    title="آمار پروژه",
+    icon="📊"
+)
+
+# افزودن محتوا به کارت
+card.add_row("تعداد فایل‌ها:", "125")
+card.add_row("حجم کل:", "2.5 MB")
+card.add_row("تاریخ اسکن:", "1403/09/15")</code></pre>
+        </section>
+
+        <!-- GUI Tabs -->
+        <section class="section" id="gui-tabs">
+            <div class="section-header">
+                <div class="section-icon">📑</div>
+                <h1 class="section-title">تب‌های برنامه</h1>
+            </div>
+
+            <p>برنامه از شش تب اصلی تشکیل شده که هر کدام عملکرد مشخصی دارند:</p>
+
+            <div class="tab-grid">
+                <div class="tab-card">
+                    <div class="tab-icon">🏗️</div>
+                    <div class="tab-name">Structure Builder</div>
+                    <div class="tab-file">structure_builder_tab.py</div>
+                    <p class="tab-desc">ساخت ساختار فیزیکی پروژه از روی فایل JSON یا متن درختی. امکان پیش‌نمایش قبل از
+                        ساخت.</p>
+                </div>
+
+                <div class="tab-card">
+                    <div class="tab-icon">🔍</div>
+                    <div class="tab-name">Structure Extractor</div>
+                    <div class="tab-file">structure_extractor_tab.py</div>
+                    <p class="tab-desc">اسکن پروژه موجود و استخراج ساختار. نمایش درختی و امکان صدور در فرمت‌های مختلف.
+                    </p>
+                </div>
+
+                <div class="tab-card">
+                    <div class="tab-icon">📄</div>
+                    <div class="tab-name">Content Extractor</div>
+                    <div class="tab-file">content_extractor_tab.py</div>
+                    <p class="tab-desc">استخراج محتوای فایل‌های متنی همراه با متادیتا. امکان رمزنگاری خروجی.</p>
+                </div>
+
+                <div class="tab-card">
+                    <div class="tab-icon">⚙️</div>
+                    <div class="tab-name">Settings</div>
+                    <div class="tab-file">settings_tab.py</div>
+                    <p class="tab-desc">تنظیمات برنامه، مدیریت پروفایل‌ها، و تغییر تم رابط کاربری.</p>
+                </div>
+
+                <div class="tab-card">
+                    <div class="tab-icon">📊</div>
+                    <div class="tab-name">Analytics</div>
+                    <div class="tab-file">analytics_tab.py</div>
+                    <p class="tab-desc">داشبورد تحلیلی با نمودارها، آمار فایل‌ها، و متریک‌های کد.</p>
+                </div>
+
+                <div class="tab-card">
+                    <div class="tab-icon">🔎</div>
+                    <div class="tab-name">Search</div>
+                    <div class="tab-file">search_tab.py</div>
+                    <p class="tab-desc">جستجوی پیشرفته در فایل‌ها با پشتیبانی از Regex و فیلترهای متنوع.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLI Section -->
+        <section class="section" id="cli">
+            <div class="section-header">
+                <div class="section-icon">💻</div>
+                <h1 class="section-title">رابط خط فرمان (CLI)</h1>
+            </div>
+
+            <p>
+                رابط خط فرمان با استفاده از کتابخانه‌های <strong>Click</strong> (برای مدیریت دستورات) و
+                <strong>Rich</strong> (برای خروجی زیبا) پیاده‌سازی شده است.
+            </p>
+
+            <h2>دستورات موجود</h2>
+
+            <div class="cli-command">
+                <span class="cli-name">scan</span>
+                <span class="cli-desc">اسکن یک پروژه و استخراج ساختار آن</span>
+            </div>
+
+            <div class="cli-command">
+                <span class="cli-name">build</span>
+                <span class="cli-desc">ساخت ساختار فیزیکی از روی فایل تعریف</span>
+            </div>
+
+            <div class="cli-command">
+                <span class="cli-name">extract</span>
+                <span class="cli-desc">استخراج محتوای فایل‌ها با متادیتا</span>
+            </div>
+
+            <div class="cli-command">
+                <span class="cli-name">compare</span>
+                <span class="cli-desc">مقایسه ساختار دو پروژه</span>
+            </div>
+
+            <div class="cli-command">
+                <span class="cli-name">search</span>
+                <span class="cli-desc">جستجو در محتوای فایل‌ها</span>
+            </div>
+
+            <div class="cli-command">
+                <span class="cli-name">analyze</span>
+                <span class="cli-desc">تحلیل متریک‌های کد</span>
+            </div>
+
+            <h2>نمون‌ه‌های استفاده</h2>
+            <pre><code class="language-bash"># اسکن پروژه با خروجی JSON
+structuremaster scan ./my-project --output=structure.json --format=json
+
+# ساخت پروژه از روی فایل JSON
+structuremaster build structure.json --output=./new-project
+
+# استخراج محتوا با رمزنگاری
+structuremaster extract ./project --content --encrypt --password="MyPass123"
+
+# مقایسه دو نسخه از پروژه
+structuremaster compare ./v1 ./v2 --output=diff.md
+
+# جستجوی Regex
+structuremaster search ./project --regex="TODO|FIXME" --include="*.py"</code></pre>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">نکته امنیتی</div>
+                    <p class="alert-text">
+                        هنگام استفاده از پارامتر <code>--password</code> در خط فرمان، پسورد در history ترمینال ذخیره
+                        می‌شود. برای امنیت بیشتر، از پارامتر <code>--password-file</code> استفاده کنید.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Web API -->
+        <section class="section" id="web-api">
+            <div class="section-header">
+                <div class="section-icon">🌐</div>
+                <h1 class="section-title">رابط وب (Web API)</h1>
+            </div>
+
+            <p>
+                Web API با استفاده از <strong>FastAPI</strong> پیاده‌سازی شده و یک REST API کامل برای تعامل با سیستم
+                فراهم می‌کند.
+            </p>
+
+            <h2>Endpoints اصلی</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>متد</th>
+                        <th>مسیر</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>GET</code></td>
+                        <td><code>/api/health</code></td>
+                        <td>بررسی سلامت سرویس</td>
+                    </tr>
+                    <tr>
+                        <td><code>POST</code></td>
+                        <td><code>/api/scan</code></td>
+                        <td>اسکن پروژه</td>
+                    </tr>
+                    <tr>
+                        <td><code>POST</code></td>
+                        <td><code>/api/build</code></td>
+                        <td>ساخت ساختار</td>
+                    </tr>
+                    <tr>
+                        <td><code>POST</code></td>
+                        <td><code>/api/extract</code></td>
+                        <td>استخراج محتوا</td>
+                    </tr>
+                    <tr>
+                        <td><code>GET</code></td>
+                        <td><code>/api/projects</code></td>
+                        <td>لیست پروژه‌های اخیر</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>راه‌اندازی سرور</h2>
+            <pre><code class="language-bash"># راه‌اندازی در حالت توسعه
+python -m src.web.app
+
+# سرور در http://localhost:5000 در دسترس است
+# مستندات Swagger: http://localhost:5000/docs</code></pre>
+        </section>
+
+        <!-- Cloud Services -->
+        <section class="section" id="cloud">
+            <div class="section-header">
+                <div class="section-icon">☁️</div>
+                <h1 class="section-title">سرویس‌های ابری</h1>
+            </div>
+
+            <p>
+                ماژول‌های ابری امکان یکپارچگی با سرویس‌های مختلف را فراهم می‌کنند.
+            </p>
+
+            <h2>Git Integration</h2>
+            <p><code>src/cloud/git_integration.py</code></p>
+            <ul>
+                <li>بررسی وضعیت گیت (status)</li>
+                <li>کامیت خودکار</li>
+                <li>مشاهده تاریخچه تغییرات</li>
+                <li>مدیریت branch‌ها</li>
+            </ul>
+
+            <h2>GitHub Sync</h2>
+            <p><code>src/cloud/github_sync.py</code></p>
+            <ul>
+                <li>ایجاد repository جدید</li>
+                <li>همگام‌سازی با remote</li>
+                <li>مدیریت Issues</li>
+                <li>دریافت اطلاعات repository</li>
+            </ul>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="volume1_modules.html">← ماژول‌های هسته</a>
+            <a href="volume1_file_types.html">انواع فایل‌ها →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+        <p>تهیه شده با ❤️ توسط سیستم هوشمند Antigravity</p>
+    </footer>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</body>
+
+</html>

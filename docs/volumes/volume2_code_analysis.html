@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات جامع StructureMaster - تحلیل کد</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 2;
+            min-height: 100vh;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #4c1d95 0%, #1e1b4b 50%, #0d1b2a 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-purple);
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: var(--accent-purple);
+            color: #fff;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 2rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .file-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .file-card:hover {
+            border-color: var(--accent-purple);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(163, 113, 247, 0.15);
+        }
+
+        .file-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+        }
+
+        .file-name {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .file-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .file-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .file-stats {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .stat {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .stat strong {
+            color: var(--accent-yellow);
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .badge-core {
+            background: rgba(88, 166, 255, 0.2);
+            color: var(--accent-blue);
+        }
+
+        .badge-gui {
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+        }
+
+        .badge-cli {
+            background: rgba(63, 185, 80, 0.2);
+            color: var(--accent-green);
+        }
+
+        .badge-cloud {
+            background: rgba(210, 153, 34, 0.2);
+            color: var(--accent-yellow);
+        }
+
+        .alert {
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-icon {
+            font-size: 1.25rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand"><span>📘</span><span>مستندات StructureMaster</span></div>
+        <div class="nav-links">
+            <a href="../COMPREHENSIVE_DOCS_FA.html">صفحه اصلی</a>
+            <a href="volume1_intro.html">مقدمه</a>
+            <a href="volume1_architecture.html">معماری</a>
+            <a href="volume1_modules.html">ماژول‌ها</a>
+            <a href="volume1_gui.html">رابط کاربری</a>
+            <a href="volume2_code_analysis.html" class="active">تحلیل کد</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="badge">جلد دوم</span>
+            <h1>🔬 آناتومی کدها - تحلیل خط‌به‌خط</h1>
+            <p class="subtitle">بررسی تفصیلی و حرفه‌ای تمام فایل‌های کد پروژه با توضیح هر خط</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Introduction -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📖</div>
+                <h1 class="section-title">درباره این بخش</h1>
+            </div>
+
+            <p>
+                در این جلد، تمام فایل‌های کد پروژه به صورت خط‌به‌خط تحلیل و توضیح داده شده‌اند. هر فایل شامل موارد زیر
+                است:
+            </p>
+
+            <ul style="padding-right: 2rem; color: var(--text-secondary);">
+                <li><strong>معرفی کلی فایل:</strong> هدف، وظیفه و جایگاه در پروژه</li>
+                <li><strong>تحلیل خط‌به‌خط:</strong> توضیح هر خط کد به زبان ساده</li>
+                <li><strong>مفاهیم کلیدی:</strong> توضیح کانسپت‌های برنامه‌نویسی استفاده‌شده</li>
+                <li><strong>ارتباط با سایر ماژول‌ها:</strong> نحوه تعامل با بقیه سیستم</li>
+                <li><strong>مثال‌های کاربردی:</strong> نمونه‌های عملی استفاده</li>
+            </ul>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">سبک نوشتار</div>
+                    <p class="alert-text">
+                        توضیحات به سبک حرفه‌ای و آکادمیک نوشته شده‌اند و برای افرادی که با مفاهیم پایه برنامه‌نویسی آشنا
+                        هستند مناسب است.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Modules -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h1 class="section-title">ماژول‌های هسته (Core Modules)</h1>
+            </div>
+
+            <span class="category-badge badge-core">src/modules/</span>
+
+            <div class="file-grid">
+                <a href="../code_analysis/scanner_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🔍</span>
+                        <span class="file-name">scanner.py</span>
+                    </div>
+                    <div class="file-path">src/modules/scanner.py</div>
+                    <p class="file-desc">اسکن و پیمایش ساختار دایرکتوری پروژه</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~450</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>3</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/builder_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🏗️</span>
+                        <span class="file-name">builder.py</span>
+                    </div>
+                    <div class="file-path">src/modules/builder.py</div>
+                    <p class="file-desc">ساخت ساختار فیزیکی پروژه روی دیسک</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~380</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>2</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/exporter_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">📤</span>
+                        <span class="file-name">exporter.py</span>
+                    </div>
+                    <div class="file-path">src/modules/exporter.py</div>
+                    <p class="file-desc">صدور ساختار در فرمت‌های مختلف</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~520</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>1</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/content_extractor_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">📄</span>
+                        <span class="file-name">content_extractor.py</span>
+                    </div>
+                    <div class="file-path">src/modules/content_extractor.py</div>
+                    <p class="file-desc">استخراج محتوای فایل‌های متنی</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~320</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>2</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/parser_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">📖</span>
+                        <span class="file-name">parser.py</span>
+                    </div>
+                    <div class="file-path">src/modules/parser.py</div>
+                    <p class="file-desc">تفسیر ورودی‌های JSON و Tree</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~280</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>1</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/validator_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">✅</span>
+                        <span class="file-name">validator.py</span>
+                    </div>
+                    <div class="file-path">src/modules/validator.py</div>
+                    <p class="file-desc">اعتبارسنجی نام فایل‌ها و مسیرها</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~200</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>1</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/security_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🔐</span>
+                        <span class="file-name">security.py</span>
+                    </div>
+                    <div class="file-path">src/modules/security.py</div>
+                    <p class="file-desc">رمزنگاری و تشخیص اطلاعات حساس</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~350</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>2</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/logger_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">📝</span>
+                        <span class="file-name">logger.py</span>
+                    </div>
+                    <div class="file-path">src/modules/logger.py</div>
+                    <p class="file-desc">سیستم ثبت وقایع و لاگ‌گیری</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~180</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>1</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/cache_manager_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">💾</span>
+                        <span class="file-name">cache_manager.py</span>
+                    </div>
+                    <div class="file-path">src/modules/cache_manager.py</div>
+                    <p class="file-desc">مدیریت کش دو لایه</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~220</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>1</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/diff_compare_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🔄</span>
+                        <span class="file-name">diff_compare.py</span>
+                    </div>
+                    <div class="file-path">src/modules/diff_compare.py</div>
+                    <p class="file-desc">مقایسه ساختار دو پروژه</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~250</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>1</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/plugin_manager_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🔌</span>
+                        <span class="file-name">plugin_manager.py</span>
+                    </div>
+                    <div class="file-path">src/modules/plugin_manager.py</div>
+                    <p class="file-desc">مدیریت و بارگذاری افزونه‌ها</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~280</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>2</strong></span>
+                    </div>
+                </a>
+
+                <a href="../code_analysis/profile_manager_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">👤</span>
+                        <span class="file-name">profile_manager.py</span>
+                    </div>
+                    <div class="file-path">src/modules/profile_manager.py</div>
+                    <p class="file-desc">مدیریت پروفایل‌های تنظیمات</p>
+                    <div class="file-stats">
+                        <span class="stat">خطوط: <strong>~150</strong></span>
+                        <span class="stat">کلاس‌ها: <strong>1</strong></span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Root Files -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">📁</div>
+                <h1 class="section-title">فایل‌های ریشه (Root Files)</h1>
+            </div>
+
+            <span class="category-badge badge-core">src/</span>
+
+            <div class="file-grid">
+                <a href="../code_analysis/main_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🚀</span>
+                        <span class="file-name">main.py</span>
+                    </div>
+                    <div class="file-path">src/main.py</div>
+                    <p class="file-desc">نقطه ورود اصلی برنامه</p>
+                </a>
+
+                <a href="../code_analysis/config_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">⚙️</span>
+                        <span class="file-name">config.py</span>
+                    </div>
+                    <div class="file-path">src/config.py</div>
+                    <p class="file-desc">تنظیمات سراسری پروژه</p>
+                </a>
+
+                <a href="../code_analysis/utils_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🛠️</span>
+                        <span class="file-name">utils.py</span>
+                    </div>
+                    <div class="file-path">src/utils.py</div>
+                    <p class="file-desc">توابع کمکی عمومی</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- GUI Files -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">🖥️</div>
+                <h1 class="section-title">رابط کاربری گرافیکی (GUI)</h1>
+            </div>
+
+            <span class="category-badge badge-gui">src/gui/</span>
+
+            <div class="file-grid">
+                <a href="../code_analysis/main_window_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🖼️</span>
+                        <span class="file-name">main_window.py</span>
+                    </div>
+                    <div class="file-path">src/gui/main_window.py</div>
+                    <p class="file-desc">پنجره اصلی برنامه</p>
+                </a>
+
+                <a href="../code_analysis/styles_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🎨</span>
+                        <span class="file-name">styles.py</span>
+                    </div>
+                    <div class="file-path">src/gui/styles.py</div>
+                    <p class="file-desc">تم و استایل‌های رابط کاربری</p>
+                </a>
+
+                <a href="../code_analysis/components_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🧩</span>
+                        <span class="file-name">components.py</span>
+                    </div>
+                    <div class="file-path">src/gui/components.py</div>
+                    <p class="file-desc">ویجت‌های سفارشی</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- CLI Files -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">💻</div>
+                <h1 class="section-title">خط فرمان (CLI)</h1>
+            </div>
+
+            <span class="category-badge badge-cli">src/cli/</span>
+
+            <div class="file-grid">
+                <a href="../code_analysis/cli_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">💻</span>
+                        <span class="file-name">cli.py</span>
+                    </div>
+                    <div class="file-path">src/cli/cli.py</div>
+                    <p class="file-desc">رابط خط فرمان با Click</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Cloud Files -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">☁️</div>
+                <h1 class="section-title">سرویس‌های ابری (Cloud)</h1>
+            </div>
+
+            <span class="category-badge badge-cloud">src/cloud/</span>
+
+            <div class="file-grid">
+                <a href="../code_analysis/git_integration_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🔗</span>
+                        <span class="file-name">git_integration.py</span>
+                    </div>
+                    <div class="file-path">src/cloud/git_integration.py</div>
+                    <p class="file-desc">یکپارچگی با Git</p>
+                </a>
+
+                <a href="../code_analysis/github_sync_py.html" class="file-card">
+                    <div class="file-header">
+                        <span class="file-icon">🐙</span>
+                        <span class="file-name">github_sync.py</span>
+                    </div>
+                    <div class="file-path">src/cloud/github_sync.py</div>
+                    <p class="file-desc">همگام‌سازی با GitHub</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="volume1_file_types.html">← انواع فایل‌ها</a>
+            <a href="../COMPREHENSIVE_DOCS_FA.html">صفحه اصلی →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+        <p>تهیه شده با ❤️ توسط سیستم هوشمند Antigravity</p>
+    </footer>
+</body>
+
+</html>

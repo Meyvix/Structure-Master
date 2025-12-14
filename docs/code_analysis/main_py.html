@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل موشکافانه main.py</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #10b981;
+            /* Green accent for main */
+            --border: #334155;
+            --code-bg: #0f172a;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .intro-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+
+        .intro-title {
+            font-weight: 900;
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .code-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .code-table th {
+            background: #0f172a;
+            color: var(--accent);
+            padding: 20px;
+            text-align: right;
+            border-bottom: 2px solid var(--border);
+            font-size: 1.1rem;
+        }
+
+        .code-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+
+        .col-line {
+            width: 50px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-family: 'Fira Code', monospace;
+            border-left: 1px solid var(--border);
+        }
+
+        .col-code {
+            width: 40%;
+            direction: ltr;
+            font-family: 'Fira Code', monospace;
+            background: var(--code-bg);
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            padding: 10px !important;
+        }
+
+        .analogy-badge {
+            display: inline-block;
+            background: #f59e0b;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .k {
+            color: #c678dd;
+        }
+
+        .s {
+            color: #98c379;
+        }
+
+        .c {
+            color: #5c6370;
+            font-style: italic;
+        }
+
+        .f {
+            color: #61afef;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>تحلیل موشکافانه: main.py (دروازه ورودی)</h1>
+
+        <div class="intro-box">
+            <div class="intro-title">🏁 خط شروع مسابقه</div>
+            <p>
+                فایل <strong>main.py</strong> مثل درب ورودی یک هتل بزرگ است. وقتی شما وارد می‌شوید، دربان (این فایل)
+                نگاه می‌کند که شما چه کسی هستید و چه می‌خواهید.
+                اگر لباس رسمی دارید (دستورات متنی)، شما را به بخش اداری (CLI) راهنمایی می‌کند.
+                اگر توریست هستید (کلیک عادی)، شما را به لابی زیبا (GUI) می‌فرستد.
+            </p>
+        </div>
+
+        <table class="code-table">
+            <thead>
+                <tr>
+                    <th>خط</th>
+                    <th>کد برنامه (Code)</th>
+                    <th>توضیح به زبان ساده</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-line">1-3</td>
+                    <td class="col-code"><span class="s">"""<br>StructureMaster - Main Entry Point<br>"""</span></td>
+                    <td class="col-explain">
+                        <span class="analogy-badge">تابلو اعلانات</span>
+                        توضیحات سازنده که می‌گوید: "اینجا نقطه شروع برنامه StructureMaster است."
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">5</td>
+                    <td class="col-code"><span class="k">import</span> sys</td>
+                    <td class="col-explain">
+                        <span class="analogy-badge">میکروفون</span>
+                        ماژول <code>sys</code> به برنامه گوش می‌دهد. اگر شما هنگام باز کردن برنامه چیزی تایپ کرده باشید
+                        (مثلاً <code>python main.py --help</code>)، این ماژول آن نوشته‌ها را می‌خواند.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">6</td>
+                    <td class="col-code"><span class="k">from</span> pathlib <span class="k">import</span> Path</td>
+                    <td class="col-explain">
+                        ابزاری برای کار با آدرس‌ها (مسیر فایل‌ها) در ویندوز و لینوکس.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">9</td>
+                    <td class="col-code">sys.path.insert(0, str(Path(__file__).parent))</td>
+                    <td class="col-explain">
+                        <span class="analogy-badge">قطب‌نما</span>
+                        این خط حیاتی است! به پایتون می‌گوید: "لطفاً همین پوشه‌ای که من داخلش هستم را به عنوان خانه اصلی
+                        بشناس."
+                        بدون این خط، اگر برنامه را از جای دیگری اجرا کنید، پایتون گیج می‌شود و نمی‌توالد بقیه فایل‌ها را
+                        پیدا کند.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">12</td>
+                    <td class="col-code"><span class="k">def</span> <span class="f">main</span>():</td>
+                    <td class="col-explain">
+                        تعریف تابع اصلی. تمام اتفاقات اصلی داخل شکم این تابع می‌افتد.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">14</td>
+                    <td class="col-code"><span class="k">if</span> len(sys.argv) > 1 <span class="k">and</span>
+                        sys.argv[1] != <span class="s">'--gui'</span>:</td>
+                    <td class="col-explain">
+                        <span class="analogy-badge">دربان هتل</span>
+                        اینجا تصمیم می‌گیرد!
+                        <br><code>sys.argv</code> لیست حرف‌هایی است که کاربر زده.
+                        <br>اگر کاربر حرفی زده (طولش بیشتر از 1 است) <strong>و</strong> آن حرف "gui--" نیست، یعنی کاربر
+                        می‌خواهد با تایپ کردن کار کند (حالت CLI).
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">16-17</td>
+                    <td class="col-code">
+                        <span class="k">from</span> cli.cli <span class="k">import</span> main <span class="k">as</span>
+                        cli_main<br>
+                        cli_main()
+                    </td>
+                    <td class="col-explain">
+                        پس مسئول بخش "خط فرمان" (CLI) را صدا می‌زند و کنترل را به او می‌دهد.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">18</td>
+                    <td class="col-code"><span class="k">else</span>:</td>
+                    <td class="col-explain">
+                        اما اگر کاربر چیزی نگفته، یا صراحتاً گفته "gui--"، یعنی محیط گرافیکی می‌خواهد.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">20-22</td>
+                    <td class="col-code">
+                        <span class="k">try</span>:<br>
+                        &nbsp;&nbsp;<span class="k">from</span> gui.main_window <span class="k">import</span> main <span
+                            class="k">as</span> gui_main<br>
+                        &nbsp;&nbsp;gui_main()
+                    </td>
+                    <td class="col-explain">
+                        <span class="analogy-badge">تلاش برای نمایش</span>
+                        سعی می‌کند بخش گرافیکی (پنجره‌ها) را باز کند.
+                        چرا می‌گوییم "سعی کن"؟ چون نمایش گرافیک نیاز به ابزاری به نام PyQt6 دارد که شاید روی کامپیوتر
+                        کاربر نصب نباشد.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">23-28</td>
+                    <td class="col-code">
+                        <span class="k">except</span> ImportError <span class="k">as</span> e:<br>
+                        &nbsp;&nbsp;print(<span class="s">"GUI not available..."</span>)<br>
+                        &nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;cli_main()
+                    </td>
+                    <td class="col-explain">
+                        <span class="analogy-badge">نقشه دوم (پلا ب)</span>
+                        اگر ابزار گرافیکی نصب نبود و ارور داد، برنامه خراب نمی‌شود!
+                        در عوض، مودبانه پیام می‌دهد "لطفا PyQt6 را نصب کنید" و خودش اتوماتیک به حالت متنی (CLI)
+                        برمی‌گردد تا کار کاربر لنگ نماند. این یعنی احترام به کاربر.
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-line">31-32</td>
+                    <td class="col-code">
+                        <span class="k">if</span> __name__ == <span class="s">'__main__'</span>:<br>
+                        &nbsp;&nbsp;main()
+                    </td>
+                    <td class="col-explain">
+                        <span class="analogy-badge">کلید استارت</span>
+                        این شرط استاندارد پایتون است. می‌گوید: "اگر این فایل مستقیماً اجرا شده (نه اینکه توسط فایل دیگری
+                        صدا زده شده باشد)، پس تابع <code>main()</code> را اجرا کن و برنامه را شروع کن."
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

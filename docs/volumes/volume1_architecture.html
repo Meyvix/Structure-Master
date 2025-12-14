@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات جامع StructureMaster - معماری سیستم</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-orange: #db6d28;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 2;
+            min-height: 100vh;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-purple);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(163, 113, 247, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: var(--accent-purple);
+            color: #fff;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 2rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin: 1.25rem 0 0.5rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        ul,
+        ol {
+            padding-right: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .alert {
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .alert-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        tr:hover {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        .mermaid {
+            background: var(--bg-code);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .toc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent-blue);
+            padding-right: 0.5rem;
+        }
+
+        .toc-list a::before {
+            content: '◆';
+            color: var(--accent-purple);
+            font-size: 0.6rem;
+            margin-left: 0.5rem;
+        }
+
+        .layer-box {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            transition: all 0.3s;
+        }
+
+        .layer-box:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .layer-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .layer-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .layer-files {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .layer-file {
+            background: var(--bg-code);
+            padding: 0.25rem 0.75rem;
+            border-radius: 6px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-yellow);
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span>📘</span>
+            <span>مستندات StructureMaster</span>
+        </div>
+        <div class="nav-links">
+            <a href="../COMPREHENSIVE_DOCS_FA.html">صفحه اصلی</a>
+            <a href="volume1_intro.html">مقدمه</a>
+            <a href="volume1_architecture.html" class="active">معماری</a>
+            <a href="volume1_modules.html">ماژول‌ها</a>
+            <a href="volume1_gui.html">رابط کاربری</a>
+            <a href="volume2_code_analysis.html">تحلیل کد</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="badge">جلد اول - بخش ۲</span>
+            <h1>🏛️ معماری سیستم و جریان داده</h1>
+            <p class="subtitle">درک عمیق ساختار لایه‌بندی شده و نحوه تعامل اجزای مختلف پروژه</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <div class="toc-title">📑 فهرست مطالب این بخش</div>
+            <ul class="toc-list">
+                <li><a href="#overview">نمای کلی معماری</a></li>
+                <li><a href="#layers">لایه‌های سیستم</a></li>
+                <li><a href="#data-flow">جریان داده</a></li>
+                <li><a href="#components">اجزای اصلی</a></li>
+                <li><a href="#directory-structure">ساختار دایرکتوری</a></li>
+                <li><a href="#design-patterns">الگوهای طراحی</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Overview -->
+        <section class="section" id="overview">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h1 class="section-title">نمای کلی معماری</h1>
+            </div>
+
+            <p>
+                معماری StructureMaster بر اساس الگوی <strong>لایه‌بندی شده (Layered Architecture)</strong> طراحی شده
+                است. این الگو تضمین می‌کند که رابط کاربری کاملاً از منطق تجاری (Business Logic) جدا باشد و هر لایه
+                مسئولیت مشخصی داشته باشد.
+            </p>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">مزایای معماری لایه‌ای</div>
+                    <p class="alert-text">
+                        جداسازی مسئولیت‌ها (Separation of Concerns)، قابلیت تست آسان‌تر، نگهداری ساده‌تر، و امکان توسعه
+                        موازی توسط تیم‌های مختلف، از مهم‌ترین مزایای این معماری هستند.
+                    </p>
+                </div>
+            </div>
+
+            <h2>دیاگرام کلی معماری</h2>
+            <div class="mermaid">
+                graph TB
+                subgraph "🖥️ Presentation Layer"
+                GUI["GUI (PyQt6)"]
+                CLI["CLI (Click + Rich)"]
+                WEB["Web API (FastAPI)"]
+                end
+
+                subgraph "🧠 Business Logic Layer"
+                CTRL["Controllers"]
+                SVC["Services"]
+                end
+
+                subgraph "⚙️ Core Layer"
+                SCAN["Scanner"]
+                BUILD["Builder"]
+                EXPORT["Exporter"]
+                EXTRACT["Content Extractor"]
+                PARSE["Parser"]
+                VALID["Validator"]
+                end
+
+                subgraph "🔧 Support Layer"
+                LOG["Logger"]
+                CFG["Config"]
+                CACHE["Cache Manager"]
+                SEC["Security"]
+                UTIL["Utils"]
+                end
+
+                subgraph "💾 Data Layer"
+                FS["File System"]
+                GIT["Git Integration"]
+                CLOUD["Cloud Services"]
+                end
+
+                GUI --> CTRL
+                CLI --> CTRL
+                WEB --> CTRL
+
+                CTRL --> SVC
+                SVC --> SCAN
+                SVC --> BUILD
+                SVC --> EXPORT
+                SVC --> EXTRACT
+                SVC --> PARSE
+                SVC --> VALID
+
+                SCAN --> LOG
+                BUILD --> LOG
+                EXPORT --> SEC
+                EXTRACT --> CACHE
+
+                SCAN --> FS
+                BUILD --> FS
+                EXPORT --> FS
+                EXTRACT --> FS
+                PARSE --> GIT
+                VALID --> CLOUD
+            </div>
+
+            <p>
+                همان‌طور که در دیاگرام مشاهده می‌شود، سیستم از پنج لایه اصلی تشکیل شده که هر کدام وظیفه مشخصی دارند.
+                درخواست کاربر از لایه نمایش شروع می‌شود، از لایه منطق تجاری عبور می‌کند، توسط لایه هسته پردازش می‌شود و
+                نهایتاً با لایه داده تعامل می‌کند.
+            </p>
+        </section>
+
+        <!-- Section 2: Layers -->
+        <section class="section" id="layers">
+            <div class="section-header">
+                <div class="section-icon">📚</div>
+                <h1 class="section-title">لایه‌های سیستم</h1>
+            </div>
+
+            <div class="layer-box">
+                <div class="layer-title">
+                    <span>🖥️</span>
+                    <span>لایه نمایش (Presentation Layer)</span>
+                </div>
+                <p class="layer-desc">
+                    این لایه مسئول تعامل مستقیم با کاربر است. سه رابط مختلف در این لایه وجود دارد: رابط گرافیکی (GUI)،
+                    رابط خط فرمان (CLI)، و رابط برنامه‌نویسی وب (Web API). هر سه رابط از یک هسته مشترک استفاده می‌کنند.
+                </p>
+                <div class="layer-files">
+                    <span class="layer-file">src/gui/</span>
+                    <span class="layer-file">src/cli/</span>
+                    <span class="layer-file">src/web/</span>
+                </div>
+            </div>
+
+            <div class="layer-box">
+                <div class="layer-title">
+                    <span>🧠</span>
+                    <span>لایه منطق تجاری (Business Logic Layer)</span>
+                </div>
+                <p class="layer-desc">
+                    کنترل‌کننده‌ها و سرویس‌ها در این لایه قرار دارند. این لایه درخواست‌های لایه نمایش را دریافت می‌کند،
+                    آن‌ها را اعتبارسنجی می‌کند و به لایه هسته ارسال می‌کند.
+                </p>
+                <div class="layer-files">
+                    <span class="layer-file">src/main.py</span>
+                </div>
+            </div>
+
+            <div class="layer-box">
+                <div class="layer-title">
+                    <span>⚙️</span>
+                    <span>لایه هسته (Core Layer)</span>
+                </div>
+                <p class="layer-desc">
+                    قلب تپنده سیستم! تمام عملیات اصلی از جمله اسکن، ساخت، صادرات و استخراج در این لایه انجام می‌شود.
+                    ماژول‌های این لایه مستقل و قابل تست هستند.
+                </p>
+                <div class="layer-files">
+                    <span class="layer-file">scanner.py</span>
+                    <span class="layer-file">builder.py</span>
+                    <span class="layer-file">exporter.py</span>
+                    <span class="layer-file">content_extractor.py</span>
+                    <span class="layer-file">parser.py</span>
+                    <span class="layer-file">validator.py</span>
+                </div>
+            </div>
+
+            <div class="layer-box">
+                <div class="layer-title">
+                    <span>🔧</span>
+                    <span>لایه پشتیبانی (Support Layer)</span>
+                </div>
+                <p class="layer-desc">
+                    ابزارها و سرویس‌های کمکی که توسط تمام لایه‌های دیگر استفاده می‌شوند. شامل سیستم لاگ‌گیری، مدیریت
+                    تنظیمات، کش و امنیت.
+                </p>
+                <div class="layer-files">
+                    <span class="layer-file">logger.py</span>
+                    <span class="layer-file">config.py</span>
+                    <span class="layer-file">cache_manager.py</span>
+                    <span class="layer-file">security.py</span>
+                    <span class="layer-file">utils.py</span>
+                </div>
+            </div>
+
+            <div class="layer-box">
+                <div class="layer-title">
+                    <span>💾</span>
+                    <span>لایه داده (Data Layer)</span>
+                </div>
+                <p class="layer-desc">
+                    تعامل با سیستم فایل، مخازن Git و سرویس‌های ابری در این لایه انجام می‌شود. این لایه انتزاعی از
+                    ذخیره‌سازی فیزیکی ارائه می‌دهد.
+                </p>
+                <div class="layer-files">
+                    <span class="layer-file">src/cloud/</span>
+                    <span class="layer-file">git_integration.py</span>
+                    <span class="layer-file">github_sync.py</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Data Flow -->
+        <section class="section" id="data-flow">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h1 class="section-title">جریان داده</h1>
+            </div>
+
+            <p>
+                برای درک بهتر نحوه کار سیستم، بیایید یک سناریوی واقعی را پیگیری کنیم: کاربر می‌خواهد ساختار یک پروژه را
+                اسکن کند.
+            </p>
+
+            <h2>سناریو: اسکن پروژه</h2>
+            <div class="mermaid">
+                sequenceDiagram
+                participant U as 👤 کاربر
+                participant GUI as 🖥️ GUI
+                participant Main as 🎮 Main Controller
+                participant Scanner as 🔍 Scanner
+                participant Config as ⚙️ Config
+                participant Logger as 📝 Logger
+                participant FS as 💾 File System
+
+                U->>GUI: کلیک روی دکمه "اسکن"
+                GUI->>Main: scan_project(path)
+                Main->>Config: get_ignore_patterns()
+                Config-->>Main: patterns[]
+                Main->>Scanner: scan(path, patterns)
+                Scanner->>Logger: info("شروع اسکن...")
+                Scanner->>FS: os.walk(path)
+                FS-->>Scanner: files[], dirs[]
+                loop برای هر فایل
+                Scanner->>Scanner: apply_filters()
+                Scanner->>Scanner: build_tree_node()
+                end
+                Scanner->>Logger: info("اسکن کامل شد")
+                Scanner-->>Main: ProjectStructure
+                Main-->>GUI: structure_data
+                GUI-->>U: نمایش درخت در TreeWidget
+            </div>
+
+            <h3>توضیح مراحل:</h3>
+            <ol>
+                <li><strong>ورودی کاربر:</strong> کاربر مسیر پروژه را انتخاب و دکمه اسکن را کلیک می‌کند.</li>
+                <li><strong>دریافت تنظیمات:</strong> کنترلر اصلی الگوهای ignore را از ماژول Config دریافت می‌کند.</li>
+                <li><strong>شروع اسکن:</strong> ماژول Scanner با استفاده از <code>os.walk</code> شروع به پیمایش
+                    دایرکتوری می‌کند.</li>
+                <li><strong>فیلترینگ:</strong> هر فایل با الگوهای ignore مقایسه می‌شود و فایل‌های نامربوط حذف می‌شوند.
+                </li>
+                <li><strong>ساخت درخت:</strong> برای هر فایل معتبر، یک node در درخت ساختار ایجاد می‌شود.</li>
+                <li><strong>بازگشت نتیجه:</strong> ساختار نهایی به GUI ارسال و در TreeWidget نمایش داده می‌شود.</li>
+            </ol>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">نکته مهم</div>
+                    <p class="alert-text">
+                        تمام عملیات سنگین در یک Thread جداگانه اجرا می‌شوند تا رابط کاربری فریز نشود. این کار با استفاده
+                        از <code>QThread</code> در PyQt6 انجام می‌شود.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Components -->
+        <section class="section" id="components">
+            <div class="section-header">
+                <div class="section-icon">🧩</div>
+                <h1 class="section-title">اجزای اصلی</h1>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>نام کامپوننت</th>
+                        <th>مسیر فایل</th>
+                        <th>وظیفه اصلی</th>
+                        <th>وابستگی‌ها</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Scanner</strong></td>
+                        <td><code>modules/scanner.py</code></td>
+                        <td>پیمایش و لیست کردن فایل‌ها</td>
+                        <td>Config, Logger, Utils</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Builder</strong></td>
+                        <td><code>modules/builder.py</code></td>
+                        <td>ساخت فیزیکی ساختار روی دیسک</td>
+                        <td>Parser, Validator, Logger</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exporter</strong></td>
+                        <td><code>modules/exporter.py</code></td>
+                        <td>صدور ساختار در فرمت‌های مختلف</td>
+                        <td>Security, Logger</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Content Extractor</strong></td>
+                        <td><code>modules/content_extractor.py</code></td>
+                        <td>خواندن محتوای فایل‌های متنی</td>
+                        <td>Cache Manager, Logger</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Parser</strong></td>
+                        <td><code>modules/parser.py</code></td>
+                        <td>تفسیر ساختار از JSON/Text</td>
+                        <td>Validator</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Validator</strong></td>
+                        <td><code>modules/validator.py</code></td>
+                        <td>اعتبارسنجی نام‌ها و مسیرها</td>
+                        <td>Config</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Security</strong></td>
+                        <td><code>modules/security.py</code></td>
+                        <td>رمزنگاری و تشخیص اطلاعات حساس</td>
+                        <td>cryptography</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Logger</strong></td>
+                        <td><code>modules/logger.py</code></td>
+                        <td>ثبت وقایع و خطاها</td>
+                        <td>Config</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>نمودار وابستگی کامپوننت‌ها</h2>
+            <div class="mermaid">
+                graph LR
+                subgraph "Core Modules"
+                Scanner --> Logger
+                Scanner --> Config
+                Builder --> Parser
+                Builder --> Validator
+                Builder --> Logger
+                Exporter --> Security
+                Exporter --> Logger
+                ContentExtractor --> CacheManager
+                ContentExtractor --> Logger
+                Parser --> Validator
+                end
+
+                subgraph "Support Modules"
+                Logger --> Config
+                CacheManager --> Config
+                Security --> Config
+                end
+            </div>
+        </section>
+
+        <!-- Section 5: Directory Structure -->
+        <section class="section" id="directory-structure">
+            <div class="section-header">
+                <div class="section-icon">📁</div>
+                <h1 class="section-title">ساختار دایرکتوری</h1>
+            </div>
+
+            <p>
+                درک ساختار فیزیکی فایل‌ها و پوشه‌های پروژه برای توسعه‌دهندگان ضروری است. در زیر ساختار کامل پروژه آمده
+                است:
+            </p>
+
+            <pre><code>structure-creator-optus/
+├── 📄 README.md                    # مستندات اصلی
+├── 📄 requirements.txt             # وابستگی‌های پایتون
+├── 📄 setup.py                     # تنظیمات نصب
+├── 📄 .gitignore                   # الگوهای نادیده‌گیری گیت
+├── 📄 .structureignore             # الگوهای نادیده‌گیری اختصاصی
+│
+├── 📁 src/                         # کد منبع اصلی
+│   ├── 📄 __init__.py
+│   ├── 📄 main.py                  # نقطه ورود اصلی
+│   ├── 📄 config.py                # تنظیمات سراسری
+│   ├── 📄 utils.py                 # توابع کمکی
+│   │
+│   ├── 📁 modules/                 # ماژول‌های هسته
+│   │   ├── 📄 scanner.py           # اسکن ساختار
+│   │   ├── 📄 builder.py           # ساخت ساختار
+│   │   ├── 📄 exporter.py          # صدور خروجی
+│   │   ├── 📄 content_extractor.py # استخراج محتوا
+│   │   ├── 📄 parser.py            # تفسیر ورودی
+│   │   ├── 📄 validator.py         # اعتبارسنجی
+│   │   ├── 📄 security.py          # امنیت و رمزنگاری
+│   │   ├── 📄 logger.py            # سیستم لاگ
+│   │   ├── 📄 cache_manager.py     # مدیریت کش
+│   │   ├── 📄 diff_compare.py      # مقایسه ساختار
+│   │   ├── 📄 plugin_manager.py    # مدیریت افزونه
+│   │   ├── 📄 profile_manager.py   # مدیریت پروفایل
+│   │   ├── 📄 project_detector.py  # تشخیص نوع پروژه
+│   │   └── 📄 file_analyzer.py     # آنالیز فایل
+│   │
+│   ├── 📁 gui/                     # رابط گرافیکی
+│   │   ├── 📄 main_window.py       # پنجره اصلی
+│   │   ├── 📄 styles.py            # استایل‌ها
+│   │   ├── 📄 components.py        # کامپوننت‌ها
+│   │   └── 📁 tabs/                # تب‌های برنامه
+│   │
+│   ├── 📁 cli/                     # رابط خط فرمان
+│   │   └── 📄 cli.py
+│   │
+│   ├── 📁 web/                     # رابط وب
+│   │   └── 📄 api.py
+│   │
+│   └── 📁 cloud/                   # سرویس‌های ابری
+│       ├── 📄 git_integration.py
+│       └── 📄 github_sync.py
+│
+├── 📁 docs/                        # مستندات
+├── 📁 tests/                       # تست‌ها
+├── 📁 templates/                   # قالب‌ها
+└── 📁 plugins/                     # افزونه‌ها</code></pre>
+        </section>
+
+        <!-- Section 6: Design Patterns -->
+        <section class="section" id="design-patterns">
+            <div class="section-header">
+                <div class="section-icon">🎨</div>
+                <h1 class="section-title">الگوهای طراحی</h1>
+            </div>
+
+            <p>
+                در طراحی StructureMaster از چندین الگوی طراحی معروف استفاده شده است:
+            </p>
+
+            <h2>۱. الگوی Singleton (تک‌نمونه)</h2>
+            <p>
+                ماژول‌های <code>Logger</code> و <code>Config</code> از این الگو استفاده می‌کنند. در کل پروژه فقط یک
+                نمونه از این کلاس‌ها وجود دارد.
+            </p>
+            <pre><code class="language-python">class Logger:
+    _instance = None
+    
+    @classmethod
+    def get_instance(cls):
+        if cls._instance is None:
+            cls._instance = cls()
+        return cls._instance</code></pre>
+
+            <h2>۲. الگوی Factory (کارخانه)</h2>
+            <p>
+                در ماژول <code>Exporter</code> برای ایجاد خروجی‌های مختلف از این الگو استفاده می‌شود.
+            </p>
+
+            <h2>۳. الگوی Strategy (استراتژی)</h2>
+            <p>
+                سیستم پلاگین از این الگو استفاده می‌کند تا رفتار سیستم در زمان اجرا قابل تغییر باشد.
+            </p>
+
+            <h2>۴. الگوی Observer (ناظر)</h2>
+            <p>
+                برای به‌روزرسانی رابط کاربری هنگام تکمیل عملیات‌های طولانی از سیگنال‌های PyQt استفاده می‌شود.
+            </p>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">📖</span>
+                <div class="alert-content">
+                    <div class="alert-title">مطالعه بیشتر</div>
+                    <p class="alert-text">
+                        برای آشنایی بیشتر با این الگوها، به بخش تحلیل کد مراجعه کنید که در آن پیاده‌سازی عملی هر الگو
+                        توضیح داده شده است.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="volume1_intro.html">← مقدمه و معرفی</a>
+            <a href="volume1_modules.html">ماژول‌های هسته →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+        <p>تهیه شده با ❤️ توسط سیستم هوشمند Antigravity</p>
+    </footer>
+
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'dark',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true,
+                curve: 'basis'
+            },
+            sequence: {
+                useMaxWidth: true,
+                showSequenceNumbers: true
+            }
+        });
+    </script>
+</body>
+
+</html>

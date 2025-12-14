@@ -1,0 +1,50 @@
+{
+    "name": "python_project",
+    "description": "Standard Python project structure template",
+    "version": "1.0.0",
+    "structure": {
+        "src": {
+            "__init__.py": null,
+            "main.py": null,
+            "config.py": null,
+            "utils.py": null,
+            "models": {
+                "__init__.py": null
+            },
+            "services": {
+                "__init__.py": null
+            },
+            "api": {
+                "__init__.py": null
+            }
+        },
+        "tests": {
+            "__init__.py": null,
+            "test_main.py": null,
+            "conftest.py": null
+        },
+        "docs": {
+            "README.md": null,
+            "API.md": null
+        },
+        "scripts": {
+            "setup.sh": null,
+            "run.sh": null
+        },
+        ".gitignore": null,
+        ".env.example": null,
+        "requirements.txt": null,
+        "setup.py": null,
+        "pyproject.toml": null,
+        "README.md": null,
+        "LICENSE": null,
+        "Makefile": null
+    },
+    "variables": {
+        "project_name": "my_python_project",
+        "author": "",
+        "version": "0.1.0",
+        "python_version": ">=3.8",
+        "license": "MIT"
+    }
+}

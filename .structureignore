@@ -1,0 +1,130 @@
+# StructureMaster Ignore File
+# This file defines patterns for files and directories to ignore during scanning
+
+# Version Control
+.git/
+.svn/
+.hg/
+.bzr/
+
+# Dependencies
+node_modules/
+vendor/
+bower_components/
+jspm_packages/
+packages/
+
+# Build Output
+dist/
+build/
+out/
+target/
+bin/
+obj/
+*.min.js
+*.min.css
+*.bundle.js
+
+# Cache Directories
+.cache/
+__pycache__/
+*.pyc
+*.pyo
+.sass-cache/
+.parcel-cache/
+.next/
+.nuxt/
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+credentials.json
+secrets/
+
+# Compiled Files
+*.dll
+*.exe
+*.o
+*.so
+*.class
+*.jar
+
+# Package Files
+*.zip
+*.tar.gz
+*.tar
+*.rar
+*.7z
+
+# Media (large binary files)
+# Uncomment if you want to ignore media files
+# *.mp4
+# *.mp3
+# *.mov
+# *.avi
+# *.wmv
+# *.flv
+
+# Generated Documentation
+docs/_build/
+site/
+coverage/
+htmlcov/
+
+# Test artifacts
+.pytest_cache/
+.coverage
+coverage.xml
+*.cover
+
+# Framework specific
+
+# Laravel
+storage/framework/
+storage/logs/
+bootstrap/cache/
+
+# Django
+*.sqlite3
+staticfiles/
+mediafiles/
+
+# React/Vue/Angular
+.angular/
+.nx/
+
+# .NET
+*.user
+*.suo
+*.vs/
+TestResults/
+
+# Java/Spring
+*.iml
+.gradle/

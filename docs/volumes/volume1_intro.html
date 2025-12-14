@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مستندات جامع StructureMaster - مقدمه و معرفی</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-orange: #db6d28;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 2;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(88, 166, 255, 0.1) 0%, transparent 70%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 20px rgba(88, 166, 255, 0.3);
+        }
+
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: #000;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Section Styling */
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 2rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-purple);
+            margin: 1.25rem 0 0.5rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        /* Lists */
+        ul,
+        ol {
+            padding-right: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        li strong {
+            color: var(--text-primary);
+        }
+
+        /* Code Styling */
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Alert Boxes */
+        .alert {
+            padding: 1.25rem 1.5rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .alert-icon {
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-danger {
+            background: rgba(248, 81, 73, 0.1);
+            border: 1px solid rgba(248, 81, 73, 0.3);
+            border-right: 4px solid var(--accent-red);
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        tr:hover {
+            background: rgba(88, 166, 255, 0.05);
+        }
+
+        /* Feature Cards */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(88, 166, 255, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* TOC */
+        .toc {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .toc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .toc-list a:hover {
+            color: var(--accent-blue);
+            padding-right: 0.5rem;
+        }
+
+        .toc-list a::before {
+            content: '◆';
+            color: var(--accent-purple);
+            font-size: 0.6rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <span>📘</span>
+            <span>مستندات StructureMaster</span>
+        </div>
+        <div class="nav-links">
+            <a href="../COMPREHENSIVE_DOCS_FA.html">صفحه اصلی</a>
+            <a href="volume1_intro.html" class="active">مقدمه</a>
+            <a href="volume1_architecture.html">معماری</a>
+            <a href="volume1_modules.html">ماژول‌ها</a>
+            <a href="volume1_gui.html">رابط کاربری</a>
+            <a href="volume2_code_analysis.html">تحلیل کد</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="badge">جلد اول - بخش ۱</span>
+            <h1>🚀 مقدمه و معرفی پروژه StructureMaster</h1>
+            <p class="subtitle">ابزاری هوشمند و حرفه‌ای برای تحلیل، مستندسازی و بازتولید ساختار پروژه‌های نرم‌افزاری</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Table of Contents -->
+        <div class="toc">
+            <div class="toc-title">📑 فهرست مطالب این بخش</div>
+            <ul class="toc-list">
+                <li><a href="#intro">معرفی پروژه و اهداف</a></li>
+                <li><a href="#features">قابلیت‌های کلیدی</a></li>
+                <li><a href="#prerequisites">پیش‌نیازهای نرم‌افزاری</a></li>
+                <li><a href="#installation">نصب و راه‌اندازی</a></li>
+                <li><a href="#quick-start">شروع سریع</a></li>
+                <li><a href="#use-cases">موارد استفاده</a></li>
+            </ul>
+        </div>
+
+        <!-- Section 1: Introduction -->
+        <section class="section" id="intro">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h1 class="section-title">معرفی پروژه</h1>
+            </div>
+
+            <p>
+                <strong>StructureMaster</strong> یک ابزار جامع و پیشرفته در حوزه مهندسی نرم‌افزار است که با هدف
+                ساده‌سازی فرآیند تحلیل، مستندسازی و بازتولید ساختار پروژه‌های نرم‌افزاری طراحی و توسعه یافته است. این
+                ابزار با بهره‌گیری از الگوریتم‌های هوشمند، قادر است ساختار فایل‌ها و دایرکتوری‌های هر پروژه را به صورت
+                خودکار اسکن کرده، محتوای متنی آنها را استخراج نماید و خروجی‌های استاندارد در قالب‌های متنوع (JSON، TXT،
+                HTML، ZIP) تولید کند.
+            </p>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">نکته کلیدی</div>
+                    <p class="alert-text">
+                        یکی از مهم‌ترین کاربردهای StructureMaster، تهیه خروجی بهینه‌شده برای تغذیه مدل‌های زبانی بزرگ
+                        (LLM) مانند GPT-4 و Claude است. با استفاده از این ابزار، می‌توانید کل ساختار و محتوای پروژه خود
+                        را در قالبی فشرده و قابل فهم برای هوش مصنوعی استخراج کنید.
+                    </p>
+                </div>
+            </div>
+
+            <h2>چرا StructureMaster؟</h2>
+            <p>
+                توسعه‌دهندگان و تیم‌های نرم‌افزاری اغلب با چالش‌های متعددی در زمینه مستندسازی و اشتراک‌گذاری ساختار
+                پروژه‌ها مواجه هستند. StructureMaster برای حل این مشکلات طراحی شده است:
+            </p>
+
+            <ul>
+                <li><strong>مستندسازی خودکار:</strong> ایجاد نقشه کامل پروژه بدون نیاز به نوشتن دستی</li>
+                <li><strong>اشتراک‌گذاری ساده:</strong> صدور ساختار در قالب‌های استاندارد برای همکاری تیمی</li>
+                <li><strong>بازتولید پروژه:</strong> ایجاد ساختار فیزیکی از روی فایل‌های متنی یا JSON</li>
+                <li><strong>تحلیل کد:</strong> آنالیز پیچیدگی، وابستگی‌ها و متریک‌های کیفیت</li>
+                <li><strong>امنیت:</strong> تشخیص خودکار اطلاعات حساس و رمزنگاری خروجی‌ها</li>
+            </ul>
+
+            <h2>معماری مدولار</h2>
+            <p>
+                طراحی StructureMaster بر پایه معماری <strong>ماژولار (Modular Architecture)</strong> استوار است. این
+                رویکرد تضمین می‌کند که هر بخش از سیستم به صورت مستقل توسعه‌پذیر و قابل نگهداری باشد. در ادامه با این
+                معماری به تفصیل آشنا خواهید شد.
+            </p>
+        </section>
+
+        <!-- Section 2: Features -->
+        <section class="section" id="features">
+            <div class="section-header">
+                <div class="section-icon">⚡</div>
+                <h1 class="section-title">قابلیت‌های کلیدی</h1>
+            </div>
+
+            <h2>قابلیت‌های اصلی (Core Features)</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📁</div>
+                    <h3 class="feature-title">سازنده ساختار (Structure Builder)</h3>
+                    <p class="feature-desc">ایجاد ساختار فیزیکی پروژه از روی فایل‌های JSON، متن درختی، یا حافظه موقت
+                        (Clipboard).</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">استخراج‌کننده ساختار (Structure Extractor)</h3>
+                    <p class="feature-desc">اسکن یک پروژه موجود و تولید نقشه کامل ساختار فایل‌ها و پوشه‌ها.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3 class="feature-title">استخراج‌کننده محتوا (Content Extractor)</h3>
+                    <p class="feature-desc">خواندن محتوای تمام فایل‌های متنی همراه با متادیتای کامل (اندازه، تاریخ،
+                        نوع).</p>
+                </div>
+            </div>
+
+            <h2>قابلیت‌های پیشرفته (Advanced Features)</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3 class="feature-title">رمزنگاری AES-256</h3>
+                    <p class="feature-desc">محافظت از خروجی‌ها با استاندارد رمزنگاری درجه نظامی.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">☁️</div>
+                    <h3 class="feature-title">همگام‌سازی ابری</h3>
+                    <p class="feature-desc">یکپارچگی با Git، GitHub، Dropbox، Google Drive و OneDrive.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">تحلیل و آنالیز</h3>
+                    <p class="feature-desc">متریک‌های کیفیت کد، تحلیل وابستگی‌ها و نمودارهای آماری.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔎</div>
+                    <h3 class="feature-title">جستجوی پیشرفته</h3>
+                    <p class="feature-desc">جستجوی Regex در محتوای فایل‌ها با فیلترینگ پیشرفته.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">رابط گرافیکی مدرن</h3>
+                    <p class="feature-desc">GUI زیبا با تم تاریک و امکان شخصی‌سازی.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔌</div>
+                    <h3 class="feature-title">سیستم افزونه</h3>
+                    <p class="feature-desc">قابلیت توسعه با افزونه‌های سفارشی.</p>
+                </div>
+            </div>
+
+            <h2>فرمت‌های خروجی پشتیبانی‌شده</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>فرمت</th>
+                        <th>پسوند</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>JSON</strong></td>
+                        <td><code>.json</code></td>
+                        <td>فرمت استاندارد برای تبادل داده و پردازش برنامه‌ای</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Text Tree</strong></td>
+                        <td><code>.txt</code></td>
+                        <td>نمایش درختی با کاراکترهای ASCII برای مشاهده سریع</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HTML</strong></td>
+                        <td><code>.html</code></td>
+                        <td>نمایش تعاملی با استایل‌دهی و رنگ‌بندی</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Markdown</strong></td>
+                        <td><code>.md</code></td>
+                        <td>فرمت سازگار با GitHub و مستندسازی</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ZIP Archive</strong></td>
+                        <td><code>.zip</code></td>
+                        <td>بسته فشرده شامل ساختار و محتوای کامل</td>
+                    </tr>
+                    <tr>
+                        <td><strong>TAR.GZ</strong></td>
+                        <td><code>.tar.gz</code></td>
+                        <td>آرشیو فشرده برای سیستم‌های Unix/Linux</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 3: Prerequisites -->
+        <section class="section" id="prerequisites">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h1 class="section-title">پیش‌نیازهای نرم‌افزاری</h1>
+            </div>
+
+            <p>
+                برای اجرای StructureMaster به ابزارها و کتابخانه‌های زیر نیاز دارید. این بخش به تفصیل هر یک از
+                پیش‌نیازها را شرح می‌دهد.
+            </p>
+
+            <h2>پیش‌نیاز اصلی: Python</h2>
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">نسخه Python</div>
+                    <p class="alert-text">
+                        این پروژه به <strong>Python نسخه ۳.۹ یا بالاتر</strong> نیاز دارد. نسخه‌های قدیمی‌تر پشتیبانی
+                        نمی‌شوند.
+                    </p>
+                </div>
+            </div>
+
+            <p>برای بررسی نسخه Python نصب‌شده:</p>
+            <pre><code>python --version
+# یا
+python3 --version</code></pre>
+
+            <h2>کتابخانه‌های اصلی</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>کتابخانه</th>
+                        <th>نسخه</th>
+                        <th>کاربرد</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>PyQt6</code></td>
+                        <td>≥6.4.0</td>
+                        <td>رابط کاربری گرافیکی (GUI)</td>
+                    </tr>
+                    <tr>
+                        <td><code>click</code></td>
+                        <td>≥8.0.0</td>
+                        <td>ساخت رابط خط فرمان (CLI)</td>
+                    </tr>
+                    <tr>
+                        <td><code>rich</code></td>
+                        <td>≥13.0.0</td>
+                        <td>خروجی رنگی و زیبا در ترمینال</td>
+                    </tr>
+                    <tr>
+                        <td><code>GitPython</code></td>
+                        <td>≥3.1.0</td>
+                        <td>یکپارچگی با Git</td>
+                    </tr>
+                    <tr>
+                        <td><code>cryptography</code></td>
+                        <td>≥41.0.0</td>
+                        <td>رمزنگاری و امنیت</td>
+                    </tr>
+                    <tr>
+                        <td><code>fastapi</code></td>
+                        <td>≥0.100.0</td>
+                        <td>سرویس Web API</td>
+                    </tr>
+                    <tr>
+                        <td><code>chardet</code></td>
+                        <td>≥5.0.0</td>
+                        <td>تشخیص خودکار encoding فایل‌ها</td>
+                    </tr>
+                    <tr>
+                        <td><code>pathspec</code></td>
+                        <td>≥0.11.0</td>
+                        <td>پردازش الگوهای gitignore</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>بررسی کتابخانه‌های نصب‌شده</h3>
+            <pre><code>pip list | grep -E "PyQt6|click|rich|GitPython|cryptography"</code></pre>
+        </section>
+
+        <!-- Section 4: Installation -->
+        <section class="section" id="installation">
+            <div class="section-header">
+                <div class="section-icon">⚙️</div>
+                <h1 class="section-title">نصب و راه‌اندازی</h1>
+            </div>
+
+            <h2>روش اول: نصب از کد منبع</h2>
+            <p>این روش برای توسعه‌دهندگان و افرادی که می‌خواهند به کد منبع دسترسی داشته باشند توصیه می‌شود.</p>
+
+            <h4>گام ۱: کلون کردن مخزن</h4>
+            <pre><code># کلون کردن مخزن
+git clone https://github.com/structuremaster/structuremaster.git
+cd structuremaster</code></pre>
+
+            <h4>گام ۲: ایجاد محیط مجازی (توصیه می‌شود)</h4>
+            <pre><code># ایجاد محیط مجازی
+python -m venv venv
+
+# فعال‌سازی در ویندوز
+venv\Scripts\activate
+
+# فعال‌سازی در لینوکس/مک
+source venv/bin/activate</code></pre>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">چرا محیط مجازی؟</div>
+                    <p class="alert-text">
+                        استفاده از محیط مجازی (Virtual Environment) باعث می‌شود وابستگی‌های پروژه از سیستم اصلی جدا شوند
+                        و تداخلی با پروژه‌های دیگر ایجاد نشود.
+                    </p>
+                </div>
+            </div>
+
+            <h4>گام ۳: نصب وابستگی‌ها</h4>
+            <pre><code># نصب تمام وابستگی‌ها
+pip install -r requirements.txt
+
+# نصب بسته در حالت توسعه
+pip install -e .</code></pre>
+
+            <h2>روش دوم: نصب از PyPI</h2>
+            <pre><code>pip install structuremaster</code></pre>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">تأیید نصب</div>
+                    <p class="alert-text">
+                        پس از نصب، دستور زیر را اجرا کنید تا از صحت نصب اطمینان حاصل شود:
+                    </p>
+                </div>
+            </div>
+            <pre><code>structuremaster --version</code></pre>
+        </section>
+
+        <!-- Section 5: Quick Start -->
+        <section class="section" id="quick-start">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h1 class="section-title">شروع سریع</h1>
+            </div>
+
+            <p>در این بخش با چند مثال عملی، نحوه استفاده از StructureMaster را یاد می‌گیرید.</p>
+
+            <h2>اجرای رابط گرافیکی (GUI)</h2>
+            <pre><code># روش اول
+structuremaster-gui
+
+# روش دوم
+python -m src.gui.main_window</code></pre>
+
+            <h2>استفاده از خط فرمان (CLI)</h2>
+
+            <h3>نمونه ۱: اسکن یک پروژه</h3>
+            <pre><code># اسکن پروژه و ذخیره ساختار در فایل JSON
+structuremaster scan ./my-project --output=structure.json
+
+# اسکن با نمایش درصد پیشرفت
+structuremaster scan ./my-project --output=structure.json --progress</code></pre>
+
+            <h3>نمونه ۲: ساخت پروژه از روی ساختار</h3>
+            <pre><code># ایجاد ساختار فیزیکی از فایل JSON
+structuremaster build structure.json --output=./new-project
+
+# ساخت با بازنویسی فایل‌های موجود
+structuremaster build structure.json --output=./existing-project --overwrite</code></pre>
+
+            <h3>نمونه ۳: استخراج محتوا با رمزنگاری</h3>
+            <pre><code># استخراج ساختار و محتوا با رمزنگاری
+structuremaster extract ./project \
+    --content \
+    --encrypt \
+    --password=MySecurePassword123</code></pre>
+
+            <h3>نمونه ۴: مقایسه دو پروژه</h3>
+            <pre><code># مقایسه ساختار دو نسخه از پروژه
+structuremaster compare ./version1 ./version2 --output=diff.md</code></pre>
+
+            <h2>استفاده از Web API</h2>
+            <pre><code># راه‌اندازی سرور وب
+python -m src.web.app
+
+# سرور در آدرس http://localhost:5000 در دسترس است</code></pre>
+        </section>
+
+        <!-- Section 6: Use Cases -->
+        <section class="section" id="use-cases">
+            <div class="section-header">
+                <div class="section-icon">🎯</div>
+                <h1 class="section-title">موارد استفاده</h1>
+            </div>
+
+            <h2>۱. تغذیه مدل‌های زبانی بزرگ (LLM)</h2>
+            <p>
+                یکی از اصلی‌ترین کاربردهای StructureMaster، تهیه خروجی بهینه برای مدل‌های هوش مصنوعی است. با استفاده از
+                این ابزار می‌توانید:
+            </p>
+            <ul>
+                <li>کل ساختار پروژه را در یک فایل JSON یا TXT فشرده کنید</li>
+                <li>محتوای فایل‌های کد را همراه با مسیرها استخراج کنید</li>
+                <li>خروجی را مستقیماً به ChatGPT، Claude یا سایر مدل‌ها بدهید</li>
+            </ul>
+
+            <h2>۲. مستندسازی خودکار</h2>
+            <p>
+                تولید خودکار مستندات ساختار پروژه برای:
+            </p>
+            <ul>
+                <li>فایل README.md پروژه</li>
+                <li>مستندات فنی تیم توسعه</li>
+                <li>آموزش اعضای جدید تیم</li>
+            </ul>
+
+            <h2>۳. بازتولید و انتقال پروژه</h2>
+            <p>
+                ایجاد قالب (Template) از پروژه‌های موفق برای استفاده مجدد در پروژه‌های آینده.
+            </p>
+
+            <h2>۴. تحلیل و بازبینی کد</h2>
+            <p>
+                بررسی ساختار پروژه برای شناسایی مشکلات معماری، فایل‌های اضافی، یا وابستگی‌های پیچیده.
+            </p>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="../COMPREHENSIVE_DOCS_FA.html">← صفحه اصلی</a>
+            <a href="volume1_architecture.html">معماری سیستم →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+        <p>تهیه شده با ❤️ توسط سیستم هوشمند Antigravity</p>
+    </footer>
+
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+</body>
+
+</html>

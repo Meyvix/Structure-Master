@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحلیل کد exporter.py - مستندات StructureMaster</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2332;
+            --bg-code: #0d1117;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #a371f7;
+            --accent-yellow: #d29922;
+            --accent-red: #f85149;
+            --accent-orange: #db6d28;
+            --border-color: #30363d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 2;
+        }
+
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            padding: 3rem 2rem;
+            border-bottom: 3px solid var(--accent-purple);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--accent-purple);
+            color: #fff;
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .hero-desc {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-purple);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .toc {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .toc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .toc-grid a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+        }
+
+        .toc-grid a:hover {
+            background: var(--bg-secondary);
+            color: var(--accent-blue);
+        }
+
+        .section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            margin: 1.5rem 0 1rem;
+            padding-right: 1rem;
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin: 1.25rem 0 0.75rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg-code);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-yellow);
+            direction: ltr;
+            display: inline-block;
+        }
+
+        pre {
+            background: var(--bg-code);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            margin: 1rem 0;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: var(--bg-code);
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-title {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+        }
+
+        .code-lines {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .code-content {
+            padding: 1rem;
+        }
+
+        .line-analysis {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .line-analysis:last-child {
+            border-bottom: none;
+        }
+
+        .line-num {
+            background: rgba(88, 166, 255, 0.1);
+            padding: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-blue);
+            text-align: center;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .line-content {
+            padding: 0.75rem 1rem;
+        }
+
+        .line-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            direction: ltr;
+            text-align: left;
+            background: var(--bg-code);
+            padding: 0.5rem;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        .line-explanation {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .concept-tag {
+            display: inline-block;
+            background: rgba(163, 113, 247, 0.2);
+            color: var(--accent-purple);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-info {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            border-right: 4px solid var(--accent-blue);
+        }
+
+        .alert-warning {
+            background: rgba(210, 153, 34, 0.1);
+            border: 1px solid rgba(210, 153, 34, 0.3);
+            border-right: 4px solid var(--accent-yellow);
+        }
+
+        .alert-success {
+            background: rgba(63, 185, 80, 0.1);
+            border: 1px solid rgba(63, 185, 80, 0.3);
+            border-right: 4px solid var(--accent-green);
+        }
+
+        .alert-icon {
+            font-size: 1.1rem;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .alert-text {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .format-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .format-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .format-card .name {
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        .format-card .desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 0.75rem 1rem;
+            text-align: right;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--bg-code);
+            font-weight: 700;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            background: var(--bg-code);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination a {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .pagination a:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .section {
+                padding: 1.25rem;
+            }
+
+            .line-analysis {
+                grid-template-columns: 50px 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="top-nav">
+        <a href="../COMPREHENSIVE_DOCS_FA.html" class="nav-brand"><span>📘</span><span>مستندات
+                StructureMaster</span></a>
+        <div class="nav-links">
+            <a href="../volumes/volume1_intro.html">مقدمه</a>
+            <a href="../volumes/volume1_modules.html">ماژول‌ها</a>
+            <a href="../volumes/volume2_code_analysis.html">تحلیل کد</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">جلد دوم - تحلیل کد</span>
+            <h1>📤 تحلیل ماژول Exporter</h1>
+            <div class="hero-path">src/modules/exporter.py</div>
+            <p class="hero-desc">ماژول Exporter مسئول خروجی گرفتن از ساختار و محتوای پروژه به فرمت‌های مختلف است. از TXT
+                ساده تا ZIP رمزنگاری‌شده.</p>
+            <div class="hero-stats">
+                <div class="stat-box">
+                    <div class="stat-value">607</div>
+                    <div class="stat-label">خط کد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">کلاس</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">18</div>
+                    <div class="stat-label">متد</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">فرمت خروجی</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="toc">
+            <div class="toc-title">📑 فهرست بخش‌ها</div>
+            <div class="toc-grid">
+                <a href="#overview">نمای کلی فایل</a>
+                <a href="#formats">فرمت‌های پشتیبانی‌شده</a>
+                <a href="#imports">بخش Imports</a>
+                <a href="#exportresult">کلاس ExportResult</a>
+                <a href="#exporter-class">کلاس Exporter</a>
+                <a href="#export-structure">متد export_structure</a>
+                <a href="#export-content">متد export_content</a>
+                <a href="#converters">متدهای تبدیل فرمت</a>
+                <a href="#archives">ایجاد آرشیو</a>
+                <a href="#encryption">رمزنگاری</a>
+                <a href="#final-notes">نکات پایانی</a>
+            </div>
+        </div>
+
+        <!-- Overview -->
+        <section class="section" id="overview">
+            <div class="section-header">
+                <div class="section-icon">📋</div>
+                <h1 class="section-title">نمای کلی فایل</h1>
+            </div>
+            <p>فایل <code>exporter.py</code> یکی از بزرگ‌ترین ماژول‌های پروژه است و مسئول تبدیل داده‌ها به فرمت‌های
+                مختلف خروجی است. این ماژول دو نوع خروجی اصلی دارد: خروجی <strong>ساختار</strong> و خروجی
+                <strong>محتوا</strong>.
+            </p>
+            <h2>ساختار کلی فایل</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>خطوط</th>
+                        <th>بخش</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1-6</td>
+                        <td>Docstring</td>
+                        <td>توضیحات ماژول</td>
+                    </tr>
+                    <tr>
+                        <td>8-23</td>
+                        <td>Imports</td>
+                        <td>کتابخانه‌ها</td>
+                    </tr>
+                    <tr>
+                        <td>26-38</td>
+                        <td>ExportResult</td>
+                        <td>کلاس نتیجه</td>
+                    </tr>
+                    <tr>
+                        <td>41-602</td>
+                        <td>Exporter</td>
+                        <td>کلاس اصلی</td>
+                    </tr>
+                    <tr>
+                        <td>605-606</td>
+                        <td>Singleton</td>
+                        <td>نمونه سراسری</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Supported Formats -->
+        <section class="section" id="formats">
+            <div class="section-header">
+                <div class="section-icon">📁</div>
+                <h1 class="section-title">فرمت‌های پشتیبانی‌شده</h1>
+            </div>
+            <div class="format-grid">
+                <div class="format-card">
+                    <div class="icon">📝</div>
+                    <div class="name">TXT</div>
+                    <div class="desc">متن ساده با فرمت درختی</div>
+                </div>
+                <div class="format-card">
+                    <div class="icon">📊</div>
+                    <div class="name">JSON</div>
+                    <div class="desc">داده ساختاریافته</div>
+                </div>
+                <div class="format-card">
+                    <div class="icon">📑</div>
+                    <div class="name">Markdown</div>
+                    <div class="desc">مستندسازی</div>
+                </div>
+                <div class="format-card">
+                    <div class="icon">⚙️</div>
+                    <div class="name">YAML</div>
+                    <div class="desc">تنظیمات خوانا</div>
+                </div>
+                <div class="format-card">
+                    <div class="icon">🌐</div>
+                    <div class="name">HTML</div>
+                    <div class="desc">نمایش وب</div>
+                </div>
+                <div class="format-card">
+                    <div class="icon">📦</div>
+                    <div class="name">ZIP</div>
+                    <div class="desc">آرشیو فشرده</div>
+                </div>
+                <div class="format-card">
+                    <div class="icon">🗜️</div>
+                    <div class="name">TAR.GZ</div>
+                    <div class="desc">آرشیو یونیکس</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Imports -->
+        <section class="section" id="imports">
+            <div class="section-header">
+                <div class="section-icon">📦</div>
+                <h1 class="section-title">بخش Imports (خطوط 8-23)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Module Imports</span>
+                    <span class="code-lines">خطوط 8-23</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">8</div>
+                        <div class="line-content">
+                            <div class="line-code">import os</div>
+                            <p class="line-explanation">ماژول <code>os</code> برای عملیات سیستم‌عامل. در اینجا کاربرد
+                                مستقیم ندارد اما برای سازگاری وارد شده.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">9</div>
+                        <div class="line-content">
+                            <div class="line-code">import json</div>
+                            <p class="line-explanation"><span class="concept-tag">Serialization</span>
+                                ماژول <code>json</code> برای تبدیل دیکشنری به JSON و ایجاد فایل metadata در آرشیوها.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">10</div>
+                        <div class="line-content">
+                            <div class="line-code">import zipfile</div>
+                            <p class="line-explanation"><span class="concept-tag">Archive</span>
+                                کتابخانه ایجاد و مدیریت فایل‌های ZIP. از <code>ZIP_DEFLATED</code> برای فشرده‌سازی
+                                استفاده می‌شود.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">11</div>
+                        <div class="line-content">
+                            <div class="line-code">import tarfile</div>
+                            <p class="line-explanation">کتابخانه ایجاد آرشیو tar.gz (فرمت رایج در لینوکس). از حالت
+                                <code>'w:gz'</code> برای فشرده‌سازی gzip استفاده می‌شود.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">12</div>
+                        <div class="line-content">
+                            <div class="line-code">import shutil</div>
+                            <p class="line-explanation">عملیات سطح بالای فایل‌سیستم. برای کپی و انتقال فایل‌ها (در صورت
+                                نیاز).</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">13</div>
+                        <div class="line-content">
+                            <div class="line-code">import tempfile</div>
+                            <p class="line-explanation"><span class="concept-tag">Temporary Files</span>
+                                ایجاد فایل‌ها و دایرکتوری‌های موقت. <code>TemporaryDirectory</code> خودکار پس از استفاده
+                                پاک می‌شود.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">14</div>
+                        <div class="line-content">
+                            <div class="line-code">from pathlib import Path</div>
+                            <p class="line-explanation"><span class="concept-tag">Modern Path API</span>
+                                کلاس <code>Path</code> رابط شیء‌گرا برای مسیرها با متدهایی مانند <code>parent</code>،
+                                <code>mkdir()</code>، <code>stat()</code>.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">15</div>
+                        <div class="line-content">
+                            <div class="line-code">from typing import Dict, Any, List, Optional, Union</div>
+                            <p class="line-explanation"><span class="concept-tag">Type Hints</span>
+                                انواع داده برای Type Hints: <code>Union</code> برای چند نوع ممکن، <code>Optional</code>
+                                برای None یا مقدار.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">16</div>
+                        <div class="line-content">
+                            <div class="line-code">from dataclasses import dataclass, field</div>
+                            <p class="line-explanation"><code>@dataclass</code> برای ExportResult.
+                                <code>field(default_factory=...)</code> برای مقادیر پیش‌فرض mutable.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">17</div>
+                        <div class="line-content">
+                            <div class="line-code">from datetime import datetime</div>
+                            <p class="line-explanation">برای ثبت زمان export و محاسبه مدت عملیات به میلی‌ثانیه.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">18</div>
+                        <div class="line-content">
+                            <div class="line-code">from enum import Enum, auto</div>
+                            <p class="line-explanation">وارد شده اما مستقیماً استفاده نمی‌شود (ExportFormat از config
+                                وارد می‌شود).</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">19</div>
+                        <div class="line-content">
+                            <div class="line-code">import html</div>
+                            <p class="line-explanation"><span class="concept-tag">XSS Prevention</span>
+                                تابع <code>html.escape()</code> کاراکترهای خطرناک (<code>&lt;</code>, <code>&gt;</code>,
+                                <code>&amp;</code>) را escape می‌کند تا از حملات XSS جلوگیری شود.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">21</div>
+                        <div class="line-content">
+                            <div class="line-code">from ..config import Config, ExportFormat</div>
+                            <p class="line-explanation"><span class="concept-tag">Relative Import</span>
+                                <code>..</code> یک سطح بالاتر (src). <code>ExportFormat</code> یک Enum است: JSON, TXT,
+                                MARKDOWN, YAML, HTML, ZIP, TAR_GZ.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">22</div>
+                        <div class="line-content">
+                            <div class="line-code">from .logger import Logger</div>
+                            <p class="line-explanation">وارد کردن Logger از همین پکیج برای ثبت وقایع.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">23</div>
+                        <div class="line-content">
+                            <div class="line-code">from .content_extractor import FileContent</div>
+                            <p class="line-explanation"><code>FileContent</code> یک dataclass است که اطلاعات فایل (نام،
+                                مسیر، محتوا، هش، سایز) را نگه می‌دارد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exporter Class -->
+        <section class="section" id="exporter-class">
+            <div class="section-header">
+                <div class="section-icon">🏭</div>
+                <h1 class="section-title">کلاس Exporter و سازنده (خطوط 41-49)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">class Exporter</span>
+                    <span class="code-lines">خطوط 41-49</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">41-44</div>
+                        <div class="line-content">
+                            <div class="line-code">class Exporter:
+                                """
+                                Exports project data to various formats.
+                                """</div>
+                            <p class="line-explanation">تعریف کلاس اصلی Exporter با Docstring توضیحی.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">46-49</div>
+                        <div class="line-content">
+                            <div class="line-code">def __init__(self):
+                                """Initialize exporter."""
+                                self.logger = Logger.get_instance()
+                                self._security = None # Lazy import to avoid circular dependency</div>
+                            <p class="line-explanation"><span class="concept-tag">Lazy Import Pattern</span>
+                                <strong>نکته مهم:</strong> <code>_security</code> اینجا None است و فقط وقتی نیاز به
+                                رمزنگاری باشد مقداردهی می‌شود. این کار از circular import جلوگیری می‌کند چون security.py
+                                نیز به ماژول‌های دیگر وابسته است.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ExportResult -->
+        <section class="section" id="exportresult">
+            <div class="section-header">
+                <div class="section-icon">📊</div>
+                <h1 class="section-title">کلاس ExportResult (خطوط 26-38)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">@dataclass ExportResult</span>
+                    <span class="code-lines">خطوط 26-38</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">26-38</div>
+                        <div class="line-content">
+                            <div class="line-code">@dataclass
+                                class ExportResult:
+                                success: bool
+                                output_path: str = ''
+                                format: str = ''
+                                encrypted: bool = False
+                                errors: List[str] = field(default_factory=list)
+                                stats: Dict[str, Any] = field(default_factory=lambda: {
+                                'files_exported': 0,
+                                'total_size': 0,
+                                'export_time_ms': 0,
+                                })</div>
+                            <p class="line-explanation">نتیجه عملیات export شامل: وضعیت موفقیت، مسیر خروجی، فرمت، وضعیت
+                                رمزنگاری، و آمار عملیات.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export Structure Method -->
+        <section class="section" id="export-structure">
+            <div class="section-header">
+                <div class="section-icon">🌳</div>
+                <h1 class="section-title">متد export_structure (خطوط 51-106)</h1>
+            </div>
+            <p>این متد فقط <strong>ساختار</strong> پروژه (نه محتوا) را خروجی می‌دهد.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">export_structure()</span>
+                    <span class="code-lines">خطوط 51-106</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">51-67</div>
+                        <div class="line-content">
+                            <div class="line-code">def export_structure(self,
+                                structure: Dict[str, Any],
+                                output_path: Path,
+                                format: ExportFormat = ExportFormat.JSON,
+                                pretty: bool = True) -> ExportResult:</div>
+                            <p class="line-explanation"><strong>پارامترها:</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>structure</code>: دیکشنری ساختار (خروجی Scanner)</li>
+                                <li><code>output_path</code>: مسیر فایل خروجی</li>
+                                <li><code>format</code>: فرمت خروجی (JSON, TXT, MD, YAML, HTML)</li>
+                                <li><code>pretty</code>: فرمت‌بندی زیبا (برای JSON)</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">79-92</div>
+                        <div class="line-content">
+                            <div class="line-code">if format == ExportFormat.JSON:
+                                content = self._to_json(structure, pretty)
+                                elif format == ExportFormat.TXT:
+                                content = self._to_tree(structure)
+                                elif format == ExportFormat.MARKDOWN:
+                                content = self._to_markdown_structure(structure)
+                                elif format == ExportFormat.YAML:
+                                content = self._to_yaml(structure)
+                                elif format == ExportFormat.HTML:
+                                content = self._to_html_structure(structure)
+                                else:
+                                result.success = False
+                                result.errors.append(f"Unsupported format...")</div>
+                            <p class="line-explanation"><span class="concept-tag">Strategy Pattern</span>
+                                استفاده از if-elif برای انتخاب متد تبدیل مناسب. هر فرمت یک متد مخصوص دارد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export Content Method -->
+        <section class="section" id="export-content">
+            <div class="section-header">
+                <div class="section-icon">📄</div>
+                <h1 class="section-title">متد export_content (خطوط 108-187)</h1>
+            </div>
+            <p>این متد <strong>محتوای فایل‌ها</strong> را خروجی می‌دهد.</p>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">export_content()</span>
+                    <span class="code-lines">خطوط 108-187</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">108-128</div>
+                        <div class="line-content">
+                            <div class="line-code">def export_content(self,
+                                files: List[FileContent],
+                                output_path: Path,
+                                format: ExportFormat = ExportFormat.TXT,
+                                encrypt: bool = False,
+                                password: Optional[str] = None,
+                                compress: bool = False) -> ExportResult:</div>
+                            <p class="line-explanation"><strong>پارامترهای اضافی:</strong>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>files</code>: لیست FileContent (خروجی ContentExtractor)</li>
+                                <li><code>encrypt</code>: فعال کردن رمزنگاری AES-256</li>
+                                <li><code>password</code>: رمز عبور برای رمزنگاری</li>
+                                <li><code>compress</code>: فشرده‌سازی به آرشیو</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">141-142</div>
+                        <div class="line-content">
+                            <div class="line-code"># Handle archive formats
+                                if format in (ExportFormat.ZIP, ExportFormat.TAR_GZ) or compress:
+                                return self._export_archive(files, output_path, format, encrypt, password)</div>
+                            <p class="line-explanation">اگر فرمت آرشیو باشد یا compress فعال باشد، به متد جداگانه
+                                <code>_export_archive</code> هدایت می‌شود.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">162-165</div>
+                        <div class="line-content">
+                            <div class="line-code"># Encrypt if requested
+                                if encrypt and password:
+                                content = self._encrypt_content(content, password)
+                                result.encrypted = True</div>
+                            <p class="line-explanation"><span class="concept-tag">Encryption</span>
+                                اگر رمزنگاری درخواست شده باشد، محتوا با AES-256 رمزنگاری می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Converters -->
+        <section class="section" id="converters">
+            <div class="section-header">
+                <div class="section-icon">🔄</div>
+                <h1 class="section-title">متدهای تبدیل فرمت (خطوط 254-594)</h1>
+            </div>
+
+            <h2>متد _to_json (خطوط 254-257)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_to_json()</span>
+                    <span class="code-lines">خطوط 254-257</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">254-257</div>
+                        <div class="line-content">
+                            <div class="line-code">def _to_json(self, data: Any, pretty: bool = True) -> str:
+                                """Convert data to JSON string."""
+                                indent = 2 if pretty else None
+                                return json.dumps(data, indent=indent, ensure_ascii=False, default=str)</div>
+                            <p class="line-explanation"><span class="concept-tag">JSON Serialization</span>
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li><code>indent=2</code>: فرمت‌بندی زیبا با ۲ فضای خالی</li>
+                                <li><code>ensure_ascii=False</code>: حفظ کاراکترهای فارسی (بدون escape)</li>
+                                <li><code>default=str</code>: اشیاء غیرقابل سریالایز به string تبدیل می‌شوند</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _to_tree (خطوط 259-277)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_to_tree()</span>
+                    <span class="code-lines">خطوط 259-277</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">259-263</div>
+                        <div class="line-content">
+                            <div class="line-code">def _to_tree(self, structure: Dict[str, Any], prefix: str = '') ->
+                                str:
+                                """Convert structure to tree format."""
+                                lines = []
+                                items = sorted(structure.items(),
+                                key=lambda x: (not isinstance(x[1], dict), x[0].lower()))</div>
+                            <p class="line-explanation"><span class="concept-tag">Sorting</span>
+                                مرتب‌سازی: ابتدا دایرکتوری‌ها (<code>isinstance(x[1], dict)</code>) سپس فایل‌ها، و درون
+                                هر گروه به ترتیب الفبایی.</p>
+                        </div>
+                    </div>
+                    <div class="line-analysis">
+                        <div class="line-num">265-277</div>
+                        <div class="line-content">
+                            <div class="line-code">for i, (name, content) in enumerate(items):
+                                is_last = (i == len(items) - 1)
+                                connector = '└── ' if is_last else '├── '
+
+                                if isinstance(content, dict):
+                                lines.append(f"{prefix}{connector}{name}/")
+                                if content:
+                                extension = ' ' if is_last else '│ '
+                                lines.append(self._to_tree(content, prefix + extension))
+                                else:
+                                lines.append(f"{prefix}{connector}{name}")</div>
+                            <p class="line-explanation"><span class="concept-tag">Recursive Tree</span>
+                                منطق ایجاد درخت ASCII:
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li><code>└──</code>: آخرین آیتم، <code>├──</code>: سایر آیتم‌ها</li>
+                                <li><code>/</code> بعد از نام دایرکتوری اضافه می‌شود</li>
+                                <li>فراخوانی بازگشتی با prefix جدید</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _to_yaml (خطوط 279-286)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_to_yaml()</span>
+                    <span class="code-lines">خطوط 279-286</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">279-286</div>
+                        <div class="line-content">
+                            <div class="line-code">def _to_yaml(self, data: Any) -> str:
+                                """Convert data to YAML string."""
+                                try:
+                                import yaml
+                                return yaml.dump(data, default_flow_style=False, allow_unicode=True)
+                                except ImportError:
+                                # Fallback to simple YAML-like format
+                                return self._simple_yaml(data)</div>
+                            <p class="line-explanation"><span class="concept-tag">Optional Dependency</span>
+                                <strong>الگوی Graceful Degradation:</strong> اگر کتابخانه <code>PyYAML</code> نصب نباشد،
+                                از پیاده‌سازی ساده داخلی استفاده می‌شود. این الگو تضمین می‌کند برنامه همیشه کار می‌کند.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _simple_yaml (خطوط 288-306)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_simple_yaml() - Fallback</span>
+                    <span class="code-lines">خطوط 288-306</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">288-306</div>
+                        <div class="line-content">
+                            <div class="line-code">def _simple_yaml(self, data: Any, indent: int = 0) -> str:
+                                """Simple YAML serialization fallback."""
+                                lines = []
+                                prefix = ' ' * indent
+
+                                if isinstance(data, dict):
+                                for key, value in data.items():
+                                if isinstance(value, dict):
+                                lines.append(f"{prefix}{key}:")
+                                lines.append(self._simple_yaml(value, indent + 1))
+                                elif value is None:
+                                lines.append(f"{prefix}{key}: null")
+                                else:
+                                lines.append(f"{prefix}{key}: {value}")
+                                elif isinstance(data, list):
+                                for item in data:
+                                lines.append(f"{prefix}- {item}")</div>
+                            <p class="line-explanation"><span class="concept-tag">Recursive Serialization</span>
+                                پیاده‌سازی ساده YAML:
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li>هر سطح تورفتگی = ۲ فاصله</li>
+                                <li><code>None</code> به <code>null</code> تبدیل می‌شود</li>
+                                <li>لیست‌ها با <code>-</code> نمایش داده می‌شوند</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _to_markdown_structure (خطوط 308-323)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_to_markdown_structure()</span>
+                    <span class="code-lines">خطوط 308-323</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">308-323</div>
+                        <div class="line-content">
+                            <div class="line-code">def _to_markdown_structure(self, structure: Dict[str, Any],
+                                level: int = 0) -> str:
+                                """Convert structure to Markdown."""
+                                lines = []
+
+                                if level == 0:
+                                lines.append("# Project Structure\n")
+                                lines.append(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                                lines.append("```")
+
+                                lines.append(self._to_tree(structure))
+
+                                if level == 0:
+                                lines.append("```")</div>
+                            <p class="line-explanation">ساختار را در یک code block قرار می‌دهد با عنوان و تاریخ تولید.
+                                از <code>_to_tree</code> برای تولید محتوای درختی استفاده می‌کند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _to_html_structure (خطوط 325-382)</h2>
+            <p>این متد یک صفحه HTML کامل با استایل CSS تولید می‌کند. ویژگی‌ها:</p>
+            <ul style="padding-right: 2rem; color: var(--text-secondary);">
+                <li>پس‌زمینه گرادیانت تیره</li>
+                <li>فونت Consolas برای نمایش درختی</li>
+                <li>استفاده از <code>html.escape()</code> برای امنیت</li>
+            </ul>
+        </section>
+
+        <!-- Archives -->
+        <section class="section" id="archives">
+            <div class="section-header">
+                <div class="section-icon">📦</div>
+                <h1 class="section-title">ایجاد آرشیو (خطوط 189-252)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_create_zip()</span>
+                    <span class="code-lines">خطوط 220-234</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">220-234</div>
+                        <div class="line-content">
+                            <div class="line-code">def _create_zip(self, files: List[FileContent], output_path: Path,
+                                encrypt: bool, password: Optional[str]) -> None:
+                                with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zf:
+                                for file in files:
+                                if file.content:
+                                zf.writestr(file.relative_path, file.content)
+
+                                # Add metadata file
+                                metadata = {
+                                'created': datetime.now().isoformat(),
+                                'files': len(files),
+                                'encrypted': encrypt,
+                                }
+                                zf.writestr('_metadata.json', json.dumps(metadata, indent=2))</div>
+                            <p class="line-explanation"><span class="concept-tag">ZIP Creation</span>
+                            <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                                <li><code>ZIP_DEFLATED</code>: الگوریتم فشرده‌سازی</li>
+                                <li><code>writestr</code>: نوشتن مستقیم از حافظه (بدون فایل موقت)</li>
+                                <li>فایل <code>_metadata.json</code> برای اطلاعات اضافی</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_create_targz()</span>
+                    <span class="code-lines">خطوط 236-252</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">236-252</div>
+                        <div class="line-content">
+                            <div class="line-code">def _create_targz(self, files: List[FileContent], output_path: Path)
+                                -> None:
+                                with tempfile.TemporaryDirectory() as temp_dir:
+                                temp_path = Path(temp_dir)
+
+                                for file in files:
+                                if file.content:
+                                file_path = temp_path / file.relative_path
+                                file_path.parent.mkdir(parents=True, exist_ok=True)
+                                with open(file_path, 'w', encoding='utf-8') as f:
+                                f.write(file.content)
+
+                                with tarfile.open(output_path, 'w:gz') as tf:
+                                for item in temp_path.iterdir():
+                                tf.add(item, arcname=item.name)</div>
+                            <p class="line-explanation"><span class="concept-tag">Temp Directory</span>
+                                برخلاف ZIP، tar نیاز به فایل‌های فیزیکی دارد. بنابراین ابتدا فایل‌ها در یک دایرکتوری
+                                موقت ایجاد می‌شوند و سپس tar.gz ساخته می‌شود. دایرکتوری موقت خودکار پاک می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Encryption -->
+        <section class="section" id="encryption">
+            <div class="section-header">
+                <div class="section-icon">🔐</div>
+                <h1 class="section-title">رمزنگاری (خطوط 596-602)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_encrypt_content()</span>
+                    <span class="code-lines">خطوط 596-602</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">596-602</div>
+                        <div class="line-content">
+                            <div class="line-code">def _encrypt_content(self, content: str, password: str) -> bytes:
+                                """Encrypt content with AES-256."""
+                                if self._security is None:
+                                from .security import SecurityManager
+                                self._security = SecurityManager()
+
+                                return self._security.encrypt(content.encode('utf-8'), password)</div>
+                            <p class="line-explanation"><span class="concept-tag">Lazy Import</span>
+                                <strong>Lazy Import برای جلوگیری از Circular Dependency:</strong> ماژول Security فقط
+                                زمانی وارد می‌شود که واقعاً نیاز باشد. این کار از بروز خطای circular import جلوگیری
+                                می‌کند.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <div class="alert-content">
+                    <div class="alert-title">نکته امنیتی</div>
+                    <p class="alert-text">رمزنگاری از AES-256 استفاده می‌کند که یک الگوریتم قوی است. اما امنیت به قدرت
+                        password بستگی دارد!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- File Content Converters -->
+        <section class="section" id="file-converters">
+            <div class="section-header">
+                <div class="section-icon">📄</div>
+                <h1 class="section-title">متدهای تبدیل محتوای فایل (خطوط 384-594)</h1>
+            </div>
+            <p>این متدها لیستی از <code>FileContent</code> را به فرمت‌های مختلف تبدیل می‌کنند.</p>
+
+            <h2>متد _files_to_txt (خطوط 384-398)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_files_to_txt()</span>
+                    <span class="code-lines">خطوط 384-398</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">384-398</div>
+                        <div class="line-content">
+                            <div class="line-code">def _files_to_txt(self, files: List[FileContent]) -> str:
+                                lines = [
+                                "=" * 80,
+                                "StructureMaster - Project Content Export",
+                                f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+                                f"Total Files: {len(files)}",
+                                "=" * 80,
+                                "",
+                                ]
+
+                                for file in files:
+                                lines.append(file.to_formatted_string())</div>
+                            <p class="line-explanation"><span class="concept-tag">Header + Content</span>
+                                یک هدر با خط‌های جداکننده ایجاد می‌کند و سپس برای هر فایل، خروجی
+                                <code>to_formatted_string()</code> اضافه می‌شود.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _files_to_json (خطوط 400-407)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_files_to_json()</span>
+                    <span class="code-lines">خطوط 400-407</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">400-407</div>
+                        <div class="line-content">
+                            <div class="line-code">def _files_to_json(self, files: List[FileContent]) -> str:
+                                data = {
+                                'generated': datetime.now().isoformat(),
+                                'total_files': len(files),
+                                'files': [f.to_dict() for f in files]
+                                }
+                                return self._to_json(data)</div>
+                            <p class="line-explanation"><span class="concept-tag">Structured Data</span>
+                                یک دیکشنری با metadata و لیست فایل‌ها ایجاد می‌کند. از <code>to_dict()</code> برای هر
+                                FileContent استفاده می‌کند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _files_to_markdown (خطوط 409-445)</h2>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">_files_to_markdown()</span>
+                    <span class="code-lines">خطوط 409-445</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">409-445</div>
+                        <div class="line-content">
+                            <div class="line-code">def _files_to_markdown(self, files: List[FileContent]) -> str:
+                                for file in files:
+                                ext = file.extension or 'txt'
+                                lines.extend([
+                                f"## 📄 {file.filename}",
+                                f"- **Path:** `{file.relative_path}`",
+                                f"- **Size:** {file.size:,} bytes",
+                                ...
+                                ])
+                                if file.is_binary:
+                                lines.append("*Binary file - content not displayed*\n")
+                                elif file.content:
+                                lines.extend([f"```{ext}", file.content, "```"])</div>
+                            <p class="line-explanation"><span class="concept-tag">Syntax Highlighting</span>
+                            <ul style="margin-top:0.5rem;color:var(--text-secondary)">
+                                <li>هر فایل یک heading <code>##</code> دارد</li>
+                                <li>از پسوند فایل برای syntax highlighting استفاده می‌شود</li>
+                                <li>فایل‌های باینری "Binary file" نشان داده می‌شوند</li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>متد _files_to_html (خطوط 456-594)</h2>
+            <p>این متد بزرگ‌ترین متد است (~140 خط) و یک صفحه HTML کامل با کارت‌های فایل تولید می‌کند:</p>
+            <ul style="padding-right: 2rem; color: var(--text-secondary);">
+                <li>هر فایل یک کارت با header، metadata و محتوا دارد</li>
+                <li>استفاده از <code>html.escape()</code> برای امنیت XSS</li>
+                <li>محدودیت 5000 کاراکتر برای نمایش محتوا</li>
+                <li>نمایش آمار کلی (تعداد فایل‌ها، حجم کل)</li>
+            </ul>
+        </section>
+
+        <!-- Singleton Instance -->
+        <section class="section" id="singleton">
+            <div class="section-header">
+                <div class="section-icon">🌐</div>
+                <h1 class="section-title">نمونه Singleton (خطوط 605-606)</h1>
+            </div>
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="code-title">Singleton Instance</span>
+                    <span class="code-lines">خطوط 605-606</span>
+                </div>
+                <div class="code-content">
+                    <div class="line-analysis">
+                        <div class="line-num">605-606</div>
+                        <div class="line-content">
+                            <div class="line-code"># Create singleton instance
+                                exporter = Exporter()</div>
+                            <p class="line-explanation"><span class="concept-tag">Singleton Pattern</span>
+                                یک نمونه سراسری در سطح ماژول ایجاد می‌شود. سایر ماژول‌ها می‌توانند با
+                                <code>from .exporter import exporter</code> آن را وارد کنند. این الگو تضمین می‌کند همه
+                                از یک instance استفاده کنند.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final Notes -->
+        <section class="section" id="final-notes">
+            <div class="section-header">
+                <div class="section-icon">📝</div>
+                <h1 class="section-title">نکات پایانی و خلاصه</h1>
+            </div>
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <div class="alert-content">
+                    <div class="alert-title">نقاط قوت</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>تنوع فرمت:</strong> 7 فرمت مختلف خروجی</li>
+                        <li><strong>امنیت:</strong> رمزنگاری AES-256 و HTML escaping</li>
+                        <li><strong>انعطاف‌پذیری:</strong> جداسازی export ساختار و محتوا</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <div class="alert-content">
+                    <div class="alert-title">الگوهای طراحی</div>
+                    <p class="alert-text">
+                    <ul style="margin-top: 0.5rem; color: var(--text-secondary);">
+                        <li><strong>Strategy:</strong> متدهای مختلف برای هر فرمت</li>
+                        <li><strong>Template Method:</strong> ساختار مشترک برای همه exports</li>
+                        <li><strong>Lazy Initialization:</strong> برای SecurityManager</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+            <h2>خلاصه جریان اجرا</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>مرحله</th>
+                        <th>توضیحات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>۱</td>
+                        <td>انتخاب متد (export_structure یا export_content)</td>
+                    </tr>
+                    <tr>
+                        <td>۲</td>
+                        <td>تشخیص نوع فرمت و انتخاب converter مناسب</td>
+                    </tr>
+                    <tr>
+                        <td>۳</td>
+                        <td>تبدیل داده به رشته/بایت</td>
+                    </tr>
+                    <tr>
+                        <td>۴</td>
+                        <td>رمزنگاری (اختیاری)</td>
+                    </tr>
+                    <tr>
+                        <td>۵</td>
+                        <td>نوشتن به فایل/آرشیو</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <div class="pagination">
+            <a href="builder_py.html">← تحلیل builder.py</a>
+            <a href="content_extractor_py.html">تحلیل content_extractor.py →</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+    </footer>
+</body>
+
+</html>
