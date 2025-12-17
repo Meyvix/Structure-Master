@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحلیل کد exporter.py - مستندات StructureMaster</title>
+    <title>تحلیل کد exporter.py - مستندات Stracture-Master</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
@@ -507,7 +507,7 @@
 <body>
     <nav class="top-nav">
         <a href="../COMPREHENSIVE_DOCS_FA.html" class="nav-brand"><span>📘</span><span>مستندات
-                StructureMaster</span></a>
+                Stracture-Master</span></a>
         <div class="nav-links">
             <a href="../volumes/volume1_intro.html">مقدمه</a>
             <a href="../volumes/volume1_modules.html">ماژول‌ها</a>
@@ -1312,7 +1312,7 @@
                             <div class="line-code">def _files_to_txt(self, files: List[FileContent]) -> str:
                                 lines = [
                                 "=" * 80,
-                                "StructureMaster - Project Content Export",
+                                "Stracture-Master - Project Content Export",
                                 f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
                                 f"Total Files: {len(files)}",
                                 "=" * 80,
@@ -1323,7 +1323,8 @@
                                 lines.append(file.to_formatted_string())</div>
                             <p class="line-explanation"><span class="concept-tag">Header + Content</span>
                                 یک هدر با خط‌های جداکننده ایجاد می‌کند و سپس برای هر فایل، خروجی
-                                <code>to_formatted_string()</code> اضافه می‌شود.</p>
+                                <code>to_formatted_string()</code> اضافه می‌شود.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1419,7 +1420,8 @@
                             <p class="line-explanation"><span class="concept-tag">Singleton Pattern</span>
                                 یک نمونه سراسری در سطح ماژول ایجاد می‌شود. سایر ماژول‌ها می‌توانند با
                                 <code>from .exporter import exporter</code> آن را وارد کنند. این الگو تضمین می‌کند همه
-                                از یک instance استفاده کنند.</p>
+                                از یک instance استفاده کنند.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1498,7 +1500,7 @@
     </div>
 
     <footer class="footer">
-        <p>مستندات جامع StructureMaster | نسخه ۱.۰.۰ | زمستان ۱۴۰۳</p>
+        <p>مستندات جامع Stracture-Master | نسخه ۱.۰.۱ | زمستان ۱۴۰۴</p>
     </footer>
 </body>
 

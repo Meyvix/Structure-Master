@@ -1,5 +1,5 @@
 """
-StructureMaster - GUI Tabs Package
+Stracture-Master - GUI Tabs Package
 """
 
 from .structure_builder_tab import StructureBuilderTab

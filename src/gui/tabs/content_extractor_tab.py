@@ -1,5 +1,5 @@
 """
-StructureMaster - Content Extractor Tab
+Stracture-Master - Content Extractor Tab
 Extract file contents with metadata.
 """
 
@@ -9,7 +9,7 @@ from pathlib import Path
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
     QFrame, QSplitter, QComboBox, QCheckBox, QMessageBox,
-    QFileDialog, QSpinBox, QLineEdit
+    QFileDialog, QSpinBox, QLineEdit, QScrollArea
 )
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
 
@@ -134,8 +134,20 @@ class ContentExtractorTab(QWidget):
         return header
     
     def _create_settings_panel(self) -> QWidget:
-        """Create settings panel."""
+        """Create settings panel with scroll support."""
+        # Create scroll area for the panel
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setStyleSheet(f"""
+            QScrollArea {{
+                border: none;
+                background: transparent;
+            }}
+        """)
+        scroll.setMinimumWidth(280)
+        
         panel = CardWidget("Extraction Settings")
+        panel.setMinimumHeight(500)
         
         # Path input
         path_label = QLabel("Project Path:")
@@ -156,6 +168,7 @@ class ContentExtractorTab(QWidget):
         self.max_size_spin.setRange(1, 1000)
         self.max_size_spin.setValue(100)
         self.max_size_spin.setFixedWidth(100)
+        self.max_size_spin.setMinimumHeight(32)
         size_layout.addWidget(self.max_size_spin)
         size_layout.addStretch()
         panel.addLayout(size_layout)
@@ -165,8 +178,10 @@ class ContentExtractorTab(QWidget):
         options_label.setStyleSheet(f"""
             font-weight: 600;
             color: {COLORS['text_primary']};
-            margin-top: 15px;
+            padding-top: 10px;
+            padding-bottom: 4px;
         """)
+        options_label.setMinimumHeight(30)
         panel.addWidget(options_label)
         
         self.binary_check = QCheckBox("Include binary files (metadata only)")
@@ -184,7 +199,7 @@ class ContentExtractorTab(QWidget):
         
         # Spacer
         spacer = QWidget()
-        spacer.setMinimumHeight(20)
+        spacer.setFixedHeight(20)
         panel.addWidget(spacer)
         
         # Export section
@@ -193,6 +208,7 @@ class ContentExtractorTab(QWidget):
             font-weight: 600;
             color: {COLORS['text_primary']};
         """)
+        export_label.setMinimumHeight(24)
         panel.addWidget(export_label)
         
         format_layout = QHBoxLayout()
@@ -222,7 +238,8 @@ class ContentExtractorTab(QWidget):
         self.export_btn.clicked.connect(self._export_content)
         panel.addWidget(self.export_btn)
         
-        return panel
+        scroll.setWidget(panel)
+        return scroll
     
     def _create_results_panel(self) -> QWidget:
         """Create results panel."""

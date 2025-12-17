@@ -1,5 +1,5 @@
 """
-StructureMaster - File Analyzer Module
+Stracture-Master - File Analyzer Module
 Analyzes files for various metrics and properties.
 """
 

@@ -1,5 +1,5 @@
 """
-StructureMaster - Document Converter
+Stracture-Master - Document Converter
 Convert documentation to PDF and Word formats.
 """
 
@@ -125,7 +125,7 @@ def main():
     ]
     
     print("=" * 50)
-    print("📄 StructureMaster Document Converter")
+    print("📄 Stracture-Master Document Converter")
     print("=" * 50)
     print()
     

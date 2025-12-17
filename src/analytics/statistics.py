@@ -1,5 +1,5 @@
 """
-StructureMaster - Statistics Module
+Stracture-Master - Statistics Module
 Advanced project statistics and analysis.
 """
 

@@ -1,5 +1,5 @@
 """
-StructureMaster - GUI Package
+Stracture-Master - GUI Package
 """
 
 from .main_window import MainWindow, main

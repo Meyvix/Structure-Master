@@ -1,5 +1,5 @@
 """
-StructureMaster - Sample Plugin
+Stracture-Master - Sample Plugin
 Example plugin demonstrating the plugin system.
 """
 
@@ -14,7 +14,7 @@ class SamplePlugin(PluginBase):
     
     NAME = 'SamplePlugin'
     VERSION = '1.0.0'
-    AUTHOR = 'StructureMaster Team'
+    AUTHOR = 'Stracture-Master Team'
     DESCRIPTION = 'A sample plugin demonstrating the plugin system'
     
     def on_load(self) -> None:

@@ -1,5 +1,5 @@
 """
-StructureMaster - Exporter Module
+Stracture-Master - Exporter Module
 Exports project structure and content to various formats.
 Supports: TXT, JSON, Markdown, YAML, HTML, ZIP, tar.gz
 Features: AES-256 encryption, customizable templates
@@ -385,7 +385,7 @@ class Exporter:
         """Convert file contents to TXT format."""
         lines = [
             "=" * 80,
-            "StructureMaster - Project Content Export",
+            "Stracture-Master - Project Content Export",
             f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
             f"Total Files: {len(files)}",
             "=" * 80,

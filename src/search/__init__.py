@@ -1,5 +1,5 @@
 """
-StructureMaster - Search Package
+Stracture-Master - Search Package
 Advanced search and filtering capabilities.
 """
 

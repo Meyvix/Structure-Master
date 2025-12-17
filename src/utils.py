@@ -1,5 +1,5 @@
 """
-StructureMaster - Utility Functions Module
+Stracture-Master - Utility Functions Module
 Contains common utility functions used across the application.
 """
 
@@ -22,7 +22,7 @@ import chardet
 
 
 class Utils:
-    """Collection of utility functions for StructureMaster."""
+    """Collection of utility functions for Stracture-Master."""
     
     # Thread-local storage for caching
     _local = threading.local()
@@ -182,14 +182,14 @@ class Utils:
             return False
     
     @staticmethod
-    def get_temp_file(suffix: str = '', prefix: str = 'structuremaster_') -> Path:
+    def get_temp_file(suffix: str = '', prefix: str = 'Stracture-Master_') -> Path:
         """Create a temporary file and return its path."""
         fd, path = tempfile.mkstemp(suffix=suffix, prefix=prefix)
         os.close(fd)
         return Path(path)
     
     @staticmethod
-    def get_temp_dir(prefix: str = 'structuremaster_') -> Path:
+    def get_temp_dir(prefix: str = 'Stracture-Master_') -> Path:
         """Create a temporary directory and return its path."""
         return Path(tempfile.mkdtemp(prefix=prefix))
     

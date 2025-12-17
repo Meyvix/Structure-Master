@@ -1,5 +1,5 @@
 """
-StructureMaster - Validator Module
+Stracture-Master - Validator Module
 Validates project structures for correctness and consistency.
 """
 

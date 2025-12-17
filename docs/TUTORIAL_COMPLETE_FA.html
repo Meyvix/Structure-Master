@@ -1,363 +1,0 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مستندات جامع فنی: StructureMaster</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap');
-        
-        :root {
-            --primary-bg: #1e3a8a; /* آبی کاربنی */
-            --header-text: #ffffff;
-            --section-bg: #ffffff;
-            --code-bg: #f3f4f6;
-            --border-color: #e5e7eb;
-            --link-color: #2563eb;
-            --accent-color: #f59e0b; /* کهربایی */
-        }
-
-        body {
-            font-family: 'Vazirmatn', sans-serif;
-            background-color: #f8fafc;
-            color: #1f2937;
-            line-height: 1.9;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* Header */
-        header {
-            background-color: var(--primary-bg);
-            color: var(--header-text);
-            padding: 4rem 2rem;
-            text-align: center;
-            border-bottom: 5px solid var(--accent-color);
-        }
-
-        header h1 {
-            font-size: 2.8rem;
-            margin: 0;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-top: 1rem;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1000px;
-            margin: -3rem auto 2rem;
-            position: relative;
-            z-index: 10;
-            padding: 0 1rem;
-        }
-
-        /* Navigation Grid */
-        .nav-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .nav-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.2s;
-            border-top: 4px solid var(--link-color);
-        }
-
-        .nav-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .nav-card h3 {
-            margin-top: 0;
-            color: var(--primary-bg);
-        }
-
-        .nav-card p {
-            font-size: 0.9rem;
-            color: #6b7280;
-        }
-        
-        .nav-card a {
-            display: inline-block;
-            margin-top: 1rem;
-            text-decoration: none;
-            color: var(--link-color);
-            font-weight: bold;
-        }
-
-        /* Content Sections */
-        .content-section {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-        }
-
-        h2 {
-            border-right: 5px solid var(--accent-color);
-            padding-right: 1rem;
-            color: #111827;
-            font-size: 1.8rem;
-        }
-
-        h3 {
-            color: #374151;
-            margin-top: 2rem;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 0.5rem;
-        }
-
-        /* Lists */
-        ul, ol {
-            padding-right: 2rem;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* Code Blocks */
-        pre {
-            background-color: #282c34;
-            color: #abb2bf;
-            padding: 1.5rem;
-            border-radius: 8px;
-            direction: ltr;
-            text-align: left;
-            overflow-x: auto;
-            font-family: 'Consolas', monospace;
-            font-size: 0.95rem;
-        }
-
-        /* Alerts */
-        .alert {
-            padding: 1rem;
-            border-radius: 8px;
-            margin: 1.5rem 0;
-            font-size: 0.95rem;
-        }
-
-        .alert-info {
-            background-color: #eff6ff;
-            border-right: 4px solid #3b82f6;
-            color: #1e40af;
-        }
-
-        .alert-warning {
-            background-color: #fffbeb;
-            border-right: 4px solid #f59e0b;
-            color: #92400e;
-        }
-
-        /* Diagram Placeholder */
-        .diagram {
-            background-color: #f9fafb;
-            border: 2px dashed #d1d5db;
-            padding: 2rem;
-            text-align: center;
-            color: #6b7280;
-            margin: 1.5rem 0;
-            border-radius: 8px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-        }
-
-        th, td {
-            border: 1px solid #e5e7eb;
-            padding: 0.75rem;
-            text-align: right;
-        }
-
-        th {
-            background-color: #f3f4f6;
-            color: #1f2937;
-        }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-
-    </style>
-</head>
-<body>
-
-    <header>
-        <h1>📘 دانشنامه جامع فنی StructureMaster</h1>
-        <p>مرجع کامل توسعه‌دهندگان | نسخه آکادمیک | جلد اول</p>
-    </header>
-
-    <div class="container">
-
-        <!-- Navigation -->
-        <div class="nav-grid">
-            <div class="nav-card">
-                <h3>🏛 معماری سیستم</h3>
-                <p>آشنایی با ساختار کلان، جریان داده‌ها و منطق اصلی پروژه.</p>
-                <a href="#architecture">مشاهده بخش &larr;</a>
-            </div>
-            <div class="nav-card">
-                <h3>📂 آناتومی کدها</h3>
-                <p>تحلیل خط‌به‌خط تمامی فایل‌های سورس کد پروژه.</p>
-                <a href="code_analysis/index.html">ورود به جلد دوم &larr;</a>
-            </div>
-            <div class="nav-card">
-                <h3>🛠 راهنمای توسعه</h3>
-                <p>نحوه نصب، کانفیگ، دیباگ و افزودن ماژول‌های جدید.</p>
-                <a href="#development">مشاهده راهنما &larr;</a>
-            </div>
-        </div>
-
-        <!-- Section 1: Introduction -->
-        <div class="content-section" id="intro">
-            <h2>۱. معرفی پروژه</h2>
-            <p>
-                پروژه <strong>StructureMaster</strong> یک ابزار پیشرفته مهندسی نرم‌افزار است که با هدف تحلیل، مستندسازی و بازتولید ساختار پروژه‌های نرم‌افزاری طراحی شده است. این ابزار قادر است ساختار فایل‌ها و دایرکتوری‌های هر پروژه را اسکن کرده، محتوای متنی آن‌ها را استخراج کند و یک خروجی استاندارد (JSON/Text) تولید نماید که برای تغذیه سیستم‌های LLM (مدل‌های زبانی بزرگ) یا مستندسازی خودکار بسیار ایده‌آل است.
-            </p>
-            
-            <div class="alert alert-info">
-                <strong>💡 نکته کلیدی:</strong> هسته اصلی این سیستم بر پایه ماژول‌های مستقل (Modular Architecture) طراحی شده تا قابلیت توسعه‌پذیری (Extensibility) و نگهداری (Maintainability) بالایی داشته باشد.
-            </div>
-
-            <h3>قابلیت‌های کلیدی</h3>
-            <ul>
-                <li><strong>تولید ساختار درختی:</strong> رسم نقشه دقیق فایل‌ها و پوشه‌ها با رعایت فایل‌های `gitignore.`.</li>
-                <li><strong>استخراج محتوا هوشمند:</strong> خواندن محتوای فایل‌های متنی و نادیده گرفتن فایل‌های باینری (عکس، exe و...).</li>
-                <li><strong>تشخیص هوشمند پروژه:</strong> شناسایی خودکار نوع پروژه (Python, Node.js, etc) و پیشنهاد کانفیگ مناسب.</li>
-                <li><strong>رابط کاربری دوگانه:</strong> دارای هم رابط گرافیکی (GUI با PyQt6) و هم رابط خط فرمان (CLI).</li>
-            </ul>
-        </div>
-
-        <!-- Section 2: Architecture -->
-        <div class="content-section" id="architecture">
-            <h2>۲. معماری سیستم و جریان داده</h2>
-            <p>
-                معماری StructureMaster از الگوی <strong>لایه بندی شده (Layered Pattern)</strong> پیروی می‌کند. این الگو تضمین می‌کند که رابط کاربری (UI) کاملاً از منطق برنامه (Business Logic) جدا باشد.
-            </p>
-
-            <div class="diagram">
-                [GUI Layer / CLI Layer] <br>
-                ⬇️ <br>
-                [Main Controller (main.py)] <br>
-                ⬇️ <br>
-                [Core Modules (src/modules)] <br>
-                ⬇️ <br>
-                [File System Operations / Git Integration]
-            </div>
-
-            <h3>اجزای اصلی سیستم</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>نام کامپوننت</th>
-                        <th>مسیر فایل</th>
-                        <th>وظیفه اصلی</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Kernel (هسته)</strong></td>
-                        <td>`src/modules`</td>
-                        <td>شامل تمام منطق‌های اسکن، پردازش و استخراج. مغز متفکر سیستم.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Interface (رابط)</strong></td>
-                        <td>`src/gui` و `src/cli`</td>
-                        <td>دریافت دستورات از کاربر و نمایش نتایج.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Utilities (ابزارها)</strong></td>
-                        <td>`src/utils.py`</td>
-                        <td>توابع عمومی مثل مدیریت رشته‌ها، تبدیل تاریخ و لاگ‌گیری.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Config (تنظیمات)</strong></td>
-                        <td>`src/config.py`</td>
-                        <td>مدیریت تنظیمات پیش‌فرض، لیست فایل‌های قابل چشم‌پوشی و تم‌ها.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Section 3: Data Flow Scenario -->
-        <div class="content-section">
-            <h2>۳. سناریوی عملیاتی: از کلیک تا خروجی</h2>
-            <p>
-                برای درک عمیق‌تر، بیایید مسیری که یک دستور "اسکن پروژه" طی می‌کند را قدم‌به‌قدم تحلیل کنیم:
-            </p>
-            
-            <ol>
-                <li><strong>شروع (Trigger):</strong> کاربر در رابط گرافیکی (GUI) دکمه "Start Scan" را فشار می‌دهد.</li>
-                <li><strong>سیگنال (Signal):</strong> فایل `structure_builder_tab.py` کلیک را دریافت کرده و متد `run_scan` را فراخوانی می‌کند.</li>
-                <li><strong>اعتبارسنجی (Validation):</strong> مسیر ورودی چک می‌شود تا از وجود آن اطمینان حاصل شود (`os.path.exists`).</li>
-                <li><strong>اجرای ترد (Threading):</strong> برای جلوگیری از فریز شدن برنامه، یک `WorkerThread` جدید ایجاد می‌شود.</li>
-                <li><strong>فراخوانی هسته:</strong> ماژول `scanner.py` شروع به خزیدن (Crawl) در دایرکتوری‌ها می‌کند (`os.walk`).</li>
-                <li><strong>فیلترینگ:</strong> هر فایل با لیست سیاه در `config.py` مقایسه می‌شود (مثلاً `.git` یا `node_modules`).</li>
-                <li><strong>نتیجه (Return):</strong> لیست نهایی فایل‌ها به ترد اصلی (GUI Thread) بازگردانده شده و در `QTreeWidget` نمایش داده می‌شود.</li>
-            </ol>
-        </div>
-
-        <!-- Section 4: File Structure Detail -->
-        <div class="content-section" id="structure">
-            <h2>۴. تشریح ساختار دایرکتوری‌ها</h2>
-            <p>در این بخش، هدف وجودی هر دایرکتوری به دقت تشریح می‌شود:</p>
-
-            <h3><code>src/modules/</code> (قلب تپنده)</h3>
-            <ul>
-                <li><strong><code>builder.py</code>:</strong> مسئول ساخت فیزیکی فایل‌ها روی دیسک (در حالت بازتولید پروژه).</li>
-                <li><strong><code>content_extractor.py</code>:</strong> موتور خواندن فایل‌ها. این ماژول هوشمند است و انکودینگ فایل (UTF-8, ASCII) را حدس می‌زند.</li>
-                <li><strong><code>scanner.py</code>:</strong> مسئول لیست کردن فایل‌ها و ساخت درخت مجازی پروژه.</li>
-                <li><strong><code>security.py</code>:</strong> مسئول بررسی فایل‌ها برای اطلاعات حساس (مثل API Key یا رمز عبور) قبل از پردازش.</li>
-            </ul>
-
-            <h3><code>src/gui/</code> (چهره سیستم)</h3>
-            <ul>
-                <li><strong><code>main_window.py</code>:</strong> پنجره اصلی که تب‌ها را مدیریت می‌کند.</li>
-                <li><strong><code>styles.py</code>:</strong> استایل‌دهی (CSS) برای ویجت‌های PyQt.</li>
-                <li><strong><code>tabs/</code>:</strong> هر تب برنامه (مثل تب اسکن، تب تنظیمات) در یک فایل جداگانه مدیریت می‌شود تا کد شلوغ نشود.</li>
-            </ul>
-        </div>
-        
-        <!-- Section 5: Development Guide -->
-        <div class="content-section" id="development">
-            <h2>۵. راهنمای توسعه و پیش‌نیازها</h2>
-            <p>برای توسعه یا اجرای سورس کد این پروژه، به ابزارهای زیر نیاز دارید:</p>
-            
-            <div class="alert alert-warning">
-                <strong>⚠️ پیش‌نیاز مهم:</strong> این پروژه به <code>Python 3.8</code> یا بالاتر نیاز دارد.
-            </div>
-
-            <h4>۱. نصب وابستگی‌ها</h4>
-            <pre>pip install -r requirements.txt</pre>
-            <p>این دستور کتابخانه‌های کلیدی مثل <code>PyQt6</code> (برای گرافیک) و <code>GitPython</code> (برای کار با گیت) را نصب می‌کند.</p>
-
-            <h4>۲. اجرای برنامه</h4>
-            <pre>python main.py --gui  # برای اجرای گرافیکی
-python main.py --help # برای دیدن راهنمای خط فرمان</pre>
-        </div>
-
-        <footer>
-            <p>تهیه شده توسط سیستم هوشمند Antigravity | پاییز ۱۴۰۳</p>
-            <p>تمامی حقوق محفوظ است.</p>
-        </footer>
-
-    </div>
-
-</body>
-</html>

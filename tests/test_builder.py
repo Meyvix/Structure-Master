@@ -1,5 +1,5 @@
 """
-StructureMaster - Builder Tests
+Stracture-Master - Builder Tests
 Unit tests for the builder module.
 """
 

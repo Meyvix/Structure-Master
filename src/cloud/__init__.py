@@ -1,5 +1,5 @@
 """
-StructureMaster - Cloud Package
+Stracture-Master - Cloud Package
 Cloud integration modules for Git, GitHub, and cloud storage.
 """
 

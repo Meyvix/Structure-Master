@@ -1,5 +1,5 @@
 """
-StructureMaster - Git Integration Module
+Stracture-Master - Git Integration Module
 Local Git repository management and operations.
 """
 

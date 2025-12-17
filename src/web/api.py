@@ -1,5 +1,5 @@
 """
-StructureMaster - Web API Module
+Stracture-Master - Web API Module
 REST API using FastAPI for remote access.
 """
 
@@ -65,7 +65,7 @@ def create_app() -> 'FastAPI':
         raise ImportError("FastAPI not installed. Run: pip install fastapi uvicorn")
     
     app = FastAPI(
-        title="StructureMaster API",
+        title="Stracture-Master API",
         description="REST API for project structure analysis, generation, and documentation",
         version="1.0.0",
         docs_url="/docs",
@@ -109,7 +109,7 @@ def create_app() -> 'FastAPI':
     async def root():
         """API root endpoint."""
         return {
-            "name": "StructureMaster API",
+            "name": "Stracture-Master API",
             "version": "1.0.0",
             "endpoints": {
                 "docs": "/docs",

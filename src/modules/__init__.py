@@ -1,5 +1,5 @@
 """
-StructureMaster - Modules Package
+Stracture-Master - Modules Package
 Contains all core modules for the application.
 """
 

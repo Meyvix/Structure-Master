@@ -1,5 +1,5 @@
 """
-StructureMaster - Charts Module
+Stracture-Master - Charts Module
 Generate visual charts and diagrams for project analysis.
 """
 

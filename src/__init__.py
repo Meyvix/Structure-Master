@@ -1,10 +1,10 @@
 """
-StructureMaster - Main Package
+Stracture-Master - Main Package
 A comprehensive tool for project structure analysis, generation, and documentation.
 """
 
 __version__ = '1.0.0'
-__author__ = 'StructureMaster Team'
+__author__ = 'Stracture-Master Team'
 __license__ = 'MIT'
 
 from .config import Config

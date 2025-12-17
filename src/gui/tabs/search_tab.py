@@ -1,5 +1,5 @@
 """
-StructureMaster - Search GUI Tab
+Stracture-Master - Search GUI Tab
 GUI tab for project-wide search functionality.
 """
 

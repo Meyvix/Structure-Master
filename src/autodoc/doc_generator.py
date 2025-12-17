@@ -1,5 +1,5 @@
 """
-StructureMaster - Documentation Generator Module
+Stracture-Master - Documentation Generator Module
 Automatically generate project documentation.
 """
 

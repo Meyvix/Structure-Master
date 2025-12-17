@@ -1,5 +1,5 @@
 """
-StructureMaster - Plugin Manager Module
+Stracture-Master - Plugin Manager Module
 Manages plugins for extending application functionality.
 """
 

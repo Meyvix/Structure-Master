@@ -1,5 +1,5 @@
 """
-StructureMaster - Parser Module
+Stracture-Master - Parser Module
 Parses project structures from various input formats:
 - JSON (nested or flat)
 - Tree-like text format

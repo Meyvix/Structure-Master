@@ -1,5 +1,5 @@
 """
-StructureMaster - Structure Builder Tab
+Stracture-Master - Structure Builder Tab
 Build project structure from various input formats.
 """
 
@@ -182,7 +182,17 @@ class StructureBuilderTab(QWidget):
         return panel
     
     def _create_preview_panel(self) -> QWidget:
-        """Create preview and actions panel."""
+        """Create preview and actions panel with scroll support."""
+        # Create scroll area for the entire panel
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setStyleSheet(f"""
+            QScrollArea {{
+                border: none;
+                background: transparent;
+            }}
+        """)
+        
         panel = QWidget()
         layout = QVBoxLayout(panel)
         layout.setContentsMargins(0, 0, 0, 0)
@@ -190,8 +200,10 @@ class StructureBuilderTab(QWidget):
         
         # Preview card
         preview_card = CardWidget("Structure Preview")
+        preview_card.setMinimumHeight(250)
         
         self.tree_view = TreeViewWidget()
+        self.tree_view.setMinimumHeight(120)
         preview_card.addWidget(self.tree_view)
         
         # Stats row
@@ -206,6 +218,7 @@ class StructureBuilderTab(QWidget):
         
         # Output settings card
         output_card = CardWidget("Output Settings")
+        output_card.setMinimumHeight(180)
         
         # Output path
         output_label = QLabel("Output Directory:")
@@ -244,7 +257,8 @@ class StructureBuilderTab(QWidget):
         
         layout.addWidget(output_card)
         
-        return panel
+        scroll.setWidget(panel)
+        return scroll
     
     def _on_input_changed(self):
         """Handle input text changes."""

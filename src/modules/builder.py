@@ -1,5 +1,5 @@
 """
-StructureMaster - Builder Module
+Stracture-Master - Builder Module
 Builds project structure from parsed input.
 Features:
 - Create directories and files

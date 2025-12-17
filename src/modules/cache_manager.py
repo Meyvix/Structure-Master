@@ -1,5 +1,5 @@
 """
-StructureMaster - Cache Manager Module
+Stracture-Master - Cache Manager Module
 Manages smart caching for improved scan performance.
 """
 

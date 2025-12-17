@@ -1,5 +1,5 @@
 """
-StructureMaster - Web Package
+Stracture-Master - Web Package
 REST API and web interface.
 """
 

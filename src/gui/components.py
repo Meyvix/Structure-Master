@@ -1,5 +1,5 @@
 """
-StructureMaster - GUI Components
+Stracture-Master - GUI Components
 Reusable UI components for the application.
 """
 
@@ -26,22 +26,25 @@ class CardWidget(QFrame):
                 background-color: {COLORS['bg_card']};
                 border: 1px solid {COLORS['border']};
                 border-radius: 16px;
-                padding: 0px;
             }}
         """)
         
         self.layout = QVBoxLayout(self)
         self.layout.setContentsMargins(20, 20, 20, 20)
-        self.layout.setSpacing(15)
+        self.layout.setSpacing(12)
         
         if title:
             title_label = QLabel(title)
             title_label.setStyleSheet(f"""
-                font-size: 16px;
+                font-size: 15px;
                 font-weight: 600;
                 color: {COLORS['text_primary']};
-                padding-bottom: 10px;
+                background: transparent;
+                padding: 0px;
+                margin: 0px;
             """)
+            title_label.setMinimumHeight(24)
+            title_label.setWordWrap(True)
             self.layout.addWidget(title_label)
     
     def addWidget(self, widget):
@@ -61,38 +64,47 @@ class StatCard(QFrame):
                 background-color: {COLORS['bg_tertiary']};
                 border: 1px solid {COLORS['border']};
                 border-radius: 12px;
-                padding: 15px;
             }}
         """)
         
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(15, 15, 15, 15)
-        layout.setSpacing(5)
+        # Set minimum size to ensure text fits
+        self.setMinimumWidth(140)
+        self.setMinimumHeight(100)
+        self.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
         
-        # Icon and label row
-        header = QHBoxLayout()
+        layout = QVBoxLayout(self)
+        layout.setContentsMargins(12, 12, 12, 12)
+        layout.setSpacing(4)
+        
+        # Icon row (if icon)
         if icon:
             icon_label = QLabel(icon)
-            icon_label.setStyleSheet("font-size: 20px;")
-            header.addWidget(icon_label)
+            icon_label.setStyleSheet("font-size: 18px; background: transparent;")
+            icon_label.setAlignment(Qt.AlignmentFlag.AlignLeft)
+            layout.addWidget(icon_label)
         
+        # Label
         label_widget = QLabel(label)
         label_widget.setStyleSheet(f"""
-            font-size: 12px;
+            font-size: 11px;
             color: {COLORS['text_muted']};
+            background: transparent;
         """)
-        header.addWidget(label_widget)
-        header.addStretch()
-        layout.addLayout(header)
+        label_widget.setWordWrap(True)
+        layout.addWidget(label_widget)
         
         # Value
         self.value_label = QLabel(value)
         self.value_label.setStyleSheet(f"""
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             color: {COLORS['accent_primary']};
+            background: transparent;
         """)
+        self.value_label.setWordWrap(True)
         layout.addWidget(self.value_label)
+        
+        layout.addStretch()
     
     def set_value(self, value: str):
         self.value_label.setText(value)

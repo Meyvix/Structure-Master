@@ -1,5 +1,5 @@
 """
-StructureMaster - Structure Extractor Tab
+Stracture-Master - Structure Extractor Tab
 Scan and extract project structure.
 """
 
@@ -9,7 +9,7 @@ from pathlib import Path
 from PyQt6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
     QFrame, QSplitter, QComboBox, QCheckBox, QMessageBox,
-    QFileDialog
+    QFileDialog, QScrollArea
 )
 from PyQt6.QtCore import Qt, QThread, pyqtSignal
 
@@ -118,8 +118,20 @@ class StructureExtractorTab(QWidget):
         return header
     
     def _create_settings_panel(self) -> QWidget:
-        """Create settings panel."""
+        """Create settings panel with scroll support."""
+        # Create scroll area
+        scroll = QScrollArea()
+        scroll.setWidgetResizable(True)
+        scroll.setStyleSheet(f"""
+            QScrollArea {{
+                border: none;
+                background: transparent;
+            }}
+        """)
+        scroll.setMinimumWidth(280)
+        
         panel = CardWidget("Scan Settings")
+        panel.setMinimumHeight(450)
         
         # Path input
         path_label = QLabel("Project Path:")
@@ -136,8 +148,10 @@ class StructureExtractorTab(QWidget):
         options_label.setStyleSheet(f"""
             font-weight: 600;
             color: {COLORS['text_primary']};
-            margin-top: 15px;
+            padding-top: 10px;
+            padding-bottom: 4px;
         """)
+        options_label.setMinimumHeight(30)
         panel.addWidget(options_label)
         
         self.recursive_check = QCheckBox("Recursive scan")
@@ -161,7 +175,7 @@ class StructureExtractorTab(QWidget):
         
         # Spacer
         spacer = QWidget()
-        spacer.setMinimumHeight(20)
+        spacer.setFixedHeight(20)
         panel.addWidget(spacer)
         
         # Export section
@@ -170,6 +184,7 @@ class StructureExtractorTab(QWidget):
             font-weight: 600;
             color: {COLORS['text_primary']};
         """)
+        export_label.setMinimumHeight(24)
         panel.addWidget(export_label)
         
         format_layout = QHBoxLayout()
@@ -188,7 +203,8 @@ class StructureExtractorTab(QWidget):
         self.export_btn.clicked.connect(self._export_structure)
         panel.addWidget(self.export_btn)
         
-        return panel
+        scroll.setWidget(panel)
+        return scroll
     
     def _create_results_panel(self) -> QWidget:
         """Create results panel."""

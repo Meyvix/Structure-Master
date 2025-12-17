@@ -1,14 +1,14 @@
-# StructureMaster
+# Stracture-Master
 
 <div align="center">
 
-![StructureMaster Logo](docs/logo.png)
+![Stracture-Master Logo](docs/logo.png)
 
 **A comprehensive, intelligent, and extensible tool for project structure analysis, generation, and documentation.**
 
 [![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/structuremaster/structuremaster)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/Stracture-Master/Stracture-Master)
 
 </div>
 
@@ -38,8 +38,8 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/structuremaster/structuremaster.git
-cd structuremaster
+git clone https://github.com/Stracture-Master/Stracture-Master.git
+cd Stracture-Master
 
 # Install dependencies
 pip install -r requirements.txt
@@ -52,26 +52,26 @@ pip install -e .
 
 ```bash
 # Scan a project
-structuremaster scan ./my-project --output=structure.json
+Stracture-Master scan ./my-project --output=structure.json
 
 # Build structure from file
-structuremaster build structure.json --output=./new-project
+Stracture-Master build structure.json --output=./new-project
 
 # Extract content with encryption
-structuremaster extract ./project --content --encrypt --password=MyPass123
+Stracture-Master extract ./project --content --encrypt --password=MyPass123
 
 # Compare two projects
-structuremaster compare ./old ./new --output=diff.md
+Stracture-Master compare ./old ./new --output=diff.md
 
 # Search in project
-structuremaster search ./project --regex="TODO|FIXME" --output=results.txt
+Stracture-Master search ./project --regex="TODO|FIXME" --output=results.txt
 ```
 
 ### GUI Usage
 
 ```bash
 # Launch graphical interface
-structuremaster-gui
+Stracture-Master-gui
 # or
 python -m src.gui.main_window
 ```
@@ -162,5 +162,5 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 ---
 
 <div align="center">
-Made with ❤️ by StructureMaster Team
+Made with ❤️ by Stracture-Master Team
 </div>

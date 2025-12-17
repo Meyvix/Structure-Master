@@ -1,5 +1,5 @@
 """
-StructureMaster - Content Extractor Module
+Stracture-Master - Content Extractor Module
 Extracts file contents with full metadata.
 Features:
 - Encoding auto-detection

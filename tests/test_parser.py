@@ -1,5 +1,5 @@
 """
-StructureMaster - Parser Tests
+Stracture-Master - Parser Tests
 Unit tests for the parser module.
 """
 

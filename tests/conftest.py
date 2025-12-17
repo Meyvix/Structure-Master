@@ -1,5 +1,5 @@
 """
-StructureMaster - Test Configuration
+Stracture-Master - Test Configuration
 Pytest configuration and fixtures.
 """
 

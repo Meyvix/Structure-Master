@@ -1,5 +1,5 @@
 """
-StructureMaster - CLI Package
+Stracture-Master - CLI Package
 Command-line interface for the application.
 """
 

@@ -1,5 +1,5 @@
 """
-StructureMaster - Analytics Package
+Stracture-Master - Analytics Package
 Charts, statistics, and project analysis.
 """
 

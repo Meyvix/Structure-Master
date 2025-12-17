@@ -1,5 +1,5 @@
 """
-StructureMaster - CLI Module
+Stracture-Master - CLI Module
 Professional command-line interface with rich output.
 """
 
@@ -71,7 +71,7 @@ def print_banner():
               default='info', help='Logging level')
 @click.pass_context
 def cli(ctx, log_level):
-    """StructureMaster - Project Structure Analysis & Documentation Tool"""
+    """Stracture-Master - Project Structure Analysis & Documentation Tool"""
     ctx.ensure_object(dict)
     ctx.obj['logger'] = setup_logging(log_level)
 

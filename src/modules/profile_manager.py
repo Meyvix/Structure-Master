@@ -1,5 +1,5 @@
 """
-StructureMaster - Profile Manager Module
+Stracture-Master - Profile Manager Module
 Manages configuration profiles for different extraction/build scenarios.
 """
 

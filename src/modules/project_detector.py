@@ -1,5 +1,5 @@
 """
-StructureMaster - Project Detector Module
+Stracture-Master - Project Detector Module
 Automatically detects project types based on file markers and patterns.
 """
 

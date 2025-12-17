@@ -1,10 +1,10 @@
 """
-StructureMaster - GUI Styles Module
+Stracture-Master - GUI Styles Module
 Modern dark theme styling for PyQt6.
 """
 
 # Modern Dark Theme Colors
-COLORS = {
+DARK_COLORS = {
     'bg_primary': '#0f0f1a',
     'bg_secondary': '#1a1a2e',
     'bg_tertiary': '#252542',
@@ -36,7 +36,346 @@ COLORS = {
     'scrollbar_handle_hover': '#5d5d7c',
 }
 
-# Main Application Style
+# Modern Light Theme Colors
+LIGHT_COLORS = {
+    'bg_primary': '#f5f5f7',
+    'bg_secondary': '#ffffff',
+    'bg_tertiary': '#e8e8ed',
+    'bg_card': '#ffffff',
+    'bg_hover': '#e0e0e8',
+    'bg_selected': '#d0d0e0',
+    
+    'text_primary': '#1a1a2e',
+    'text_secondary': '#4a4a5e',
+    'text_muted': '#6e6e8a',
+    'text_disabled': '#a0a0b0',
+    
+    'accent_primary': '#7c3aed',
+    'accent_secondary': '#a855f7',
+    'accent_gradient_start': '#667eea',
+    'accent_gradient_end': '#764ba2',
+    
+    'success': '#10b981',
+    'warning': '#f59e0b',
+    'error': '#ef4444',
+    'info': '#3b82f6',
+    
+    'border': '#d0d0dc',
+    'border_hover': '#b0b0c0',
+    'border_focus': '#7c3aed',
+    
+    'scrollbar_bg': '#e8e8ed',
+    'scrollbar_handle': '#c0c0d0',
+    'scrollbar_handle_hover': '#a0a0b0',
+}
+
+# Current theme (default: dark)
+COLORS = DARK_COLORS.copy()
+
+def get_theme_colors(theme_name: str) -> dict:
+    """Get colors for a specific theme."""
+    if theme_name == "Light":
+        return LIGHT_COLORS.copy()
+    else:  # Dark or System (default to dark)
+        return DARK_COLORS.copy()
+
+def set_current_theme(theme_name: str):
+    """Set the current theme colors globally."""
+    global COLORS
+    COLORS.clear()
+    COLORS.update(get_theme_colors(theme_name))
+
+def generate_main_style(colors: dict) -> str:
+    """Generate the main application stylesheet with given colors."""
+    return f"""
+QMainWindow {{
+    background-color: {colors['bg_primary']};
+}}
+
+QWidget {{
+    background-color: transparent;
+    color: {colors['text_primary']};
+    font-family: 'Segoe UI', 'SF Pro Display', system-ui, sans-serif;
+    font-size: 13px;
+}}
+
+QLabel {{
+    color: {colors['text_primary']};
+    background: transparent;
+    padding: 2px 0px;
+}}
+
+QLabel#title {{
+    font-size: 24px;
+    font-weight: bold;
+    color: {colors['accent_primary']};
+}}
+
+QLabel#subtitle {{
+    font-size: 14px;
+    color: {colors['text_secondary']};
+}}
+
+/* Buttons */
+QPushButton {{
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 {colors['accent_gradient_start']},
+        stop:1 {colors['accent_gradient_end']});
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 13px;
+    min-width: 100px;
+}}
+
+QPushButton:hover {{
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0,
+        stop:0 {colors['accent_gradient_end']},
+        stop:1 {colors['accent_gradient_start']});
+}}
+
+QPushButton:pressed {{
+    background: {colors['accent_primary']};
+}}
+
+QPushButton:disabled {{
+    background: {colors['bg_tertiary']};
+    color: {colors['text_disabled']};
+}}
+
+QPushButton#secondary {{
+    background: {colors['bg_tertiary']};
+    border: 1px solid {colors['border']};
+}}
+
+QPushButton#secondary:hover {{
+    background: {colors['bg_hover']};
+    border-color: {colors['border_hover']};
+}}
+
+QPushButton#danger {{
+    background: {colors['error']};
+}}
+
+QPushButton#danger:hover {{
+    background: #dc2626;
+}}
+
+/* Input Fields */
+QLineEdit, QTextEdit, QPlainTextEdit {{
+    background-color: {colors['bg_tertiary']};
+    border: 1px solid {colors['border']};
+    border-radius: 8px;
+    padding: 10px 12px;
+    color: {colors['text_primary']};
+    selection-background-color: {colors['accent_primary']};
+}}
+
+QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus {{
+    border-color: {colors['accent_primary']};
+}}
+
+/* ComboBox */
+QComboBox {{
+    background-color: {colors['bg_tertiary']};
+    border: 1px solid {colors['border']};
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: {colors['text_primary']};
+    min-width: 120px;
+}}
+
+QComboBox:hover {{
+    border-color: {colors['border_hover']};
+}}
+
+QComboBox:focus {{
+    border-color: {colors['accent_primary']};
+}}
+
+QComboBox::drop-down {{
+    border: none;
+    padding-right: 10px;
+}}
+
+QComboBox::down-arrow {{
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid {colors['text_secondary']};
+    margin-right: 10px;
+}}
+
+QComboBox QAbstractItemView {{
+    background-color: {colors['bg_card']};
+    border: 1px solid {colors['border']};
+    border-radius: 8px;
+    selection-background-color: {colors['accent_primary']};
+    outline: none;
+}}
+
+/* SpinBox */
+QSpinBox, QDoubleSpinBox {{
+    background-color: {colors['bg_tertiary']};
+    border: 1px solid {colors['border']};
+    border-radius: 4px;
+    padding: 3px 6px;
+    color: {colors['text_primary']};
+    min-width: 45px;
+}}
+
+QSpinBox:hover, QDoubleSpinBox:hover {{
+    border-color: {colors['border_hover']};
+}}
+
+QSpinBox:focus, QDoubleSpinBox:focus {{
+    border-color: {colors['accent_primary']};
+}}
+
+QSpinBox::up-button, QDoubleSpinBox::up-button {{
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 16px;
+    border-left: 1px solid {colors['border']};
+    border-top-right-radius: 3px;
+    background-color: #1a1a1a;
+}}
+
+QSpinBox::down-button, QDoubleSpinBox::down-button {{
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 16px;
+    border-left: 1px solid {colors['border']};
+    border-bottom-right-radius: 3px;
+    background-color: #1a1a1a;
+}}
+
+QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover,
+QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover {{
+    background-color: #333333;
+}}
+
+/* ScrollBar */
+QScrollBar:vertical {{
+    background: {colors['scrollbar_bg']};
+    width: 12px;
+    border-radius: 6px;
+    margin: 0;
+}}
+
+QScrollBar::handle:vertical {{
+    background: {colors['scrollbar_handle']};
+    border-radius: 6px;
+    min-height: 30px;
+}}
+
+QScrollBar::handle:vertical:hover {{
+    background: {colors['scrollbar_handle_hover']};
+}}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+    height: 0;
+}}
+
+QScrollBar:horizontal {{
+    background: {colors['scrollbar_bg']};
+    height: 12px;
+    border-radius: 6px;
+    margin: 0;
+}}
+
+QScrollBar::handle:horizontal {{
+    background: {colors['scrollbar_handle']};
+    border-radius: 6px;
+    min-width: 30px;
+}}
+
+QScrollBar::handle:horizontal:hover {{
+    background: {colors['scrollbar_handle_hover']};
+}}
+
+QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {{
+    width: 0;
+}}
+
+/* Check Box */
+QCheckBox {{
+    spacing: 10px;
+    color: {colors['text_primary']};
+}}
+
+QCheckBox::indicator {{
+    width: 20px;
+    height: 20px;
+    border: 2px solid {colors['border']};
+    border-radius: 4px;
+    background: {colors['bg_tertiary']};
+}}
+
+QCheckBox::indicator:hover {{
+    border-color: {colors['accent_primary']};
+}}
+
+QCheckBox::indicator:checked {{
+    background: {colors['accent_primary']};
+    border-color: {colors['accent_primary']};
+}}
+
+/* Tree Widget */
+QTreeWidget {{
+    background-color: {colors['bg_tertiary']};
+    border: 1px solid {colors['border']};
+    border-radius: 8px;
+    outline: none;
+}}
+
+QTreeWidget::item {{
+    padding: 6px;
+    border-radius: 4px;
+}}
+
+QTreeWidget::item:hover {{
+    background-color: {colors['bg_hover']};
+}}
+
+QTreeWidget::item:selected {{
+    background-color: {colors['accent_primary']};
+}}
+
+/* List Widget */
+QListWidget {{
+    background-color: {colors['bg_tertiary']};
+    border: 1px solid {colors['border']};
+    border-radius: 8px;
+    outline: none;
+}}
+
+QListWidget::item {{
+    padding: 8px;
+    border-radius: 4px;
+}}
+
+QListWidget::item:hover {{
+    background-color: {colors['bg_hover']};
+}}
+
+QListWidget::item:selected {{
+    background-color: {colors['accent_primary']};
+}}
+
+/* Message Box */
+QMessageBox {{
+    background-color: {colors['bg_card']};
+}}
+
+QMessageBox QLabel {{
+    color: {colors['text_primary']};
+}}
+"""
+
+# Main Application Style (uses current COLORS)
 MAIN_STYLE = f"""
 QMainWindow {{
     background-color: {COLORS['bg_primary']};
@@ -52,6 +391,7 @@ QWidget {{
 QLabel {{
     color: {COLORS['text_primary']};
     background: transparent;
+    padding: 2px 0px;
 }}
 
 QLabel#title {{
@@ -168,6 +508,47 @@ QComboBox QAbstractItemView {{
     border-radius: 8px;
     selection-background-color: {COLORS['accent_primary']};
     outline: none;
+}}
+
+/* SpinBox */
+QSpinBox, QDoubleSpinBox {{
+    background-color: {COLORS['bg_tertiary']};
+    border: 1px solid {COLORS['border']};
+    border-radius: 4px;
+    padding: 3px 6px;
+    color: {COLORS['text_primary']};
+    min-width: 45px;
+}}
+
+QSpinBox:hover, QDoubleSpinBox:hover {{
+    border-color: {COLORS['border_hover']};
+}}
+
+QSpinBox:focus, QDoubleSpinBox:focus {{
+    border-color: {COLORS['accent_primary']};
+}}
+
+QSpinBox::up-button, QDoubleSpinBox::up-button {{
+    subcontrol-origin: border;
+    subcontrol-position: top right;
+    width: 16px;
+    border-left: 1px solid {COLORS['border']};
+    border-top-right-radius: 3px;
+    background-color: #1a1a1a;
+}}
+
+QSpinBox::down-button, QDoubleSpinBox::down-button {{
+    subcontrol-origin: border;
+    subcontrol-position: bottom right;
+    width: 16px;
+    border-left: 1px solid {COLORS['border']};
+    border-bottom-right-radius: 3px;
+    background-color: #1a1a1a;
+}}
+
+QSpinBox::up-button:hover, QDoubleSpinBox::up-button:hover,
+QSpinBox::down-button:hover, QDoubleSpinBox::down-button:hover {{
+    background-color: #333333;
 }}
 
 /* Tab Widget */

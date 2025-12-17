@@ -1,5 +1,5 @@
 """
-StructureMaster - Analytics GUI Tab
+Stracture-Master - Analytics GUI Tab
 GUI tab for project analytics and charts.
 """
 

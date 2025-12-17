@@ -1,5 +1,5 @@
 """
-StructureMaster - Logger Module
+Stracture-Master - Logger Module
 Provides multi-level logging functionality with file and console output.
 Supports log export to TXT, JSON, and HTML formats.
 """
@@ -134,7 +134,7 @@ class Logger:
         return cls._instance
     
     def __init__(self, 
-                 name: str = 'StructureMaster',
+                 name: str = 'Stracture-Master',
                  log_dir: Optional[Path] = None,
                  level: LogLevel = LogLevel.INFO,
                  console_output: bool = True,
@@ -306,7 +306,7 @@ class Logger:
         try:
             entries = entries or self.get_entries()
             with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(f"StructureMaster Log Export\n")
+                f.write(f"Stracture-Master Log Export\n")
                 f.write(f"Generated: {datetime.now().isoformat()}\n")
                 f.write(f"Total Entries: {len(entries)}\n")
                 f.write("=" * 80 + "\n\n")
@@ -357,7 +357,7 @@ class Logger:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StructureMaster Log Export</title>
+    <title>Stracture-Master Log Export</title>
     <style>
         body {{
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -421,7 +421,7 @@ class Logger:
 </head>
 <body>
     <div class="header">
-        <h1>📋 StructureMaster Log Export</h1>
+        <h1>📋 Stracture-Master Log Export</h1>
         <p>Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}</p>
         <p>Total Entries: {len(entries)}</p>
     </div>

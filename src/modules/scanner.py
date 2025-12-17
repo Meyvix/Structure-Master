@@ -1,5 +1,5 @@
 """
-StructureMaster - Scanner Module
+Stracture-Master - Scanner Module
 Scans and extracts project structures from the filesystem.
 Features:
 - Multi-threaded scanning for large projects

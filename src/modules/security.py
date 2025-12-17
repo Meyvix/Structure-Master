@@ -1,5 +1,5 @@
 """
-StructureMaster - Security Module
+Stracture-Master - Security Module
 Handles encryption, decryption, and security-related operations.
 Features:
 - AES-256-CBC encryption with PBKDF2 key derivation

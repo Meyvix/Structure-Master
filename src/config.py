@@ -1,5 +1,5 @@
 """
-StructureMaster - Configuration Module
+Stracture-Master - Configuration Module
 Contains all configuration settings, constants, and default values.
 """
 
@@ -82,10 +82,10 @@ class AppPaths:
 
 
 class Config:
-    """Main configuration class for StructureMaster."""
+    """Main configuration class for Stracture-Master."""
     
     # Application Info
-    APP_NAME = "StructureMaster"
+    APP_NAME = "Stracture-Master"
     APP_VERSION = "1.0.0"
     APP_DESCRIPTION = "A comprehensive tool for project structure analysis, generation, and documentation"
     

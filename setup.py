@@ -1,5 +1,5 @@
 """
-StructureMaster - Setup Configuration
+Stracture-Master - Setup Configuration
 A comprehensive tool for project structure analysis, generation, and documentation.
 """
 
@@ -30,14 +30,14 @@ def read_readme():
     return ''
 
 setup(
-    name='structuremaster',
+    name='Stracture-Master',
     version='1.0.0',
-    author='StructureMaster Team',
-    author_email='info@structuremaster.dev',
+    author='Stracture-Master Team',
+    author_email='info@Stracture-Master.dev',
     description='A comprehensive tool for project structure analysis, generation, and documentation',
     long_description=read_readme(),
     long_description_content_type='text/markdown',
-    url='https://github.com/structuremaster/structuremaster',
+    url='https://github.com/Stracture-Master/Stracture-Master',
     packages=find_packages(where='src'),
     package_dir={'': 'src'},
     classifiers=[
@@ -73,11 +73,11 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'structuremaster=cli.cli:main',
+            'Stracture-Master=cli.cli:main',
             'sm=cli.cli:main',
         ],
         'gui_scripts': [
-            'structuremaster-gui=gui.main_window:main',
+            'Stracture-Master-gui=gui.main_window:main',
         ],
     },
     include_package_data=True,
@@ -94,8 +94,8 @@ setup(
         'project-scanner',
     ],
     project_urls={
-        'Bug Reports': 'https://github.com/structuremaster/structuremaster/issues',
-        'Documentation': 'https://structuremaster.readthedocs.io/',
-        'Source': 'https://github.com/structuremaster/structuremaster',
+        'Bug Reports': 'https://github.com/Stracture-Master/Stracture-Master/issues',
+        'Documentation': 'https://Stracture-Master.readthedocs.io/',
+        'Source': 'https://github.com/Stracture-Master/Stracture-Master',
     },
 )

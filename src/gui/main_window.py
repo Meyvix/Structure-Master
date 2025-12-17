@@ -1,5 +1,5 @@
 """
-StructureMaster - Main GUI Window
+Stracture-Master - Main GUI Window
 Beautiful modern interface with tabbed navigation.
 """
 
@@ -18,7 +18,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtCore import Qt, QSize, QTimer, pyqtSignal
 from PyQt6.QtGui import QIcon, QFont, QAction, QColor, QPalette
 
-from .styles import MAIN_STYLE, COLORS
+from .styles import MAIN_STYLE, COLORS, generate_main_style, get_theme_colors
 from .tabs.structure_builder_tab import StructureBuilderTab
 from .tabs.structure_extractor_tab import StructureExtractorTab
 from .tabs.content_extractor_tab import ContentExtractorTab
@@ -31,9 +31,18 @@ class MainWindow(QMainWindow):
     
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("StructureMaster v1.0")
-        self.setMinimumSize(1200, 800)
-        self.resize(1400, 900)
+        self.setWindowTitle("Stracture-Master v1.0")
+        self.setMinimumSize(900, 600)
+        # Get screen size and set appropriate window size
+        screen = QApplication.primaryScreen()
+        if screen:
+            available = screen.availableGeometry()
+            # Use 80% of screen size, but cap at reasonable maximums
+            width = min(int(available.width() * 0.8), 1200)
+            height = min(int(available.height() * 0.85), 800)
+            self.resize(width, height)
+        else:
+            self.resize(1100, 700)
         
         # Apply styling
         self.setStyleSheet(MAIN_STYLE)
@@ -68,7 +77,7 @@ class MainWindow(QMainWindow):
     def _create_sidebar(self) -> QFrame:
         """Create sidebar with navigation."""
         sidebar = QFrame()
-        sidebar.setFixedWidth(280)
+        sidebar.setFixedWidth(240)
         sidebar.setStyleSheet(f"""
             QFrame {{
                 background-color: {COLORS['bg_secondary']};
@@ -85,7 +94,7 @@ class MainWindow(QMainWindow):
         title_layout = QVBoxLayout(title_frame)
         title_layout.setContentsMargins(0, 0, 0, 20)
         
-        title = QLabel("StructureMaster")
+        title = QLabel("Stracture-Master")
         title.setStyleSheet(f"""
             font-size: 22px;
             font-weight: bold;
@@ -164,9 +173,18 @@ class MainWindow(QMainWindow):
         self.stack.addWidget(self.content_tab)
         self.stack.addWidget(self.settings_tab)
         
+        # Connect settings signals
+        self.settings_tab.theme_changed.connect(self._apply_theme)
+        
         layout.addWidget(self.stack, 1)
         
         return content
+    
+    def _apply_theme(self, theme_name: str):
+        """Apply theme to the application."""
+        colors = get_theme_colors(theme_name)
+        new_style = generate_main_style(colors)
+        self.setStyleSheet(new_style)
     
     def _create_header(self) -> QFrame:
         """Create header bar."""
@@ -256,7 +274,7 @@ class MainWindow(QMainWindow):
         
         help_menu.addSeparator()
         
-        about_action = QAction("About StructureMaster", self)
+        about_action = QAction("About Stracture-Master", self)
         about_action.triggered.connect(self._show_about)
         help_menu.addAction(about_action)
     
@@ -316,20 +334,39 @@ class MainWindow(QMainWindow):
                 """)
     
     def _center_on_screen(self):
-        """Center window on screen."""
+        """Center window on screen and ensure it's within bounds."""
         screen = QApplication.primaryScreen()
         if screen:
-            center = screen.availableGeometry().center()
+            available = screen.availableGeometry()
             geo = self.frameGeometry()
+            
+            # Ensure window fits within available screen
+            if geo.width() > available.width():
+                self.resize(available.width() - 20, self.height())
+                geo = self.frameGeometry()
+            if geo.height() > available.height():
+                self.resize(self.width(), available.height() - 20)
+                geo = self.frameGeometry()
+            
+            # Center on screen
+            center = available.center()
             geo.moveCenter(center)
-            self.move(geo.topLeft())
+            
+            # Ensure top-left is within screen bounds
+            top_left = geo.topLeft()
+            if top_left.x() < available.x():
+                top_left.setX(available.x())
+            if top_left.y() < available.y():
+                top_left.setY(available.y())
+            
+            self.move(top_left)
     
     def _show_help(self):
         """Show help dialog."""
         QMessageBox.information(
             self,
             "Help",
-            "StructureMaster v1.0\n\n"
+            "Stracture-Master v1.0\n\n"
             "A comprehensive tool for project structure analysis, "
             "generation, and documentation.\n\n"
             "• Structure Builder: Create projects from structure files\n"
@@ -342,8 +379,8 @@ class MainWindow(QMainWindow):
         """Show about dialog."""
         QMessageBox.about(
             self,
-            "About StructureMaster",
-            "<h2>StructureMaster</h2>"
+            "About Stracture-Master",
+            "<h2>Stracture-Master</h2>"
             "<p>Version 1.0.0</p>"
             "<p>A comprehensive, intelligent, and extensible tool for "
             "project structure analysis, generation, and documentation.</p>"
@@ -364,9 +401,9 @@ def main():
     app.setStyle('Fusion')
     
     # Set application properties
-    app.setApplicationName("StructureMaster")
+    app.setApplicationName("Stracture-Master")
     app.setApplicationVersion("1.0.0")
-    app.setOrganizationName("StructureMaster")
+    app.setOrganizationName("Stracture-Master")
     
     # Create and show main window
     window = MainWindow()

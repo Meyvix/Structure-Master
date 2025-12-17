@@ -1,5 +1,5 @@
 """
-StructureMaster - Search Engine Module
+Stracture-Master - Search Engine Module
 Advanced search with regex, filters, and content search.
 """
 

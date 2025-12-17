@@ -1,9 +1,10 @@
 """
-StructureMaster - Settings Tab
+Stracture-Master - Settings Tab
 Application settings and configuration.
 """
 
 import sys
+import json
 from pathlib import Path
 
 from PyQt6.QtWidgets import (
@@ -12,7 +13,7 @@ from PyQt6.QtWidgets import (
     QSpinBox, QListWidget, QListWidgetItem, QMessageBox,
     QFileDialog, QInputDialog
 )
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
@@ -20,9 +21,17 @@ from src.gui.styles import COLORS
 from src.gui.components import CardWidget
 from src.modules.profile_manager import ProfileManager
 
+# Config file path
+CONFIG_FILE = Path.home() / ".Stracture-Master" / "settings.json"
+
 
 class SettingsTab(QWidget):
     """Settings tab for application configuration."""
+    
+    # Signal emitted when settings change
+    settings_changed = pyqtSignal(dict)
+    theme_changed = pyqtSignal(str)
+    language_changed = pyqtSignal(str)
     
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -275,7 +284,7 @@ class SettingsTab(QWidget):
         card = CardWidget("About")
         
         about_text = QLabel(
-            f"<b>StructureMaster</b> v1.0.0<br><br>"
+            f"<b>Stracture-Master</b> v1.0.0<br><br>"
             f"A comprehensive tool for project structure analysis, "
             f"generation, and documentation.<br><br>"
             f"<a href='#' style='color: {COLORS['accent_primary']};'>GitHub</a> | "
@@ -359,14 +368,82 @@ class SettingsTab(QWidget):
             self._load_profiles()
     
     def _load_settings(self):
-        """Load settings from config."""
-        # Settings would be loaded from a config file
-        pass
+        """Load settings from config file."""
+        try:
+            if CONFIG_FILE.exists():
+                with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
+                    settings = json.load(f)
+                
+                # Apply loaded settings to UI
+                self.theme_combo.setCurrentText(settings.get('theme', 'Dark'))
+                self.lang_combo.setCurrentText(settings.get('language', 'English'))
+                self.output_dir.setText(settings.get('output_dir', ''))
+                self.recursive_default.setChecked(settings.get('recursive_default', True))
+                self.hidden_default.setChecked(settings.get('hidden_default', False))
+                self.auto_detect_default.setChecked(settings.get('auto_detect_default', True))
+                self.workers_spin.setValue(settings.get('max_workers', 4))
+                self.cache_enabled.setChecked(settings.get('cache_enabled', True))
+                self.format_combo.setCurrentText(settings.get('default_format', 'JSON'))
+                self.pretty_output.setChecked(settings.get('pretty_output', True))
+                self.include_metadata.setChecked(settings.get('include_metadata', True))
+                self.max_size_spin.setValue(settings.get('max_file_size', 100))
+        except Exception as e:
+            print(f"Error loading settings: {e}")
     
     def _save_settings(self):
-        """Save settings to config."""
-        # Settings would be saved to a config file
-        QMessageBox.information(
-            self, "Settings Saved",
-            "Settings have been saved successfully"
-        )
+        """Save settings to config file and emit signals."""
+        settings = {
+            'theme': self.theme_combo.currentText(),
+            'language': self.lang_combo.currentText(),
+            'output_dir': self.output_dir.text(),
+            'recursive_default': self.recursive_default.isChecked(),
+            'hidden_default': self.hidden_default.isChecked(),
+            'auto_detect_default': self.auto_detect_default.isChecked(),
+            'max_workers': self.workers_spin.value(),
+            'cache_enabled': self.cache_enabled.isChecked(),
+            'default_format': self.format_combo.currentText(),
+            'pretty_output': self.pretty_output.isChecked(),
+            'include_metadata': self.include_metadata.isChecked(),
+            'max_file_size': self.max_size_spin.value(),
+        }
+        
+        try:
+            # Create config directory if it doesn't exist
+            CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Save settings to file
+            with open(CONFIG_FILE, 'w', encoding='utf-8') as f:
+                json.dump(settings, f, indent=2, ensure_ascii=False)
+            
+            # Emit signals for theme and language changes
+            self.theme_changed.emit(settings['theme'])
+            self.language_changed.emit(settings['language'])
+            self.settings_changed.emit(settings)
+            
+            QMessageBox.information(
+                self, "Settings Saved",
+                "Settings have been saved successfully.\n\n"
+                "Note: Theme changes require restart to take full effect."
+            )
+        except Exception as e:
+            QMessageBox.critical(
+                self, "Error",
+                f"Failed to save settings: {e}"
+            )
+    
+    def get_current_settings(self) -> dict:
+        """Get current settings from UI."""
+        return {
+            'theme': self.theme_combo.currentText(),
+            'language': self.lang_combo.currentText(),
+            'output_dir': self.output_dir.text(),
+            'recursive_default': self.recursive_default.isChecked(),
+            'hidden_default': self.hidden_default.isChecked(),
+            'auto_detect_default': self.auto_detect_default.isChecked(),
+            'max_workers': self.workers_spin.value(),
+            'cache_enabled': self.cache_enabled.isChecked(),
+            'default_format': self.format_combo.currentText(),
+            'pretty_output': self.pretty_output.isChecked(),
+            'include_metadata': self.include_metadata.isChecked(),
+            'max_file_size': self.max_size_spin.value(),
+        }

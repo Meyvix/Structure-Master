@@ -1,5 +1,5 @@
 """
-StructureMaster - Diff & Compare Module
+Stracture-Master - Diff & Compare Module
 Compares two project structures and generates diff reports.
 """
 

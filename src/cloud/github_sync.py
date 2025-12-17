@@ -1,5 +1,5 @@
 """
-StructureMaster - GitHub Sync Module
+Stracture-Master - GitHub Sync Module
 GitHub repository synchronization and API integration.
 """
 
@@ -389,7 +389,7 @@ class GitHubSync:
         content = json.dumps(structure, indent=2, ensure_ascii=False)
         return self.upload_file(
             repo_name,
-            '.structuremaster/structure.json',
+            '.Stracture-Master/structure.json',
             content,
             'Update project structure',
             branch

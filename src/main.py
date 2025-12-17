@@ -1,5 +1,5 @@
 """
-StructureMaster - Main Entry Point
+Stracture-Master - Main Entry Point
 """
 
 import sys

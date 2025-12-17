@@ -1,5 +1,5 @@
 """
-StructureMaster - Validator Tests
+Stracture-Master - Validator Tests
 Unit tests for the validator module.
 """
 

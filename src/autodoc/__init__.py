@@ -1,5 +1,5 @@
 """
-StructureMaster - Auto-Documentation Package
+Stracture-Master - Auto-Documentation Package
 Automatic documentation generation.
 """
 
